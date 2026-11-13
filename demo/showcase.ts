@@ -1,13 +1,13 @@
 import { html, render, type TemplateResult } from "lit";
 import { ti } from "./icons.js";
 import type {
-  BubbleDialog,
-  BubbleItem,
-  BubbleMenu,
-  BubbleSnackbar,
+  BolleDialog,
+  BolleItem,
+  BolleMenu,
+  BolleSnackbar,
 } from "../src/index.js";
 
-const destinations: BubbleItem[] = [
+const destinations: BolleItem[] = [
   {
     id: "inbox",
     label: "Posta",
@@ -22,7 +22,7 @@ const destinations: BubbleItem[] = [
   },
   { id: "settings", label: "Impostazioni", icon: ti("settings") },
 ];
-const fiveDestinations: BubbleItem[] = [
+const fiveDestinations: BolleItem[] = [
   ...destinations,
   { id: "trash", label: "Cestino", icon: ti("trash") },
   { id: "help", label: "Aiuto", icon: ti("help") },
@@ -62,29 +62,29 @@ const group = (
 
 const dialog = (id: string, event: Event) =>
   document
-    .querySelector<BubbleDialog>(`#${id}`)
+    .querySelector<BolleDialog>(`#${id}`)
     ?.show(event.currentTarget as HTMLElement);
 
 const snackbar = () =>
-  document.querySelector<BubbleSnackbar>("#demo-snackbar")?.show();
+  document.querySelector<BolleSnackbar>("#demo-snackbar")?.show();
 
 const menu = (id: string, event: Event) =>
   document
-    .querySelector<BubbleMenu>(`#${id}`)
+    .querySelector<BolleMenu>(`#${id}`)
     ?.show(event.currentTarget as HTMLElement);
 
 const cards = (variant: string) =>
-  html`<bubble-card>
+  html`<bolle-card>
     <h4>Documento</h4>
     <p>Contenuto indipendente con un'azione interna.</p>
-    <bubble-button variant="text">Apri</bubble-button>
-  </bubble-card>`;
+    <bolle-button variant="text">Apri</bolle-button>
+  </bolle-card>`;
 
 const carouselItem = (label: string, text: string) =>
-  html`<bubble-card>
+  html`<bolle-card>
     <h4>${label}</h4>
     <p>${text}</p>
-  </bubble-card>`;
+  </bolle-card>`;
 
 const container = document.getElementById("components")!;
 
@@ -103,23 +103,23 @@ render(
           html`<div class="inline">
             ${["elevated", "filled", "tonal", "outlined", "text"].map(
               (variant) =>
-                html`<bubble-button variant=${variant} @click=${snackbar}
-                  >${variant}</bubble-button
+                html`<bolle-button variant=${variant} @click=${snackbar}
+                  >${variant}</bolle-button
                 >`,
             )}
           </div>`,
         ),
         specimen(
           "Toggle non selezionato / selezionato",
-          html`<bubble-button toggle>Salva</bubble-button>
-            <bubble-button toggle selected>Salvato</bubble-button>`,
+          html`<bolle-button toggle>Salva</bolle-button>
+            <bolle-button toggle selected>Salvato</bolle-button>`,
         ),
         specimen(
           "Disabilitato",
-          html`<bubble-button variant="filled" disabled>Filled</bubble-button>
-            <bubble-button variant="tonal" disabled>Tonal</bubble-button>
-            <bubble-button variant="outlined" disabled
-              >Outlined</bubble-button
+          html`<bolle-button variant="filled" disabled>Filled</bolle-button>
+            <bolle-button variant="tonal" disabled>Tonal</bolle-button>
+            <bolle-button variant="outlined" disabled
+              >Outlined</bolle-button
             >`,
         ),
         specimen(
@@ -127,26 +127,26 @@ render(
           html`<div class="inline">
             ${["xs", "small", "medium", "large", "xl"].map(
               (size) =>
-                html`<bubble-button size=${size}>${size}</bubble-button>`,
+                html`<bolle-button size=${size}>${size}</bolle-button>`,
             )}
           </div>`,
         ),
         specimen(
           "Forma quadrata",
-          html`<bubble-button shape="square">Quadrato</bubble-button>
-            <bubble-button shape="square" variant="outlined"
-              >Outline</bubble-button
+          html`<bolle-button shape="square">Quadrato</bolle-button>
+            <bolle-button shape="square" variant="outlined"
+              >Outline</bolle-button
             >`,
         ),
         specimen(
           "Con icona e collegamento",
-          html`<bubble-button
+          html`<bolle-button
               ><span slot="icon" class="md-icon" aria-hidden="true">add</span
-              >Crea</bubble-button
-            ><bubble-button
+              >Crea</bolle-button
+            ><bolle-button
               variant="text"
               href="https://m3.material.io/components/buttons"
-              >Linee guida</bubble-button
+              >Linee guida</bolle-button
             >`,
         ),
       ),
@@ -159,56 +159,56 @@ render(
           html`<div class="inline">
             ${["standard", "filled", "tonal", "outlined"].map(
               (variant) =>
-                html`<bubble-icon-button
+                html`<bolle-icon-button
                   variant=${variant}
                   label=${variant}
                   @click=${snackbar}
-                  >${ti("star")}</bubble-icon-button
+                  >${ti("star")}</bolle-icon-button
                 >`,
             )}
           </div>`,
         ),
         specimen(
           "Toggle off / on",
-          html`<bubble-icon-button label="Preferito" toggle
-              >${ti("star")}</bubble-icon-button
+          html`<bolle-icon-button label="Preferito" toggle
+              >${ti("star")}</bolle-icon-button
             >
-            <bubble-icon-button label="Preferito attivo" toggle selected
-              >${ti("star")}</bubble-icon-button
+            <bolle-icon-button label="Preferito attivo" toggle selected
+              >${ti("star")}</bolle-icon-button
             >`,
         ),
         specimen(
           "Dimensioni e forma",
-          html`<bubble-icon-button size="xs" label="XS"
-              >${ti("star")}</bubble-icon-button
+          html`<bolle-icon-button size="xs" label="XS"
+              >${ti("star")}</bolle-icon-button
             >
-            <bubble-icon-button size="small" label="S"
-              >${ti("star")}</bubble-icon-button
+            <bolle-icon-button size="small" label="S"
+              >${ti("star")}</bolle-icon-button
             >
-            <bubble-icon-button size="medium" label="M"
-              >${ti("star")}</bubble-icon-button
+            <bolle-icon-button size="medium" label="M"
+              >${ti("star")}</bolle-icon-button
             >
-            <bubble-icon-button size="large" label="L"
-              >${ti("star")}</bubble-icon-button
+            <bolle-icon-button size="large" label="L"
+              >${ti("star")}</bolle-icon-button
             >
-            <bubble-icon-button size="xl" label="XL"
-              >${ti("star")}</bubble-icon-button
+            <bolle-icon-button size="xl" label="XL"
+              >${ti("star")}</bolle-icon-button
             >
-            <bubble-icon-button shape="square" label="Quadrato"
-              >${ti("star")}</bubble-icon-button
+            <bolle-icon-button shape="square" label="Quadrato"
+              >${ti("star")}</bolle-icon-button
             >`,
         ),
         specimen(
           "Larghezza narrow · default · wide",
-          html`<bubble-icon-button
+          html`<bolle-icon-button
               variant="filled"
               width="narrow"
               label="Stretta"
-              >${ti("star")}</bubble-icon-button
-            ><bubble-icon-button variant="filled" label="Normale"
-              >${ti("star")}</bubble-icon-button
-            ><bubble-icon-button variant="filled" width="wide" label="Larga"
-              >${ti("star")}</bubble-icon-button
+              >${ti("star")}</bolle-icon-button
+            ><bolle-icon-button variant="filled" label="Normale"
+              >${ti("star")}</bolle-icon-button
+            ><bolle-icon-button variant="filled" width="wide" label="Larga"
+              >${ti("star")}</bolle-icon-button
             >`,
         ),
       ),
@@ -218,46 +218,46 @@ render(
         "Gruppo standard e connesso; selezione singola o multipla con toggle.",
         specimen(
           "Standard",
-          html`<bubble-button-group label="Azioni documento"
-            ><bubble-button>Salva</bubble-button
-            ><bubble-button variant="tonal">Copia</bubble-button
-            ><bubble-button variant="outlined"
-              >Condividi</bubble-button
-            ></bubble-button-group
+          html`<bolle-button-group label="Azioni documento"
+            ><bolle-button>Salva</bolle-button
+            ><bolle-button variant="tonal">Copia</bolle-button
+            ><bolle-button variant="outlined"
+              >Condividi</bolle-button
+            ></bolle-button-group
           >`,
         ),
         specimen(
           "Connected",
-          html`<bubble-button-group variant="connected" label="Allineamento"
-            ><bubble-button variant="outlined">Sinistra</bubble-button
-            ><bubble-button variant="outlined">Centro</bubble-button
-            ><bubble-button variant="outlined"
-              >Destra</bubble-button
-            ></bubble-button-group
+          html`<bolle-button-group variant="connected" label="Allineamento"
+            ><bolle-button variant="outlined">Sinistra</bolle-button
+            ><bolle-button variant="outlined">Centro</bolle-button
+            ><bolle-button variant="outlined"
+              >Destra</bolle-button
+            ></bolle-button-group
           >`,
         ),
         specimen(
           "Selezione singola · multipla",
-          html`<bubble-button-group label="Vista" selection="single" required
-              ><bubble-button value="grid" selected>Griglia</bubble-button
-              ><bubble-button value="list"
-                >Elenco</bubble-button
-              ></bubble-button-group
-            ><bubble-button-group label="Filtri" selection="multiple"
-              ><bubble-button value="mine" toggle>Miei</bubble-button
-              ><bubble-button value="shared" toggle
-                >Condivisi</bubble-button
-              ></bubble-button-group
+          html`<bolle-button-group label="Vista" selection="single" required
+              ><bolle-button value="grid" selected>Griglia</bolle-button
+              ><bolle-button value="list"
+                >Elenco</bolle-button
+              ></bolle-button-group
+            ><bolle-button-group label="Filtri" selection="multiple"
+              ><bolle-button value="mine" toggle>Miei</bolle-button
+              ><bolle-button value="shared" toggle
+                >Condivisi</bolle-button
+              ></bolle-button-group
             >`,
         ),
         specimen(
           "Dimensioni del gruppo",
-          html`<bubble-button-group label="Compatte" size="xs"
-              ><bubble-button>A</bubble-button
-              ><bubble-button>B</bubble-button></bubble-button-group
-            ><bubble-button-group label="Grandi" size="large"
-              ><bubble-button>A</bubble-button
-              ><bubble-button>B</bubble-button></bubble-button-group
+          html`<bolle-button-group label="Compatte" size="xs"
+              ><bolle-button>A</bolle-button
+              ><bolle-button>B</bolle-button></bolle-button-group
+            ><bolle-button-group label="Grandi" size="large"
+              ><bolle-button>A</bolle-button
+              ><bolle-button>B</bolle-button></bolle-button-group
             >`,
         ),
       ),
@@ -269,7 +269,7 @@ render(
           "Filled · Tonal · Outlined · Elevated",
           html`${["filled", "tonal", "outlined", "elevated"].map(
             (variant) =>
-              html`<bubble-split-button
+              html`<bolle-split-button
                 variant=${variant}
                 label="Invia"
                 menu-label=${`Altre opzioni ${variant}`}
@@ -278,29 +278,29 @@ render(
                   { id: "draft", label: "Salva bozza" },
                 ]}
                 @action=${snackbar}
-              ></bubble-split-button>`,
+              ></bolle-split-button>`,
           )}`,
         ),
         specimen(
           "Taglie xs · small · medium · large · xl",
           html`${["xs", "small", "medium", "large", "xl"].map(
             (size) =>
-              html`<bubble-split-button
+              html`<bolle-split-button
                 size=${size}
                 label=${size}
                 menu-label=${`Altre opzioni ${size}`}
                 .items=${[{ id: "later", label: "Invia più tardi" }]}
-              ></bubble-split-button>`,
+              ></bolle-split-button>`,
           )}`,
         ),
         specimen(
           "Disabilitato",
-          html`<bubble-split-button
+          html`<bolle-split-button
             label="Invia"
             menu-label="Altre opzioni"
             disabled
             .items=${[{ id: "later", label: "Invia più tardi" }]}
-          ></bubble-split-button>`,
+          ></bolle-split-button>`,
         ),
       ),
       component(
@@ -309,14 +309,14 @@ render(
         "Taglie small, medium e large; sei mappature di colore.",
         specimen(
           "Small · Medium · Large",
-          html`<bubble-floating-action-button size="small" label="Crea"
-              >+</bubble-floating-action-button
+          html`<bolle-floating-action-button size="small" label="Crea"
+              >+</bolle-floating-action-button
             >
-            <bubble-floating-action-button label="Crea"
-              >+</bubble-floating-action-button
+            <bolle-floating-action-button label="Crea"
+              >+</bolle-floating-action-button
             >
-            <bubble-floating-action-button size="large" label="Crea"
-              >+</bubble-floating-action-button
+            <bolle-floating-action-button size="large" label="Crea"
+              >+</bolle-floating-action-button
             >`,
         ),
         specimen(
@@ -330,8 +330,8 @@ render(
             "tertiary",
           ].map(
             (color) =>
-              html`<bubble-floating-action-button color=${color} label=${color}
-                >+</bubble-floating-action-button
+              html`<bolle-floating-action-button color=${color} label=${color}
+                >+</bolle-floating-action-button
               >`,
           )}`,
         ),
@@ -342,23 +342,23 @@ render(
         "Taglie small, medium e large con icona iniziale e etichetta.",
         specimen(
           "Small · Medium · Large",
-          html`<bubble-extended-fab size="small"
+          html`<bolle-extended-fab size="small"
               ><span slot="icon" aria-hidden="true">+</span
-              >Crea</bubble-extended-fab
-            ><bubble-extended-fab size="medium"
+              >Crea</bolle-extended-fab
+            ><bolle-extended-fab size="medium"
               ><span slot="icon" aria-hidden="true">+</span
-              >Crea</bubble-extended-fab
-            ><bubble-extended-fab size="large"
+              >Crea</bolle-extended-fab
+            ><bolle-extended-fab size="large"
               ><span slot="icon" aria-hidden="true">+</span
-              >Crea</bubble-extended-fab
+              >Crea</bolle-extended-fab
             >`,
         ),
         specimen(
           "Solo etichetta · colori",
-          html`<bubble-extended-fab color="secondary-container"
-              >Condividi</bubble-extended-fab
-            ><bubble-extended-fab color="tertiary" size="small"
-              >Condividi</bubble-extended-fab
+          html`<bolle-extended-fab color="secondary-container"
+              >Condividi</bolle-extended-fab
+            ><bolle-extended-fab color="tertiary" size="small"
+              >Condividi</bolle-extended-fab
             >`,
         ),
       ),
@@ -368,10 +368,10 @@ render(
         "Da due a sei azioni correlate sotto un'azione principale.",
         specimen(
           "Aperto da FAB",
-          html`<bubble-fab-menu
+          html`<bolle-fab-menu
             label="Crea"
             .items=${destinations}
-          ></bubble-fab-menu>`,
+          ></bolle-fab-menu>`,
         ),
       ),
     )}
@@ -386,23 +386,23 @@ render(
         specimen(
           "Grande · massimo · piccolo",
           html`<span class="badge-anchor"
-              >Posta<bubble-badge
+              >Posta<bolle-badge
                 value="12"
                 label="12 messaggi non letti"
-              ></bubble-badge
+              ></bolle-badge
             ></span>
             <span class="badge-anchor"
-              >Avvisi<bubble-badge
+              >Avvisi<bolle-badge
                 value="1200"
                 max="999"
                 label="Oltre 999 avvisi"
-              ></bubble-badge
+              ></bolle-badge
             ></span>
             <span class="badge-anchor"
-              >Aggiornamenti<bubble-badge
+              >Aggiornamenti<bolle-badge
                 small
                 label="Nuovi contenuti"
-              ></bubble-badge
+              ></bolle-badge
             ></span>`,
         ),
       ),
@@ -412,44 +412,44 @@ render(
         "Lineare e circolare, determinato e indeterminato, con indicatore di arresto e forma ondulata.",
         specimen(
           "Lineare determinato · indeterminato",
-          html`<bubble-progress-indicator
+          html`<bolle-progress-indicator
               value="65"
               label="Download"
-            ></bubble-progress-indicator>
-            <bubble-progress-indicator
+            ></bolle-progress-indicator>
+            <bolle-progress-indicator
               indeterminate
               label="Connessione"
-            ></bubble-progress-indicator>`,
+            ></bolle-progress-indicator>`,
         ),
         specimen(
           "Determinato con stop · wavy",
-          html`<bubble-progress-indicator
+          html`<bolle-progress-indicator
               value="35"
               label="Avanzamento con stop"
-            ></bubble-progress-indicator>
-            <bubble-progress-indicator
+            ></bolle-progress-indicator>
+            <bolle-progress-indicator
               wavy
               value="60"
               label="Avanzamento ondulato"
-            ></bubble-progress-indicator>
-            <bubble-progress-indicator
+            ></bolle-progress-indicator>
+            <bolle-progress-indicator
               wavy
               indeterminate
               label="Attesa ondulata"
-            ></bubble-progress-indicator>`,
+            ></bolle-progress-indicator>`,
         ),
         specimen(
           "Circolare determinato · indeterminato",
-          html`<bubble-progress-indicator
+          html`<bolle-progress-indicator
               variant="circular"
               value="65"
               label="Caricamento file"
-            ></bubble-progress-indicator>
-            <bubble-progress-indicator
+            ></bolle-progress-indicator>
+            <bolle-progress-indicator
               variant="circular"
               indeterminate
               label="Attesa"
-            ></bubble-progress-indicator>`,
+            ></bolle-progress-indicator>`,
         ),
       ),
       component(
@@ -458,13 +458,13 @@ render(
         "Indicatore Morph Expressive; configurazione libera e contenuta.",
         specimen(
           "Default · contenuto",
-          html`<bubble-loading-indicator
+          html`<bolle-loading-indicator
               label="Caricamento"
-            ></bubble-loading-indicator>
-            <bubble-loading-indicator
+            ></bolle-loading-indicator>
+            <bolle-loading-indicator
               variant="contained"
               label="Caricamento allegati"
-            ></bubble-loading-indicator>`,
+            ></bolle-loading-indicator>`,
         ),
       ),
       component(
@@ -473,41 +473,41 @@ render(
         "Una o due righe; con azione resta finché non viene chiusa.",
         specimen(
           "Riga singola · con azione · due righe",
-          html`<bubble-button
+          html`<bolle-button
               @click=${() =>
                 document
-                  .querySelector<BubbleSnackbar>("#demo-snackbar")
+                  .querySelector<BolleSnackbar>("#demo-snackbar")
                   ?.show("Documento salvato")}
-              >Mostra</bubble-button
-            ><bubble-button
+              >Mostra</bolle-button
+            ><bolle-button
               @click=${() =>
                 document
-                  .querySelector<BubbleSnackbar>("#demo-snackbar")
+                  .querySelector<BolleSnackbar>("#demo-snackbar")
                   ?.show("Documento spostato nel cestino")}
-              >Spostato</bubble-button
+              >Spostato</bolle-button
             >`,
         ),
         specimen(
           "Con azione (annulla)",
-          html`<bubble-snackbar
+          html`<bolle-snackbar
             id="demo-snackbar"
             action-label="Annulla"
             close-label="Chiudi"
             message="Documento eliminato"
-          ></bubble-snackbar>`,
+          ></bolle-snackbar>`,
         ),
         specimen(
           "Coda di messaggi",
-          html`<bubble-button
+          html`<bolle-button
             variant="tonal"
             @click=${() => {
               const bar =
-                document.querySelector<BubbleSnackbar>("#demo-snackbar")!;
+                document.querySelector<BolleSnackbar>("#demo-snackbar")!;
               bar.show("Primo messaggio");
               bar.show("Secondo messaggio");
               bar.show("Terzo messaggio");
             }}
-            >Accoda tre messaggi</bubble-button
+            >Accoda tre messaggi</bolle-button
           >`,
         ),
       ),
@@ -525,22 +525,22 @@ render(
           html`<div class="card-row">
             ${["filled", "outlined", "elevated"].map(
               (variant) =>
-                html`<bubble-card variant=${variant}>
+                html`<bolle-card variant=${variant}>
                   <h4>${variant}</h4>
                   <p>Un contenuto indipendente.</p>
-                </bubble-card>`,
+                </bolle-card>`,
             )}
           </div>`,
         ),
         specimen(
           "Orizzontale",
-          html`<bubble-card orientation="horizontal">
+          html`<bolle-card orientation="horizontal">
             <div slot="media" class="card-media">IMG</div>
             <div>
               <h4>Documento condiviso</h4>
               <p>Media a sinistra, contenuto a destra.</p>
             </div>
-          </bubble-card>`,
+          </bolle-card>`,
         ),
       ),
       component(
@@ -556,7 +556,7 @@ render(
             "center-aligned-hero",
           ].map(
             (variant) =>
-              html`<bubble-carousel
+              html`<bolle-carousel
                 variant=${variant}
                 label=${`Carousel ${variant}`}
                 previous-label="Precedente"
@@ -564,7 +564,7 @@ render(
                 >${carouselItem("Posta", "Messaggi ricevuti")}${carouselItem(
                   "Archivio",
                   "Documenti salvati",
-                )}${carouselItem("Impostazioni", "Preferenze personali")}</bubble-carousel
+                )}${carouselItem("Impostazioni", "Preferenze personali")}</bolle-carousel
               >`,
           )}`,
         ),
@@ -575,34 +575,34 @@ render(
         "Dialogo base e dialogo a schermo intero.",
         specimen(
           "Basic · full-screen",
-          html`<bubble-button
+          html`<bolle-button
               @click=${(event: Event) => dialog("demo-dialog", event)}
-              >Dialogo base</bubble-button
-            ><bubble-button
+              >Dialogo base</bolle-button
+            ><bolle-button
               variant="tonal"
               @click=${(event: Event) => dialog("demo-dialog-full", event)}
-              >Dialogo a schermo intero</bubble-button
+              >Dialogo a schermo intero</bolle-button
             >`,
         ),
-        html`<bubble-dialog
+        html`<bolle-dialog
             id="demo-dialog"
             label="Nuovo documento"
             close-label="Annulla"
           >
-            <bubble-text-field label="Titolo" required></bubble-text-field>
-          </bubble-dialog>
-          <bubble-dialog
+            <bolle-text-field label="Titolo" required></bolle-text-field>
+          </bolle-dialog>
+          <bolle-dialog
             id="demo-dialog-full"
             variant="full-screen"
             label="Nuovo documento"
             close-label="Chiudi"
           >
-            <bubble-text-field label="Titolo" required></bubble-text-field>
-            <bubble-text-field
+            <bolle-text-field label="Titolo" required></bolle-text-field>
+            <bolle-text-field
               label="Descrizione"
               multiline
-            ></bubble-text-field>
-          </bubble-dialog> `,
+            ></bolle-text-field>
+          </bolle-dialog> `,
       ),
       component(
         "bottom-sheets",
@@ -610,26 +610,26 @@ render(
         "Foglio modale con maniglia di trascinamento e foglio standard.",
         specimen(
           "Modale · standard",
-          html`<bubble-button
+          html`<bolle-button
               @click=${(event: Event) => dialog("demo-bottom-modal", event)}
-              >Modale</bubble-button
-            ><bubble-button
+              >Modale</bolle-button
+            ><bolle-button
               variant="outlined"
               @click=${(event: Event) => dialog("demo-bottom-standard", event)}
-              >Standard</bubble-button
-            ><bubble-bottom-sheet
+              >Standard</bolle-button
+            ><bolle-bottom-sheet
               id="demo-bottom-modal"
               drag-handle
               label="Azioni documento"
               close-label="Chiudi"
-              ><bubble-list .items=${destinations}></bubble-list
-            ></bubble-bottom-sheet>
-            <bubble-bottom-sheet
+              ><bolle-list .items=${destinations}></bolle-list
+            ></bolle-bottom-sheet>
+            <bolle-bottom-sheet
               id="demo-bottom-standard"
               variant="standard"
               label="Azioni documento"
-              ><bubble-list .items=${destinations}></bubble-list
-            ></bubble-bottom-sheet>`,
+              ><bolle-list .items=${destinations}></bolle-list
+            ></bolle-bottom-sheet>`,
         ),
       ),
       component(
@@ -638,33 +638,33 @@ render(
         "Foglio modale, standard e staccato dal bordo.",
         specimen(
           "Modale · standard · detached",
-          html`<bubble-button
+          html`<bolle-button
               @click=${(event: Event) => dialog("demo-side-modal", event)}
-              >Modale</bubble-button
-            ><bubble-button
+              >Modale</bolle-button
+            ><bolle-button
               variant="outlined"
               @click=${(event: Event) => dialog("demo-side-standard", event)}
-              >Standard</bubble-button
-            ><bubble-button
+              >Standard</bolle-button
+            ><bolle-button
               variant="tonal"
               @click=${(event: Event) => dialog("demo-side-detached", event)}
-              >Detached</bubble-button
-            ><bubble-side-sheet
+              >Detached</bolle-button
+            ><bolle-side-sheet
               id="demo-side-modal"
               label="Dettagli"
               close-label="Chiudi"
-              ><p>Informazioni sul documento.</p></bubble-side-sheet
-            ><bubble-side-sheet
+              ><p>Informazioni sul documento.</p></bolle-side-sheet
+            ><bolle-side-sheet
               id="demo-side-standard"
               variant="standard"
               label="Dettagli"
-              ><p>Foglio standard.</p></bubble-side-sheet
-            ><bubble-side-sheet
+              ><p>Foglio standard.</p></bolle-side-sheet
+            ><bolle-side-sheet
               id="demo-side-detached"
               detached
               label="Dettagli"
               close-label="Chiudi"
-              ><p>Foglio staccato dal bordo.</p></bubble-side-sheet
+              ><p>Foglio staccato dal bordo.</p></bolle-side-sheet
             >`,
         ),
       ),
@@ -676,7 +676,7 @@ render(
           "Full width",
           html`<div class="divider-demo">
             <p>Sopra</p>
-            <bubble-divider></bubble-divider>
+            <bolle-divider></bolle-divider>
             <p>Sotto</p>
           </div>`,
         ),
@@ -684,7 +684,7 @@ render(
           "Inset su entrambi i lati",
           html`<div class="divider-demo">
             <p>Sopra</p>
-            <bubble-divider variant="inset"></bubble-divider>
+            <bolle-divider variant="inset"></bolle-divider>
             <p>Sotto</p>
           </div>`,
         ),
@@ -692,7 +692,7 @@ render(
           "Inset solo iniziale",
           html`<div class="divider-demo">
             <p>Sopra</p>
-            <bubble-divider variant="inset-start"></bubble-divider>
+            <bolle-divider variant="inset-start"></bolle-divider>
             <p>Sotto</p>
           </div>`,
         ),
@@ -700,14 +700,14 @@ render(
           "Inset solo finale",
           html`<div class="divider-demo">
             <p>Sopra</p>
-            <bubble-divider variant="inset-end"></bubble-divider>
+            <bolle-divider variant="inset-end"></bolle-divider>
             <p>Sotto</p>
           </div>`,
         ),
         specimen(
           "Verticale",
           html`<div class="divider-horizontal">
-            <span>Testo</span><bubble-divider vertical></bubble-divider
+            <span>Testo</span><bolle-divider vertical></bolle-divider
             ><span>Media</span>
           </div>`,
         ),
@@ -723,40 +723,40 @@ render(
         "Small, center-aligned, medium, medium flexible, large, large flexible e search.",
         specimen(
           "Small · center-aligned",
-          html`<bubble-app-bar label="Posta"
-              ><bubble-icon-button slot="leading" label="Menu"
-                >${ti("menu-2")}</bubble-icon-button
-              ></bubble-app-bar
-            ><bubble-app-bar variant="center-aligned" label="Posta"
-              ><bubble-icon-button slot="leading" label="Menu"
-                >${ti("menu-2")}</bubble-icon-button
-              ></bubble-app-bar
+          html`<bolle-app-bar label="Posta"
+              ><bolle-icon-button slot="leading" label="Menu"
+                >${ti("menu-2")}</bolle-icon-button
+              ></bolle-app-bar
+            ><bolle-app-bar variant="center-aligned" label="Posta"
+              ><bolle-icon-button slot="leading" label="Menu"
+                >${ti("menu-2")}</bolle-icon-button
+              ></bolle-app-bar
             >`,
         ),
         specimen(
           "Medium · medium flexible · large · large flexible",
-          html`<bubble-app-bar variant="medium" label="Posta"></bubble-app-bar>
-            <bubble-app-bar
+          html`<bolle-app-bar variant="medium" label="Posta"></bolle-app-bar>
+            <bolle-app-bar
               variant="medium-flexible"
               label="Posta"
               subtitle="12 non letti"
-            ></bubble-app-bar>
-            <bubble-app-bar variant="large" label="Posta"></bubble-app-bar>
-            <bubble-app-bar
+            ></bolle-app-bar>
+            <bolle-app-bar variant="large" label="Posta"></bolle-app-bar>
+            <bolle-app-bar
               variant="large-flexible"
               label="Posta"
               subtitle="12 non letti"
-            ></bubble-app-bar>`,
+            ></bolle-app-bar>`,
         ),
         specimen(
           "Search",
-          html`<bubble-app-bar variant="search">
-            <bubble-search label="Cerca" placeholder="Cerca nella posta"
+          html`<bolle-app-bar variant="search">
+            <bolle-search label="Cerca" placeholder="Cerca nella posta"
               ><span slot="leading" class="md-icon" aria-hidden="true"
                 >search</span
-              ></bubble-search
+              ></bolle-search
             >
-          </bubble-app-bar>`,
+          </bolle-app-bar>`,
         ),
       ),
       component(
@@ -765,26 +765,26 @@ render(
         "Da tre a cinque destinazioni; variante baseline e flexible con layout orizzontale.",
         specimen(
           "Baseline 3 · 5 destinazioni",
-          html`<bubble-navigation-bar
+          html`<bolle-navigation-bar
               label="Navigazione principale"
               .items=${destinations}
               value="inbox"
-            ></bubble-navigation-bar>
-            <bubble-navigation-bar
+            ></bolle-navigation-bar>
+            <bolle-navigation-bar
               label="Navigazione cinque"
               .items=${fiveDestinations}
               value="inbox"
-            ></bubble-navigation-bar>`,
+            ></bolle-navigation-bar>`,
         ),
         specimen(
           "Flexible · layout orizzontale",
-          html`<bubble-navigation-bar
+          html`<bolle-navigation-bar
             variant="flexible"
             layout="horizontal"
             label="Navigazione flessibile"
             .items=${destinations}
             value="archive"
-          ></bubble-navigation-bar>`,
+          ></bolle-navigation-bar>`,
         ),
         specimen(
           "Destinazioni non supportate",
@@ -801,17 +801,17 @@ render(
         specimen(
           "Collapsed · expanded",
           html`<div class="inline align-start">
-            <bubble-navigation-rail
+            <bolle-navigation-rail
               label="Rail compresso"
               .items=${destinations}
               value="inbox"
-            ></bubble-navigation-rail>
-            <bubble-navigation-rail
+            ></bolle-navigation-rail>
+            <bolle-navigation-rail
               expanded
               label="Rail espanso"
               .items=${destinations}
               value="inbox"
-            ></bubble-navigation-rail>
+            ></bolle-navigation-rail>
           </div>`,
         ),
       ),
@@ -821,28 +821,28 @@ render(
         "Drawer modale e standard, con etichette di sezione opzionali.",
         specimen(
           "Modale · standard",
-          html`<bubble-button
+          html`<bolle-button
               @click=${(event: Event) => dialog("demo-drawer", event)}
-              >Apri drawer</bubble-button
-            ><bubble-navigation-drawer
+              >Apri drawer</bolle-button
+            ><bolle-navigation-drawer
               id="demo-drawer"
               label="Sezioni"
               close-label="Chiudi"
               .items=${destinations}
               value="inbox"
-            ></bubble-navigation-drawer>
-            <bubble-button
+            ></bolle-navigation-drawer>
+            <bolle-button
               variant="outlined"
               @click=${(event: Event) => dialog("demo-drawer-standard", event)}
-              >Apri drawer standard</bubble-button
+              >Apri drawer standard</bolle-button
             >
-            <bubble-navigation-drawer
+            <bolle-navigation-drawer
               id="demo-drawer-standard"
               variant="standard"
               label="Sezioni standard"
               .items=${destinations}
               value="archive"
-            ></bubble-navigation-drawer>`,
+            ></bolle-navigation-drawer>`,
         ),
       ),
       component(
@@ -851,24 +851,24 @@ render(
         "Tab primari e secondari, con icona e badge; attivazione automatica o manuale.",
         specimen(
           "Primary · secondary",
-          html`<bubble-tabs
+          html`<bolle-tabs
               label="Categorie"
               .items=${destinations}
               value="inbox"
               ><p slot="inbox">Messaggi ricevuti.</p>
               <p slot="archive">Documenti salvati.</p>
-              <p slot="settings">Preferenze personali.</p></bubble-tabs
-            ><bubble-tabs
+              <p slot="settings">Preferenze personali.</p></bolle-tabs
+            ><bolle-tabs
               variant="secondary"
               label="Dettagli"
               .items=${destinations}
               value="settings"
-              ><p slot="settings">Scheda secondaria.</p></bubble-tabs
+              ><p slot="settings">Scheda secondaria.</p></bolle-tabs
             >`,
         ),
         specimen(
           "Con icona e badge",
-          html`<bubble-tabs
+          html`<bolle-tabs
             label="Viste"
             .items=${[
               { id: "a", label: "Posta", icon: ti("inbox"), badge: "3" },
@@ -877,11 +877,11 @@ render(
               { id: "d", label: "Cestino", icon: ti("trash") },
             ]}
             value="a"
-          ></bubble-tabs>`,
+          ></bolle-tabs>`,
         ),
         specimen(
           "Scrollable con pulsanti di scorrimento",
-          html`<bubble-tabs
+          html`<bolle-tabs
             scrollable
             label="Viste scorrevoli"
             .items=${[
@@ -895,7 +895,7 @@ render(
               "Promemoria",
             ].map((label, index) => ({ id: `s${index}`, label }))}
             value="s0"
-          ></bubble-tabs>`,
+          ></bolle-tabs>`,
         ),
       ),
       component(
@@ -904,44 +904,44 @@ render(
         "Docked standard e vibrant, floating orizzontale e verticale.",
         specimen(
           "Docked standard · vibrant",
-          html`<bubble-toolbar label="Formato"
-              ><bubble-icon-button label="Grassetto" toggle
-                >${ti("bold")}</bubble-icon-button
-              ><bubble-icon-button label="Corsivo" toggle
-                >${ti("italic")}</bubble-icon-button
-              ><bubble-icon-button label="Sottolineato" toggle
+          html`<bolle-toolbar label="Formato"
+              ><bolle-icon-button label="Grassetto" toggle
+                >${ti("bold")}</bolle-icon-button
+              ><bolle-icon-button label="Corsivo" toggle
+                >${ti("italic")}</bolle-icon-button
+              ><bolle-icon-button label="Sottolineato" toggle
                 ><span class="md-icon"
                   >format_underlined</span
-                ></bubble-icon-button
-              ></bubble-toolbar
-            ><bubble-toolbar label="Modifica" color="vibrant"
-              ><bubble-icon-button label="Taglia" variant="standard"
-                >${ti("scissors")}</bubble-icon-button
-              ><bubble-icon-button label="Copia" variant="standard"
-                >${ti("copy")}</bubble-icon-button
-              ><bubble-icon-button label="Incolla" variant="standard"
-                >${ti("clipboard")}</bubble-icon-button
-              ></bubble-toolbar
+                ></bolle-icon-button
+              ></bolle-toolbar
+            ><bolle-toolbar label="Modifica" color="vibrant"
+              ><bolle-icon-button label="Taglia" variant="standard"
+                >${ti("scissors")}</bolle-icon-button
+              ><bolle-icon-button label="Copia" variant="standard"
+                >${ti("copy")}</bolle-icon-button
+              ><bolle-icon-button label="Incolla" variant="standard"
+                >${ti("clipboard")}</bolle-icon-button
+              ></bolle-toolbar
             >`,
         ),
         specimen(
           "Floating orizzontale · verticale",
           html`<div class="inline align-start">
-            <bubble-toolbar label="Formato" variant="floating"
-              ><bubble-icon-button label="Grassetto" toggle
-                >${ti("bold")}</bubble-icon-button
-              ><bubble-icon-button label="Corsivo" toggle
-                >${ti("italic")}</bubble-icon-button
-              ></bubble-toolbar
-            ><bubble-toolbar
+            <bolle-toolbar label="Formato" variant="floating"
+              ><bolle-icon-button label="Grassetto" toggle
+                >${ti("bold")}</bolle-icon-button
+              ><bolle-icon-button label="Corsivo" toggle
+                >${ti("italic")}</bolle-icon-button
+              ></bolle-toolbar
+            ><bolle-toolbar
               label="Allineamento"
               variant="floating"
               orientation="vertical"
-              ><bubble-icon-button label="Su"
-                >${ti("arrow-up")}</bubble-icon-button
-              ><bubble-icon-button label="Giù"
-                >${ti("arrow-down")}</bubble-icon-button
-              ></bubble-toolbar
+              ><bolle-icon-button label="Su"
+                >${ti("arrow-up")}</bolle-icon-button
+              ><bolle-icon-button label="Giù"
+                >${ti("arrow-down")}</bolle-icon-button
+              ></bolle-toolbar
             >
           </div>`,
         ),
@@ -957,19 +957,19 @@ render(
         "Non selezionata, selezionata, indeterminata, disabilitata ed errore con testo di supporto.",
         specimen(
           "Stati",
-          html`<bubble-checkbox label="Non selezionata"></bubble-checkbox>
-            <bubble-checkbox label="Selezionata" checked></bubble-checkbox>
-            <bubble-checkbox
+          html`<bolle-checkbox label="Non selezionata"></bolle-checkbox>
+            <bolle-checkbox label="Selezionata" checked></bolle-checkbox>
+            <bolle-checkbox
               label="Indeterminata"
               indeterminate
-            ></bubble-checkbox>
-            <bubble-checkbox label="Disabilitata" disabled></bubble-checkbox>
-            <bubble-checkbox
+            ></bolle-checkbox>
+            <bolle-checkbox label="Disabilitata" disabled></bolle-checkbox>
+            <bolle-checkbox
               label="Accetto i termini"
               required
               error
               supporting-text="Devi accettare per continuare"
-            ></bubble-checkbox>`,
+            ></bolle-checkbox>`,
         ),
       ),
       component(
@@ -980,23 +980,23 @@ render(
           "Gruppo",
           html`<fieldset class="plain-fieldset">
             <legend>Frequenza</legend>
-            <bubble-radio-button
+            <bolle-radio-button
               name="freq"
               value="daily"
               label="Giornaliera"
               checked
-            ></bubble-radio-button>
-            <bubble-radio-button
+            ></bolle-radio-button>
+            <bolle-radio-button
               name="freq"
               value="weekly"
               label="Settimanale"
-            ></bubble-radio-button>
-            <bubble-radio-button
+            ></bolle-radio-button>
+            <bolle-radio-button
               name="freq"
               value="never"
               label="Mai"
               disabled
-            ></bubble-radio-button>
+            ></bolle-radio-button>
           </fieldset>`,
         ),
       ),
@@ -1006,28 +1006,28 @@ render(
         "Spento e acceso, con icona dentro la maniglia, disabilitato ed errore.",
         specimen(
           "Off · on · disabilitato",
-          html`<bubble-switch label="Notifiche"></bubble-switch>
-            <bubble-switch label="Sincronizzazione" checked></bubble-switch>
-            <bubble-switch label="Bloccato" disabled checked></bubble-switch>`,
+          html`<bolle-switch label="Notifiche"></bolle-switch>
+            <bolle-switch label="Sincronizzazione" checked></bolle-switch>
+            <bolle-switch label="Bloccato" disabled checked></bolle-switch>`,
         ),
         specimen(
           "Con icona · errore",
-          html`<bubble-switch
+          html`<bolle-switch
               label="Wi-Fi"
               .icon=${ti("wifi-off")}
               .iconSelected=${ti("wifi")}
-            ></bubble-switch>
-            <bubble-switch
+            ></bolle-switch>
+            <bolle-switch
               label="Modalità aereo"
               checked
               .icon=${ti("plane-off")}
               .iconSelected=${ti("plane")}
-            ></bubble-switch>
-            <bubble-switch
+            ></bolle-switch>
+            <bolle-switch
               label="Accetto le condizioni"
               error
               supporting-text="Devi attivare il consenso"
-            ></bubble-switch>`,
+            ></bolle-switch>`,
         ),
       ),
       component(
@@ -1036,31 +1036,31 @@ render(
         "Assist, filter, input e suggestion; stile flat ed elevated.",
         specimen(
           "Assist · filter non selezionata / selezionata",
-          html`<bubble-chip
+          html`<bolle-chip
               variant="assist"
               label="Aggiungi al calendario"
-            ></bubble-chip>
-            <bubble-chip variant="filter" label="Solo non letti"></bubble-chip>
-            <bubble-chip
+            ></bolle-chip>
+            <bolle-chip variant="filter" label="Solo non letti"></bolle-chip>
+            <bolle-chip
               variant="filter"
               label="Preferiti"
               selected
-            ></bubble-chip>`,
+            ></bolle-chip>`,
         ),
         specimen(
           "Input rimovibile con avatar · suggestion · elevated",
-          html`<bubble-chip
+          html`<bolle-chip
               variant="input"
               label="Mario Rossi"
               removable
               remove-label="Rimuovi Mario Rossi"
-              ><span slot="avatar" class="avatar">MR</span></bubble-chip
-            ><bubble-chip variant="suggestion" label="Grazie!"></bubble-chip>
-            <bubble-chip
+              ><span slot="avatar" class="avatar">MR</span></bolle-chip
+            ><bolle-chip variant="suggestion" label="Grazie!"></bolle-chip>
+            <bolle-chip
               variant="filter"
               label="Elevata"
               elevated
-            ></bubble-chip>`,
+            ></bolle-chip>`,
         ),
       ),
       component(
@@ -1069,19 +1069,19 @@ render(
         "Selezione singola e multipla, da due a cinque segmenti, con icona.",
         specimen(
           "Single-select · multi-select",
-          html`<bubble-segmented-buttons
+          html`<bolle-segmented-buttons
               label="Vista"
               name="view"
               value="inbox"
               .items=${destinations}
-            ></bubble-segmented-buttons>
-            <bubble-segmented-buttons
+            ></bolle-segmented-buttons>
+            <bolle-segmented-buttons
               label="Filtri"
               name="filters"
               multiple
               .values=${["inbox", "archive"]}
               .items=${destinations}
-            ></bubble-segmented-buttons>`,
+            ></bolle-segmented-buttons>`,
         ),
         specimen(
           "Limiti",
@@ -1097,55 +1097,55 @@ render(
         "Continuo, centrato, intervallo, discreto, dimensioni, verticale e valore visibile.",
         specimen(
           "Continuous · centered · range",
-          html`<bubble-slider label="Volume" value="40"></bubble-slider>
-            <bubble-slider
+          html`<bolle-slider label="Volume" value="40"></bolle-slider>
+            <bolle-slider
               label="Bilanciamento"
               variant="centered"
               value="60"
               show-value
-            ></bubble-slider>
-            <bubble-slider
+            ></bolle-slider>
+            <bolle-slider
               label="Prezzo"
               variant="range"
               value="20"
               upper-value="80"
               upper-label="Massimo"
-            ></bubble-slider>`,
+            ></bolle-slider>`,
         ),
         specimen(
           "Icone inserite nel binario",
-          html`<bubble-slider
+          html`<bolle-slider
             label="Luminosità"
             value="40"
             show-value
             .iconStart=${ti("sun")}
             .iconEnd=${ti("sun-high")}
-          ></bubble-slider>`,
+          ></bolle-slider>`,
         ),
         specimen(
           "Discreto · dimensioni · verticale",
-          html`<bubble-slider
+          html`<bolle-slider
               label="Passo 10 con indicatori"
               step="10"
               value="40"
               show-value
               stops
-            ></bubble-slider>
-            <bubble-slider
+            ></bolle-slider>
+            <bolle-slider
               label="Small"
               size="small"
               value="30"
-            ></bubble-slider>
-            <bubble-slider
+            ></bolle-slider>
+            <bolle-slider
               label="Large"
               size="large"
               value="70"
-            ></bubble-slider>
-            <bubble-slider
+            ></bolle-slider>
+            <bolle-slider
               label="Verticale"
               orientation="vertical"
               value="50"
-            ></bubble-slider>`,
+            ></bolle-slider>`,
         ),
       ),
       component(
@@ -1154,49 +1154,49 @@ render(
         "Una e due righe, stile standard e segmentato, azione singola.",
         specimen(
           "Una riga · due righe",
-          html`<bubble-list
+          html`<bolle-list
               label="Una riga"
               .items=${[
                 { id: "a", label: "Posta", icon: ti("inbox") },
                 { id: "b", label: "Archivio", icon: ti("archive") },
               ]}
-            ></bubble-list>
-            <bubble-list
+            ></bolle-list>
+            <bolle-list
               label="Due righe"
               .items=${destinations}
-            ></bubble-list>`,
+            ></bolle-list>`,
         ),
         specimen(
           "Segmented · azione",
-          html`<bubble-list
+          html`<bolle-list
               variant="segmented"
               label="Segmentata"
               .items=${[
                 { ...destinations[0], selected: true },
                 ...destinations.slice(1),
               ]}
-            ></bubble-list>
-            <bubble-list
+            ></bolle-list>
+            <bolle-list
               label="Azioni"
               interactive
               .items=${destinations}
-            ></bubble-list>`,
+            ></bolle-list>`,
         ),
         specimen(
           "Selezione singola · multipla · espandibile",
-          html`<bubble-list
+          html`<bolle-list
               label="Selezione singola"
               selection="single"
               .value=${"inbox"}
               .items=${destinations}
-            ></bubble-list>
-            <bubble-list
+            ></bolle-list>
+            <bolle-list
               label="Selezione multipla"
               selection="multiple"
               .value=${["inbox"]}
               .items=${destinations}
-            ></bubble-list>
-            <bubble-list
+            ></bolle-list>
+            <bolle-list
               label="Gerarchia"
               .items=${[
                 {
@@ -1216,7 +1216,7 @@ render(
                 },
               ]}
               .expanded=${["mail"]}
-            ></bubble-list>`,
+            ></bolle-list>`,
         ),
       ),
     )}
@@ -1230,54 +1230,54 @@ render(
         "Filled e outlined, multilinea, testo di supporto, errore, contatore, icone, prefisso e suffisso.",
         specimen(
           "Filled · outlined · multilinea",
-          html`<bubble-text-field
+          html`<bolle-text-field
               label="Nome"
               supporting-text="Testo di supporto"
-            ></bubble-text-field>
-            <bubble-text-field
+            ></bolle-text-field>
+            <bolle-text-field
               label="Email"
               variant="outlined"
               type="email"
-            ></bubble-text-field>
-            <bubble-text-field
+            ></bolle-text-field>
+            <bolle-text-field
               label="Note"
               multiline
               rows="3"
-            ></bubble-text-field>`,
+            ></bolle-text-field>`,
         ),
         specimen(
           "Errore · contatore · readonly",
-          html`<bubble-text-field
+          html`<bolle-text-field
               label="Email"
               variant="outlined"
               value="mario"
               error
               supporting-text="Inserisci un indirizzo valido"
-            ></bubble-text-field>
-            <bubble-text-field
+            ></bolle-text-field>
+            <bolle-text-field
               label="Titolo"
               maxlength="40"
               counter
               value="Rapporto"
-            ></bubble-text-field>
-            <bubble-text-field
+            ></bolle-text-field>
+            <bolle-text-field
               label="Identificativo"
               value="DOC-1024"
               readonly
-            ></bubble-text-field>`,
+            ></bolle-text-field>`,
         ),
         specimen(
           "Icone · prefisso · suffisso · obbligatorio",
-          html`<bubble-text-field label="Cerca" type="search"
+          html`<bolle-text-field label="Cerca" type="search"
               ><span slot="leading" aria-hidden="true"
                 >🔍</span
-              ></bubble-text-field
-            ><bubble-text-field
+              ></bolle-text-field
+            ><bolle-text-field
               label="Importo"
               prefix="€"
               suffix="EUR"
-            ></bubble-text-field>
-            <bubble-text-field label="Nome" required></bubble-text-field>`,
+            ></bolle-text-field>
+            <bolle-text-field label="Nome" required></bolle-text-field>`,
         ),
       ),
       component(
@@ -1286,33 +1286,33 @@ render(
         "Stile contenuto e diviso; layout docked e full-screen.",
         specimen(
           "Contained · divided",
-          html`<bubble-search
+          html`<bolle-search
               label="Cerca documenti"
               placeholder="Titolo o autore"
             >
-              <bubble-list
+              <bolle-list
                 slot="results"
                 label="Risultati"
                 .items=${destinations}
-              ></bubble-list>
-            </bubble-search>
-            <bubble-search
+              ></bolle-list>
+            </bolle-search>
+            <bolle-search
               appearance="divided"
               label="Cerca nel testo"
               placeholder="Parola chiave"
-            ></bubble-search>`,
+            ></bolle-search>`,
         ),
         specimen(
           "Full-screen",
-          html`<bubble-search
+          html`<bolle-search
             layout="full-screen"
             label="Cerca a schermo intero"
             placeholder="Cerca ovunque"
-          ></bubble-search>`,
+          ></bolle-search>`,
         ),
         specimen(
           "Suggerimenti con combobox filtrata",
-          html`<bubble-search
+          html`<bolle-search
             filter
             label="Cerca città"
             placeholder="Scrivi una città"
@@ -1327,7 +1327,7 @@ render(
               "Roma",
               "Torino",
             ]}
-          ></bubble-search>`,
+          ></bolle-search>`,
         ),
       ),
       component(
@@ -1336,25 +1336,25 @@ render(
         "Data singola, intervallo e calendario docked; l'inserimento numerico non è implementato.",
         specimen(
           "Singola · intervallo",
-          html`<bubble-date-picker
+          html`<bolle-date-picker
               label="Data appuntamento"
               name="date"
               value="2026-11-10"
-            ></bubble-date-picker>
-            <bubble-date-picker
+            ></bolle-date-picker>
+            <bolle-date-picker
               label="Periodo"
               selection-mode="range"
               value="2026-11-01"
               end-value="2026-11-15"
-            ></bubble-date-picker>`,
+            ></bolle-date-picker>`,
         ),
         specimen(
           "Docked",
-          html`<bubble-date-picker
+          html`<bolle-date-picker
             variant="docked"
             label="Data docked"
             value="2026-11-10"
-          ></bubble-date-picker>`,
+          ></bolle-date-picker>`,
         ),
       ),
       component(
@@ -1363,20 +1363,20 @@ render(
         "Quadrante a 24 ore, quadrante a 12 ore e inserimento da tastiera.",
         specimen(
           "Dial 24h · dial 12h · input",
-          html`<bubble-time-picker
+          html`<bolle-time-picker
               label="Ora appuntamento"
               value="14:30"
-            ></bubble-time-picker>
-            <bubble-time-picker
+            ></bolle-time-picker>
+            <bolle-time-picker
               label="Ora 12h"
               value="14:30"
               hour-cycle="12"
-            ></bubble-time-picker>
-            <bubble-time-picker
+            ></bolle-time-picker>
+            <bolle-time-picker
               label="Ora da tastiera"
               variant="input"
               value="09:15"
-            ></bubble-time-picker>`,
+            ></bolle-time-picker>`,
         ),
       ),
       component(
@@ -1385,18 +1385,18 @@ render(
         "Testo semplice e contenuto ricco con sottotitolo.",
         specimen(
           "Plain · rich",
-          html`<bubble-tooltip label="Conserva una copia del documento"
-              ><bubble-button variant="tonal"
-                >Salva una copia</bubble-button
-              ></bubble-tooltip
-            ><bubble-tooltip
+          html`<bolle-tooltip label="Conserva una copia del documento"
+              ><bolle-button variant="tonal"
+                >Salva una copia</bolle-button
+              ></bolle-tooltip
+            ><bolle-tooltip
               variant="rich"
               persistent
               label="Salva una copia"
               supporting-text="La copia resta nel tuo spazio personale e resta aperta finché non la chiudi."
-              ><bubble-button variant="outlined"
-                >Copia</bubble-button
-              ></bubble-tooltip
+              ><bolle-button variant="outlined"
+                >Copia</bolle-button
+              ></bolle-tooltip
             >`,
         ),
       ),
@@ -1411,61 +1411,61 @@ render(
         "Baseline, verticale standard, verticale vibrant, selezione singola e multipla, sottomenu.",
         specimen(
           "Baseline · vertical standard",
-          html`<bubble-button
+          html`<bolle-button
               aria-haspopup="menu"
               @click=${(event: Event) => menu("demo-menu-baseline", event)}
-              >Azioni</bubble-button
-            ><bubble-menu
+              >Azioni</bolle-button
+            ><bolle-menu
               id="demo-menu-baseline"
               variant="baseline"
               menu-label="Azioni documento"
-            ></bubble-menu>
-            <bubble-button
+            ></bolle-menu>
+            <bolle-button
               variant="tonal"
               aria-haspopup="menu"
               @click=${(event: Event) => menu("demo-menu-standard", event)}
-              >Ordinamento</bubble-button
-            ><bubble-menu
+              >Ordinamento</bolle-button
+            ><bolle-menu
               id="demo-menu-standard"
               selection-mode="single"
               menu-label="Ordinamento"
-            ></bubble-menu>`,
+            ></bolle-menu>`,
         ),
         specimen(
           "Raggruppati · densità compatta",
-          html`<bubble-button
+          html`<bolle-button
               variant="outlined"
               aria-haspopup="menu"
               @click=${(event: Event) => menu("demo-menu-groups", event)}
-              >Formato</bubble-button
-            ><bubble-menu
+              >Formato</bolle-button
+            ><bolle-menu
               id="demo-menu-groups"
               density="-1"
               menu-label="Formato"
-            ></bubble-menu>`,
+            ></bolle-menu>`,
         ),
         specimen(
           "Vibrant · multipla · sottomenu",
-          html`<bubble-button
+          html`<bolle-button
               variant="tonal"
               aria-haspopup="menu"
               @click=${(event: Event) => menu("demo-menu-vibrant", event)}
-              >Filtri</bubble-button
-            ><bubble-menu
+              >Filtri</bolle-button
+            ><bolle-menu
               id="demo-menu-vibrant"
               color-scheme="vibrant"
               selection-mode="multi"
               menu-label="Filtri contenuti"
-            ></bubble-menu>
-            <bubble-button
+            ></bolle-menu>
+            <bolle-button
               variant="outlined"
               aria-haspopup="menu"
               @click=${(event: Event) => menu("demo-menu-nested", event)}
-              >Altre opzioni</bubble-button
-            ><bubble-menu
+              >Altre opzioni</bolle-button
+            ><bolle-menu
               id="demo-menu-nested"
               menu-label="Altre opzioni"
-            ></bubble-menu>`,
+            ></bolle-menu>`,
         ),
         specimen(
           "Stato della selezione",
@@ -1479,24 +1479,24 @@ render(
   container,
 );
 
-document.querySelector<BubbleMenu>("#demo-menu-baseline")!.items = [
+document.querySelector<BolleMenu>("#demo-menu-baseline")!.items = [
   { id: "open", label: "Apri", trailingText: "Ctrl+O" },
   { id: "rename", label: "Rinomina", supportingText: "Modifica il nome" },
   { separator: true },
   { id: "archive", label: "Archivia", disabled: true },
   { id: "docs", label: "Documentazione", href: "https://m3.material.io/" },
 ];
-document.querySelector<BubbleMenu>("#demo-menu-standard")!.items = [
+document.querySelector<BolleMenu>("#demo-menu-standard")!.items = [
   { id: "name", label: "Nome", selected: true },
   { id: "date", label: "Data di modifica" },
   { id: "size", label: "Dimensione" },
 ];
-document.querySelector<BubbleMenu>("#demo-menu-vibrant")!.items = [
+document.querySelector<BolleMenu>("#demo-menu-vibrant")!.items = [
   { id: "documents", label: "Documenti", selected: true, badge: "12" },
   { id: "images", label: "Immagini", badge: "8" },
   { id: "video", label: "Video", disabled: true },
 ];
-document.querySelector<BubbleMenu>("#demo-menu-groups")!.items = [
+document.querySelector<BolleMenu>("#demo-menu-groups")!.items = [
   {
     group: true,
     label: "Testo",
@@ -1514,7 +1514,7 @@ document.querySelector<BubbleMenu>("#demo-menu-groups")!.items = [
     ],
   },
 ];
-document.querySelector<BubbleMenu>("#demo-menu-nested")!.items = [
+document.querySelector<BolleMenu>("#demo-menu-nested")!.items = [
   {
     id: "share",
     label: "Condividi",
@@ -1534,7 +1534,7 @@ document.querySelector<BubbleMenu>("#demo-menu-nested")!.items = [
   },
 ];
 
-document.querySelectorAll("bubble-menu").forEach((element) =>
+document.querySelectorAll("bolle-menu").forEach((element) =>
   element.addEventListener("menu-select", (event) => {
     const detail = (event as CustomEvent<{ item: { label: string } }>).detail;
     document.getElementById("result")!.textContent =

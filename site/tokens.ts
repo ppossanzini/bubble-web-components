@@ -1,10 +1,11 @@
 import {
+  DynamicScheme,
   Hct,
   MaterialDynamicColors,
   SchemeTonalSpot,
+  TonalPalette,
   argbFromHex,
   hexFromArgb,
-  type DynamicScheme,
 } from "@material/material-color-utilities";
 
 export type ThemeName = "light" | "dark";
@@ -161,19 +162,31 @@ const DYNAMIC_ROLES: Record<string, (scheme: DynamicScheme) => number> = {
 };
 
 /**
- * Derives a full M3 colour scheme from a seed colour through HCT, using the
- * Material tonal-spot variant. Contrast runs from 0 (standard) to 1 (high).
+ * Derives a full M3 colour scheme from a seed colour through HCT: tonal spot
+ * roles, with a primary palette that keeps the seed chroma (as scripts/colors.mjs).
+ * Contrast runs from 0 (standard) to 1 (high).
  */
 export function hctScheme(
   seed: string,
   theme: ThemeName,
   contrast = 0,
 ): Record<string, string> {
-  const scheme = new SchemeTonalSpot(
+  const base = new SchemeTonalSpot(
     Hct.fromInt(argbFromHex(seed)),
     theme === "dark",
     contrast,
   );
+  const scheme = new DynamicScheme({
+    sourceColorHct: base.sourceColorHct,
+    variant: base.variant,
+    contrastLevel: contrast,
+    isDark: theme === "dark",
+    primaryPalette: TonalPalette.fromInt(argbFromHex(seed)),
+    secondaryPalette: base.secondaryPalette,
+    tertiaryPalette: base.tertiaryPalette,
+    neutralPalette: base.neutralPalette,
+    neutralVariantPalette: base.neutralVariantPalette,
+  });
   return Object.fromEntries(
     COLOR_ROLES.map((role) => [
       role.token,
@@ -183,11 +196,12 @@ export function hctScheme(
 }
 
 export const FONT_STACKS: Record<string, string> = {
-  Roboto: "Roboto, sans-serif",
+  Figtree: "Figtree, system-ui, sans-serif",
+  Fredoka: "Fredoka, Figtree, system-ui, sans-serif",
   Sistema: "system-ui, sans-serif",
   Georgia: "Georgia, serif",
   Times: "'Times New Roman', serif",
-  Monospace: "ui-monospace, SFMono-Regular, Menlo, monospace",
+  Monospace: "'JetBrains Mono', ui-monospace, monospace",
   Trebuchet: "'Trebuchet MS', sans-serif",
 };
 
@@ -200,13 +214,13 @@ interface ThemePreset {
 }
 
 export const THEME_PRESETS: ThemePreset[] = [
+  { id: "bolle", label: "Viola", seed: "#5B4CF0" },
+  { id: "laguna", label: "Laguna", seed: "#0E7C86" },
+  { id: "corallo", label: "Corallo", seed: "#C2410C" },
+  { id: "bosco", label: "Bosco", seed: "#2F7D32" },
   { id: "oceano", label: "Oceano", seed: "#00639b" },
-  { id: "foresta", label: "Foresta", seed: "#2f6a45" },
-  { id: "teal", label: "Teal", seed: "#006a6a" },
   { id: "ambra", label: "Ambra", seed: "#7a5900" },
-  { id: "terracotta", label: "Terracotta", seed: "#8b4a3b" },
   { id: "grafite", label: "Grafite", seed: "#5a6068" },
-  { id: "viola", label: "Viola M3", seed: "#6750a4" },
 ];
 
 export const DEFAULT_THEME_PRESET = THEME_PRESETS[0];
@@ -222,8 +236,8 @@ export const presetTokenSet = (
   shapes: Object.fromEntries(
     SHAPE_TOKENS.map((shape) => [shape.token, shape.fallback]),
   ),
-  brandFont: "Roboto",
-  plainFont: "Roboto",
+  brandFont: "Figtree",
+  plainFont: "Figtree",
   baseSize: 16,
 });
 

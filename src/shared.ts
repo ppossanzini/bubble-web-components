@@ -1,7 +1,7 @@
 import { LitElement } from "lit";
-import type { TemplateResult } from "lit";
+import type { PropertyDeclarations, TemplateResult } from "lit";
 
-export interface BubbleItem {
+export interface BolleItem {
   id: string;
   label: string;
   icon?: string | TemplateResult;
@@ -10,11 +10,113 @@ export interface BubbleItem {
   href?: string;
   selected?: boolean;
   disabled?: boolean;
-  items?: BubbleItem[];
+  items?: BolleItem[];
   expanded?: boolean;
 }
 
-export class BubbleElement extends LitElement {
+/** Points the narrow corner of a floating surface toward the element it came from. */
+export function placeTail(surface: HTMLElement, anchor: DOMRect) {
+  const box = surface.getBoundingClientRect();
+  const vertical =
+    box.top + box.height / 2 >= anchor.top + anchor.height / 2
+      ? "top"
+      : "bottom";
+  // 2px tolerance keeps centred surfaces (tooltips) on the left corner.
+  const horizontal =
+    box.left + box.width / 2 >= anchor.left + anchor.width / 2 - 2
+      ? "left"
+      : "right";
+  surface.dataset.tail = `${vertical}-${horizontal}`;
+}
+
+const FOCUSABLE =
+  'button:not([disabled]), a[href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex="0"]';
+const shortcutHosts = new Set<BolleElement>();
+
+function matchesShortcut(event: KeyboardEvent, shortcut: string) {
+  const parts = shortcut.split("+");
+  const key = parts.pop()!.toLowerCase();
+  const mods = new Set(parts.map((p) => p.toLowerCase()));
+  if (
+    mods.has("alt") !== event.altKey ||
+    mods.has("control") !== event.ctrlKey ||
+    mods.has("meta") !== event.metaKey ||
+    mods.has("shift") !== event.shiftKey
+  )
+    return false;
+  // event.code keeps Alt/Option combinations matchable on macOS layouts.
+  return (
+    event.key.toLowerCase() === key ||
+    event.code.toLowerCase() === `key${key}` ||
+    event.code.toLowerCase() === `digit${key}`
+  );
+}
+
+function isEditable(event: KeyboardEvent) {
+  const target = event.composedPath()[0];
+  return (
+    target instanceof HTMLElement &&
+    (target.isContentEditable ||
+      target.matches("input, textarea, select"))
+  );
+}
+
+function onShortcutKey(event: KeyboardEvent) {
+  if (event.defaultPrevented || event.repeat) return;
+  const bare = !event.altKey && !event.ctrlKey && !event.metaKey;
+  if (bare && isEditable(event)) return;
+  for (const host of shortcutHosts) {
+    const target = host.shortcutTarget();
+    if (
+      !target ||
+      host.hasAttribute("disabled") ||
+      !host.checkVisibility() ||
+      !host.shortcut.split(/\s+/).some((s) => s && matchesShortcut(event, s))
+    )
+      continue;
+    event.preventDefault();
+    target.focus();
+    if (
+      target.matches("button, a, input[type=checkbox], input[type=radio]")
+    )
+      target.click();
+    return;
+  }
+}
+
+export class BolleElement extends LitElement {
+  static properties: PropertyDeclarations = { shortcut: { reflect: true } };
+  /** ARIA `aria-keyshortcuts` syntax, e.g. "Alt+S" or "Control+Shift+K Meta+K". */
+  shortcut = "";
+
+  constructor() {
+    super();
+    this.addController({
+      hostConnected: () => {
+        if (!shortcutHosts.size)
+          document.addEventListener("keydown", onShortcutKey);
+        shortcutHosts.add(this);
+      },
+      hostDisconnected: () => {
+        shortcutHosts.delete(this);
+        if (!shortcutHosts.size)
+          document.removeEventListener("keydown", onShortcutKey);
+      },
+      hostUpdated: () => {
+        const target = this.renderRoot.querySelector<HTMLElement>(FOCUSABLE);
+        const value = this.shortcut.trim();
+        if (value) target?.setAttribute("aria-keyshortcuts", value);
+        else target?.removeAttribute("aria-keyshortcuts");
+      },
+    });
+  }
+
+  /** The control a shortcut focuses or activates; null when the host is not focusable. */
+  shortcutTarget(): HTMLElement | null {
+    if (!this.shortcut.trim()) return null;
+    return this.renderRoot?.querySelector<HTMLElement>(FOCUSABLE) ?? null;
+  }
+
   emit<T>(name: string, detail: T) {
     return this.dispatchEvent(
       new CustomEvent(name, {
@@ -28,7 +130,7 @@ export class BubbleElement extends LitElement {
 }
 
 /** Form-associated hosts submit values without hidden inputs or duplicate names. */
-export abstract class BubbleFormElement extends BubbleElement {
+export abstract class BolleFormElement extends BolleElement {
   static formAssociated = true;
   static shadowRootOptions = {
     ...LitElement.shadowRootOptions,

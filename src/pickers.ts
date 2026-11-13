@@ -1,5 +1,5 @@
 import { html, nothing } from "lit";
-import { BubbleTextField } from "./forms.js";
+import { BolleTextField } from "./forms.js";
 import { commonStyles } from "./shared.styles.js";
 import { formStyles } from "./forms.styles.js";
 import { pickerStyles } from "./pickers.styles.js";
@@ -11,9 +11,9 @@ import {
 } from "./calendar.logic.js";
 import { messages, type PickerLabels } from "./localization.js";
 
-class BubblePicker extends BubbleTextField {
+class BollePicker extends BolleTextField {
   static properties = {
-    ...BubbleTextField.properties,
+    ...BolleTextField.properties,
     locale: {},
     labels: { attribute: false },
     _open: { state: true },
@@ -89,9 +89,9 @@ class BubblePicker extends BubbleTextField {
   }
 }
 
-export class BubbleDatePicker extends BubblePicker {
+export class BolleDatePicker extends BollePicker {
   static properties = {
-    ...BubblePicker.properties,
+    ...BollePicker.properties,
     selectionMode: { attribute: "selection-mode" },
     endValue: { attribute: "end-value" },
     weekStartsOn: { type: Number, attribute: "week-starts-on" },
@@ -425,7 +425,7 @@ export class BubbleDatePicker extends BubblePicker {
   }
 }
 
-export class BubbleTimePicker extends BubblePicker {
+export class BolleTimePicker extends BollePicker {
   protected get triggerIcon() {
     return html`<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
       <path
@@ -435,7 +435,7 @@ export class BubbleTimePicker extends BubblePicker {
     </svg>`;
   }
   static properties = {
-    ...BubblePicker.properties,
+    ...BollePicker.properties,
     hourCycle: { type: Number, attribute: "hour-cycle" },
     _hour: { state: true },
     _minute: { state: true },

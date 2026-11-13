@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Bolle — Colori e tipografia</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Figtree:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B4CF0}a:hover{color:#3F31C9}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; background: #FFFFFF; font-family: Figtree, system-ui, sans-serif; color: #16142B; padding: 64px 80px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px">
+
+  <div style="display: flex; flex-direction: column; gap: 22px">
+    <h2 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 44px">Colori</h2>
+    <p style="margin: 0; font-size: 16px; line-height: 1.5; color: #4A4766">Il colore funzionale arriva dai ruoli tonali di M3 (seed #5B4CF0). La pellicola è un livello decorativo a parte e non comunica mai uno stato.</p>
+
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px">
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="height: 120px; border-radius: 24px 24px 24px 6px; background: #5B4CF0"></div>
+        <p style="margin: 0; font-weight: 700; font-size: 15px">Bolla · primario</p>
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">#5B4CF0 · 5,9:1 su bianco</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="height: 120px; border-radius: 24px 24px 24px 6px; background: #16142B"></div>
+        <p style="margin: 0; font-weight: 700; font-size: 15px">Inchiostro · testo</p>
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">#16142B · on-surface</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="height: 120px; border-radius: 24px 24px 24px 6px; background: #F7F5FF; border: 1px solid #E2DEF7; box-sizing: border-box"></div>
+        <p style="margin: 0; font-weight: 700; font-size: 15px">Schiuma · superficie</p>
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">#F7F5FF · surface</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="height: 72px; border-radius: 20px 20px 20px 6px; background: #E9E6FF"></div>
+        <p style="margin: 0; font-weight: 700; font-size: 15px">Lilla · container</p>
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">#E9E6FF</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="height: 72px; border-radius: 20px 20px 20px 6px; background: #4A4766"></div>
+        <p style="margin: 0; font-weight: 700; font-size: 15px">Nebbia · secondario</p>
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">#4A4766</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 8px">
+        <div style="height: 72px; border-radius: 20px 20px 20px 6px; background: #C2410C"></div>
+        <p style="margin: 0; font-weight: 700; font-size: 15px">Scoppio · accento</p>
+        <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">#C2410C · CTA rare</p>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px">
+      <p style="margin: 0; font-weight: 700; font-size: 15px">Pellicola · gradiente conico decorativo</p>
+      <div style="height: 64px; border-radius: 999px; background: linear-gradient(90deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"></div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">
+        <span>#7FD6FF ciano</span><span>#B79CFF lilla</span><span>#FF9ECF rosa</span><span>#FFD68A oro</span>
+      </div>
+      <p style="margin: 0; font-size: 14px; line-height: 1.5; color: #4A4766">Una sola superficie iridescente per schermata. Le tonalità ruotano di ±50° attorno al seed, così la pellicola segue il tema dinamico.</p>
+    </div>
+  </div>
+
+  <div style="display: flex; flex-direction: column; gap: 22px">
+    <h2 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 44px">Tipografia</h2>
+    <div style="display: flex; flex-direction: column; gap: 6px; border-top: 2px solid #16142B; padding-top: 18px">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4766">Display · Fredoka 600</p>
+      <p style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 84px; line-height: 1; letter-spacing: -0.02em">Aa Bolle</p>
+      <p style="margin: 0; font-size: 15px; color: #4A4766">Logo, titoli sopra i 32 px, numeri grandi. Rotondo come il nome.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; border-top: 2px solid #16142B; padding-top: 18px">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4766">Testo e UI · Figtree 400–700</p>
+      <p style="margin: 0; font-size: 34px; font-weight: 600; line-height: 1.15">Componenti morbidi, regole rigorose.</p>
+      <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #4A4766">Figtree è geometrica ma calda: leggibile a 14 px nelle etichette dei componenti e abbastanza tonda da dialogare con Fredoka.</p>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px; border-top: 2px solid #16142B; padding-top: 18px">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4766">Codice · JetBrains Mono</p>
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 18px; background: #16142B; color: #E9E6FF; padding: 16px 20px; border-radius: 18px 18px 18px 6px">&lt;bb-button variant="filled"&gt;Inizia&lt;/bb-button&gt;</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-size: 14px; color: #4A4766">
+      <div><p style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 40px; color: #16142B">57</p><p style="margin: 0">Display L</p></div>
+      <div><p style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 32px; color: #16142B">36</p><p style="margin: 0">Headline</p></div>
+      <div><p style="margin: 0; font-weight: 600; font-size: 22px; color: #16142B">22</p><p style="margin: 0">Title</p></div>
+      <div><p style="margin: 0; font-size: 16px; color: #16142B">16 · 14</p><p style="margin: 0">Body · Label</p></div>
+    </div>
+    <p style="margin: 0; font-size: 14px; color: #4A4766">Scala tipografica di M3 invariata: cambiano solo le famiglie.</p>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

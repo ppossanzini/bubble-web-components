@@ -1,16 +1,16 @@
 import { html, nothing, type TemplateResult } from "lit";
-import { BubbleFormElement, type BubbleItem } from "./shared.js";
+import { BolleFormElement, type BolleItem } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
 import { formStyles } from "./forms.styles.js";
 import { messages } from "./localization.js";
 
-export class BubbleCheckbox extends BubbleFormElement {
+export class BolleCheckbox extends BolleFormElement {
   static properties = {
     checked: { type: Boolean, reflect: true },
     indeterminate: { type: Boolean },
     supportingText: { attribute: "supporting-text" },
     error: { type: Boolean, reflect: true },
-    ...BubbleFormElement.properties,
+    ...BolleFormElement.properties,
   };
   static styles = [commonStyles, formStyles];
   checked = false;
@@ -77,9 +77,9 @@ export class BubbleCheckbox extends BubbleFormElement {
   }
 }
 
-export class BubbleSwitch extends BubbleCheckbox {
+export class BolleSwitch extends BolleCheckbox {
   static properties = {
-    ...BubbleCheckbox.properties,
+    ...BolleCheckbox.properties,
     icon: { attribute: false },
     iconSelected: { attribute: false },
   };
@@ -116,14 +116,14 @@ export class BubbleSwitch extends BubbleCheckbox {
   }
 }
 
-export class BubbleRadioButton extends BubbleCheckbox {
+export class BolleRadioButton extends BolleCheckbox {
   protected inputType = "radio";
   private peers() {
     if (!this.name) return [this];
     return Array.from(
       (
         this.getRootNode() as Document | ShadowRoot
-      ).querySelectorAll<BubbleRadioButton>("bubble-radio-button"),
+      ).querySelectorAll<BolleRadioButton>("bolle-radio-button"),
     ).filter(
       (radio) =>
         radio.name === this.name &&
@@ -220,9 +220,9 @@ export class BubbleRadioButton extends BubbleCheckbox {
   }
 }
 
-export class BubbleTextField extends BubbleFormElement {
+export class BolleTextField extends BolleFormElement {
   static properties = {
-    ...BubbleFormElement.properties,
+    ...BolleFormElement.properties,
     variant: { reflect: true },
     type: {},
     placeholder: {},
@@ -332,9 +332,9 @@ export class BubbleTextField extends BubbleFormElement {
   }
 }
 
-export class BubbleSearch extends BubbleTextField {
+export class BolleSearch extends BolleTextField {
   static properties = {
-    ...BubbleTextField.properties,
+    ...BolleTextField.properties,
     appearance: { reflect: true },
     layout: { reflect: true },
     suggestions: { attribute: false },
@@ -466,9 +466,9 @@ export class BubbleSearch extends BubbleTextField {
     </search>`;
   }
 }
-export class BubbleSlider extends BubbleFormElement {
+export class BolleSlider extends BolleFormElement {
   static properties = {
-    ...BubbleFormElement.properties,
+    ...BolleFormElement.properties,
     min: { type: Number },
     max: { type: Number },
     step: { type: Number },
@@ -602,7 +602,7 @@ export class BubbleSlider extends BubbleFormElement {
       class="range"
       data-variant=${this.variant}
       data-orientation=${this.orientation}
-      style=${`--bubble-slider-start:${start}%;--bubble-slider-end:${end}%`}
+      style=${`--bolle-slider-start:${start}%;--bolle-slider-end:${end}%`}
     >
       <div class="range-head">
         <label for=${this.rangeId}>${this.label}</label>
@@ -634,11 +634,11 @@ export class BubbleSlider extends BubbleFormElement {
           this.variant !== "range" &&
           this.orientation === "horizontal"
             ? html`<span
-                class="range-bubble"
+                class="range-bolle"
                 aria-hidden="true"
                 style=${
                   this.inset
-                    ? `--pos:calc(var(--bubble-inset) + (100% - 2 * var(--bubble-inset)) * ${this.percentValue / 100})`
+                    ? `--pos:calc(var(--bolle-inset) + (100% - 2 * var(--bolle-inset)) * ${this.percentValue / 100})`
                     : `--pos:${this.percentValue}%`
                 }
                 >${this.value}</span
@@ -722,18 +722,18 @@ export class BubbleSlider extends BubbleFormElement {
       </div>
     </div>`;
   }
-  private readonly rangeId = `bubble-slider-${Math.random().toString(36).slice(2, 9)}`;
+  private readonly rangeId = `bolle-slider-${Math.random().toString(36).slice(2, 9)}`;
 }
 
-export class BubbleSegmentedButtons extends BubbleFormElement {
+export class BolleSegmentedButtons extends BolleFormElement {
   static properties = {
-    ...BubbleFormElement.properties,
+    ...BolleFormElement.properties,
     items: { attribute: false },
     multiple: { type: Boolean },
     values: { attribute: false },
   };
   static styles = [commonStyles, formStyles];
-  items: BubbleItem[] = [];
+  items: BolleItem[] = [];
   multiple = false;
   values: string[] = [];
   private initialValues: string[] = [];
@@ -781,9 +781,35 @@ export class BubbleSegmentedButtons extends BubbleFormElement {
       this.values = JSON.parse(state);
     else super.formStateRestoreCallback(state);
   }
+  protected updated() {
+    super.updated();
+    this.placeDrop();
+  }
+  /** Moves the single-selection indicator under the checked segment. */
+  private placeDrop() {
+    const set = this.renderRoot.querySelector<HTMLElement>("fieldset");
+    const checked = this.renderRoot.querySelector<HTMLElement>(
+      "label:has(input:checked)",
+    );
+    if (!set) return;
+    set.toggleAttribute("data-drop", !this.multiple && !!checked);
+    if (this.multiple || !checked) return;
+    const drop = this.renderRoot.querySelector<HTMLElement>(".drop")!;
+    // Rect minus the live translate gives the abspos origin, which a fieldset legend shifts.
+    const [tx = 0, ty = 0] = getComputedStyle(drop)
+      .translate.split(" ")
+      .map((part) => parseFloat(part) || 0);
+    const origin = drop.getBoundingClientRect();
+    const box = checked.getBoundingClientRect();
+    set.style.setProperty("--drop-x", `${box.left - (origin.left - tx)}px`);
+    set.style.setProperty("--drop-y", `${box.top - (origin.top - ty)}px`);
+    set.style.setProperty("--drop-w", `${checked.offsetWidth}px`);
+    set.style.setProperty("--drop-h", `${checked.offsetHeight}px`);
+  }
   protected render() {
     return html`<fieldset ?disabled=${this.isDisabled}>
       <legend>${this.label}</legend>
+      <span class="segments"><span class="drop" aria-hidden="true"></span>
       ${this.items.map(
         (item) =>
           html`<label
@@ -804,7 +830,7 @@ export class BubbleSegmentedButtons extends BubbleFormElement {
               }}
             />${item.icon ? html`<span aria-hidden="true">${item.icon}</span>` : nothing}${item.label}</label
           >`,
-      )}
+      )}</span>
     </fieldset>`;
   }
 }
@@ -816,9 +842,9 @@ interface AutocompleteEntry {
 }
 
 /** Text field with a filtered list of suggestions, the Material form of an input with a datalist. */
-export class BubbleAutocomplete extends BubbleTextField {
+export class BolleAutocomplete extends BolleTextField {
   static properties = {
-    ...BubbleTextField.properties,
+    ...BolleTextField.properties,
     options: { attribute: false },
     _active: { state: true },
     _open: { state: true },

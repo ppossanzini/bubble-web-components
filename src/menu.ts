@@ -1,5 +1,7 @@
 import { LitElement, html, nothing } from "lit";
 import { menuStyles } from "./menu.styles.js";
+import { bolleStyles } from "./shared.styles.js";
+import { placeTail } from "./shared.js";
 import {
   flattenMenu,
   isAction,
@@ -12,7 +14,7 @@ import {
 
 let menuId = 0;
 
-export class BubbleMenu extends LitElement {
+export class BolleMenu extends LitElement {
   static properties = {
     items: { attribute: false },
     variant: { reflect: true },
@@ -27,7 +29,7 @@ export class BubbleMenu extends LitElement {
     _childItems: { state: true },
   };
 
-  static styles = menuStyles;
+  static styles = [bolleStyles, menuStyles];
   items: MenuEntry[] = [];
   variant: "vertical" | "baseline" = "vertical";
   colorScheme: "standard" | "vibrant" = "standard";
@@ -48,7 +50,7 @@ export class BubbleMenu extends LitElement {
   private hoverTimer?: ReturnType<typeof setTimeout>;
   private previousControls: string | null = null;
   private previousExpanded: string | null = null;
-  private readonly surfaceId = `bubble-menu-${++menuId}`;
+  private readonly surfaceId = `bolle-menu-${++menuId}`;
 
   get open(): boolean {
     return this.surface?.matches(":popover-open") ?? false;
@@ -63,7 +65,7 @@ export class BubbleMenu extends LitElement {
     return flattenMenu(this.items);
   }
   private get child() {
-    return this.renderRoot.querySelector<BubbleMenu>("bubble-menu");
+    return this.renderRoot.querySelector<BolleMenu>("bolle-menu");
   }
   get selectedIds(): string[] {
     return [
@@ -84,7 +86,7 @@ export class BubbleMenu extends LitElement {
   ) {
     if (this.open) this.close(false);
     if (!this.menuLabel.trim())
-      throw new Error("bubble-menu requires a localized menu-label.");
+      throw new Error("bolle-menu requires a localized menu-label.");
     if (this.variant === "baseline" && this.colorScheme === "vibrant")
       throw new Error("Vibrant colours require the vertical menu variant.");
     this.validateItems(this.items);
@@ -220,9 +222,9 @@ export class BubbleMenu extends LitElement {
     const box = surface.getBoundingClientRect();
     const rtl = getComputedStyle(this.anchor).direction === "rtl";
     const submenu =
-      this.parentElement instanceof BubbleMenu ||
+      this.parentElement instanceof BolleMenu ||
       (this.getRootNode() instanceof ShadowRoot &&
-        (this.getRootNode() as ShadowRoot).host instanceof BubbleMenu);
+        (this.getRootNode() as ShadowRoot).host instanceof BolleMenu);
     let left =
       this.point?.x ??
       (submenu
@@ -242,6 +244,10 @@ export class BubbleMenu extends LitElement {
           : rect.top - box.height;
     surface.style.left = `${Math.max(0, Math.min(left, innerWidth - box.width))}px`;
     surface.style.top = `${Math.max(0, Math.min(top, innerHeight - box.height))}px`;
+    placeTail(
+      surface,
+      this.point ? new DOMRect(this.point.x, this.point.y, 0, 0) : rect,
+    );
   };
 
   private async focusItem(index: number) {
@@ -454,7 +460,7 @@ export class BubbleMenu extends LitElement {
       </div>
       ${
         this._childItems.length
-          ? html`<bubble-menu
+          ? html`<bolle-menu
               .items=${this._childItems}
               .variant=${this.variant}
               .colorScheme=${this.colorScheme}
@@ -467,7 +473,7 @@ export class BubbleMenu extends LitElement {
               @menu-select=${() => {
                 if (this.selectionMode !== "multi") this.close();
               }}
-            ></bubble-menu>`
+            ></bolle-menu>`
           : nothing
       }`;
   }

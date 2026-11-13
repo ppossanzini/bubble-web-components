@@ -1,6 +1,9 @@
 import { css } from "lit";
 export const navigationStyles = css`
   :host {
+    --bb-glint-color: color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  }
+  :host {
     display: block;
   }
   nav,

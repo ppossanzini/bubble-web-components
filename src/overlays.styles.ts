@@ -32,6 +32,30 @@ export const overlayStyles = css`
   :host([variant="full-screen"]) dialog[open] {
     animation-name: page-in;
   }
+  /* Basic dialogs keep floating after entry: an almost imperceptible bob. */
+  :host(:not([placement], [variant="fullscreen"], [variant="full-screen"]))
+    dialog[open] {
+    animation:
+      overlay-in var(--md-sys-motion-duration-medium2)
+        var(--md-sys-motion-easing-emphasized-decelerate),
+      bb-bob var(--bb-bob-duration, 6s) ease-in-out
+        var(--md-sys-motion-duration-medium2) infinite;
+  }
+  @keyframes bb-bob {
+    0%,
+    100% {
+      translate: 0 0;
+      rotate: 0deg;
+    }
+    25% {
+      translate: 0 calc(-1 * var(--bb-bob-distance, 2px));
+      rotate: -0.15deg;
+    }
+    75% {
+      translate: 0 calc(var(--bb-bob-distance, 2px) / 2);
+      rotate: 0.15deg;
+    }
+  }
   @keyframes overlay-in {
     from {
       opacity: 0;
@@ -305,9 +329,10 @@ export const overlayStyles = css`
     gap: var(--md-comp-dialog-gap);
     background: var(--md-sys-color-inverse-surface);
     color: var(--md-sys-color-inverse-on-surface);
-    border-radius: var(--md-sys-shape-corner-extra-small);
+    border-radius: var(--bb-radius-m);
+    border-end-start-radius: var(--bb-tail);
     padding: var(--md-comp-snackbar-padding);
-    box-shadow: var(--md-sys-elevation-level3);
+    box-shadow: var(--bb-float-3, var(--md-sys-elevation-level3));
     position: fixed;
     inset-inline: var(--md-comp-dialog-padding);
     inset-block-end: var(--md-comp-dialog-padding);
@@ -345,17 +370,19 @@ export const overlayStyles = css`
     border: 0;
     background: var(--md-sys-color-inverse-surface);
     color: var(--md-sys-color-inverse-on-surface);
-    border-radius: var(--md-sys-shape-corner-extra-small);
+    --bb-corner: var(--bb-radius-s);
+    border-radius: var(--bb-shape, var(--md-sys-shape-corner-extra-small));
     padding: var(--md-comp-tooltip-padding);
     font: var(--md-sys-typescale-body-small-font);
   }
   :host([variant="rich"]) .tooltip {
     background: var(--md-sys-color-surface-container-high);
     color: var(--md-sys-color-on-surface);
-    border-radius: var(--md-sys-shape-corner-medium);
+    --bb-corner: var(--bb-radius-m);
+    border-radius: var(--bb-shape, var(--md-sys-shape-corner-medium));
     padding: 12px 16px 8px;
     font: var(--md-sys-typescale-body-medium-font);
-    box-shadow: var(--md-sys-elevation-level2);
+    box-shadow: var(--bb-float-2, var(--md-sys-elevation-level2));
   }
   :host([variant="rich"]) .tooltip .subhead {
     display: block;
@@ -396,8 +423,15 @@ export const overlayStyles = css`
     gap: var(--md-comp-action-gap);
     padding: var(--md-comp-action-gap);
     border: 0;
-    border-radius: var(--md-sys-shape-corner-large);
-    background: var(--md-sys-color-surface-container);
+    --bb-corner: var(--bb-radius);
+    border-radius: var(--bb-shape, var(--md-sys-shape-corner-large));
+    background: color-mix(
+      in srgb,
+      var(--md-sys-color-surface-container) var(--bb-glass-opacity, 100%),
+      transparent
+    );
+    backdrop-filter: blur(var(--bb-glass-blur, 0px));
+    box-shadow: var(--bb-float-2, none);
     color: var(--md-sys-color-on-surface);
     position: fixed;
     inset: auto;
@@ -405,16 +439,17 @@ export const overlayStyles = css`
     max-block-size: calc(100dvh - 112px);
     overflow: auto;
   }
-  .fab-actions:not(:popover-open) {
+  .fab-actions:not(:popover-open):not([data-tail]) {
     display: none;
   }
   .fab-trigger {
     min-inline-size: var(--md-comp-fab-height);
     min-block-size: var(--md-comp-fab-height);
     border-radius: var(--md-sys-shape-corner-large);
-    background: var(--md-sys-color-primary-container);
+    background-color: var(--md-sys-color-primary-container);
+    background-image: var(--bb-highlight), var(--bb-film-wash);
     color: var(--md-sys-color-on-primary-container);
-    box-shadow: var(--md-sys-elevation-level2);
+    box-shadow: var(--bb-float-3, var(--md-sys-elevation-level2));
   }
   .fab-item {
     font: var(--md-sys-typescale-label-large-font);
@@ -443,29 +478,29 @@ export const overlayStyles = css`
     align-items: stretch;
     gap: var(--md-comp-split-gap);
   }
-  :host([split]) bubble-button {
-    --bubble-button-corner-start-start: var(--md-sys-shape-corner-full);
-    --bubble-button-corner-start-end: var(--md-sys-shape-corner-extra-small);
-    --bubble-button-corner-end-end: var(--md-sys-shape-corner-extra-small);
-    --bubble-button-corner-end-start: var(--md-sys-shape-corner-full);
+  :host([split]) bolle-button {
+    --bolle-button-corner-start-start: var(--md-sys-shape-corner-full);
+    --bolle-button-corner-start-end: var(--md-sys-shape-corner-extra-small);
+    --bolle-button-corner-end-end: var(--md-sys-shape-corner-extra-small);
+    --bolle-button-corner-end-start: var(--md-sys-shape-corner-full);
   }
-  :host([split]) bubble-icon-button {
-    --bubble-button-corner-start-start: var(--md-sys-shape-corner-extra-small);
-    --bubble-button-corner-start-end: var(--md-sys-shape-corner-full);
-    --bubble-button-corner-end-end: var(--md-sys-shape-corner-full);
-    --bubble-button-corner-end-start: var(--md-sys-shape-corner-extra-small);
+  :host([split]) bolle-icon-button {
+    --bolle-button-corner-start-start: var(--md-sys-shape-corner-extra-small);
+    --bolle-button-corner-start-end: var(--md-sys-shape-corner-full);
+    --bolle-button-corner-end-end: var(--md-sys-shape-corner-full);
+    --bolle-button-corner-end-start: var(--md-sys-shape-corner-extra-small);
   }
-  :host([split]:dir(rtl)) bubble-button {
-    --bubble-button-corner-start-start: var(--md-sys-shape-corner-extra-small);
-    --bubble-button-corner-start-end: var(--md-sys-shape-corner-full);
-    --bubble-button-corner-end-end: var(--md-sys-shape-corner-full);
-    --bubble-button-corner-end-start: var(--md-sys-shape-corner-extra-small);
+  :host([split]:dir(rtl)) bolle-button {
+    --bolle-button-corner-start-start: var(--md-sys-shape-corner-extra-small);
+    --bolle-button-corner-start-end: var(--md-sys-shape-corner-full);
+    --bolle-button-corner-end-end: var(--md-sys-shape-corner-full);
+    --bolle-button-corner-end-start: var(--md-sys-shape-corner-extra-small);
   }
-  :host([split]:dir(rtl)) bubble-icon-button {
-    --bubble-button-corner-start-start: var(--md-sys-shape-corner-full);
-    --bubble-button-corner-start-end: var(--md-sys-shape-corner-extra-small);
-    --bubble-button-corner-end-end: var(--md-sys-shape-corner-extra-small);
-    --bubble-button-corner-end-start: var(--md-sys-shape-corner-full);
+  :host([split]:dir(rtl)) bolle-icon-button {
+    --bolle-button-corner-start-start: var(--md-sys-shape-corner-full);
+    --bolle-button-corner-start-end: var(--md-sys-shape-corner-extra-small);
+    --bolle-button-corner-end-end: var(--md-sys-shape-corner-extra-small);
+    --bolle-button-corner-end-start: var(--md-sys-shape-corner-full);
   }
   nav a {
     font: var(--md-sys-typescale-label-large-font);

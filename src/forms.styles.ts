@@ -1,6 +1,9 @@
 import { css } from "lit";
 export const formStyles = css`
   :host {
+    --bb-glint-color: color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  }
+  :host {
     display: inline-block;
     max-inline-size: 100%;
   }
@@ -348,14 +351,14 @@ export const formStyles = css`
   }
   .autocomplete-list li:hover {
     background-image: linear-gradient(
-      var(--bubble-state-hover),
-      var(--bubble-state-hover)
+      var(--bolle-state-hover),
+      var(--bolle-state-hover)
     );
   }
   .autocomplete-list li[aria-selected="true"] {
     background-image: linear-gradient(
-      var(--bubble-state-pressed),
-      var(--bubble-state-pressed)
+      var(--bolle-state-pressed),
+      var(--bolle-state-pressed)
     );
   }
   .autocomplete-list li[aria-disabled="true"] {
@@ -474,27 +477,75 @@ export const formStyles = css`
   fieldset label:has(input:checked)::before {
     content: "✓";
   }
+  fieldset {
+    position: relative;
+    isolation: isolate;
+  }
+  /* Borderless track: one filled pill holds the segments and the liquid drop. */
+  .segments {
+    position: relative;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 2px;
+    padding: 4px;
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-surface-container-high);
+  }
+  fieldset .segments label {
+    border: 0;
+    border-radius: var(--md-sys-shape-corner-full);
+  }
+  fieldset label {
+    z-index: 1;
+    transition: color var(--md-sys-motion-duration-short4);
+  }
+  .drop {
+    position: absolute;
+    inset-block-start: 0;
+    left: 0;
+    z-index: 0;
+    display: none;
+    inline-size: var(--drop-w, 0);
+    block-size: var(--drop-h, 0);
+    translate: var(--drop-x, 0) var(--drop-y, 0);
+    border-radius: var(--md-sys-shape-corner-full);
+    background: var(--md-sys-color-secondary-container);
+    transition:
+      translate var(--bb-tension-duration) var(--bb-tension),
+      inline-size var(--bb-tension-duration) var(--bb-tension);
+  }
+  fieldset[data-drop] .drop {
+    display: block;
+  }
+  fieldset[data-drop] label:has(input:checked) {
+    background: transparent;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .drop {
+      transition: none;
+    }
+  }
   .range {
     display: grid;
     gap: var(--md-comp-field-gap);
     inline-size: 100%;
     max-inline-size: var(--md-comp-slider-max-width);
-    --bubble-track: var(--md-comp-slider-xs-track);
-    --bubble-handle: var(--md-comp-slider-xs-handle);
+    --bolle-track: var(--md-comp-slider-xs-track);
+    --bolle-handle: var(--md-comp-slider-xs-handle);
   }
   :host([size="small"]) {
-    --bubble-track: var(--md-comp-slider-small-track);
+    --bolle-track: var(--md-comp-slider-small-track);
   }
   :host([size="medium"]) {
-    --bubble-track: var(--md-comp-slider-medium-track);
+    --bolle-track: var(--md-comp-slider-medium-track);
   }
   :host([size="large"]) {
-    --bubble-track: var(--md-comp-slider-large-track);
-    --bubble-handle: var(--md-comp-slider-large-handle);
+    --bolle-track: var(--md-comp-slider-large-track);
+    --bolle-handle: var(--md-comp-slider-large-handle);
   }
   :host([size="xl"]) {
-    --bubble-track: var(--md-comp-slider-xl-track);
-    --bubble-handle: var(--md-comp-slider-xl-handle);
+    --bolle-track: var(--md-comp-slider-xl-track);
+    --bolle-handle: var(--md-comp-slider-xl-handle);
   }
   .range-head {
     display: flex;
@@ -517,19 +568,19 @@ export const formStyles = css`
     position: relative;
     display: flex;
     align-items: center;
-    block-size: var(--bubble-handle);
+    block-size: var(--bolle-handle);
     min-inline-size: var(--md-comp-slider-min-width);
   }
   .range-area[data-inset] {
-    --bubble-inset: calc(24px + var(--md-comp-field-gap));
+    --bolle-inset: calc(24px + var(--md-comp-field-gap));
   }
   .range-area[data-inset] .range-track,
   .range-area[data-inset] .stop-marks {
-    inset-inline: var(--bubble-inset);
+    inset-inline: var(--bolle-inset);
   }
   .range-area[data-inset] .slider {
-    inset-inline: var(--bubble-inset);
-    inline-size: calc(100% - 2 * var(--bubble-inset));
+    inset-inline: var(--bolle-inset);
+    inline-size: calc(100% - 2 * var(--bolle-inset));
   }
   .range-inset {
     position: absolute;
@@ -551,7 +602,7 @@ export const formStyles = css`
     inline-size: 24px;
     block-size: 24px;
   }
-  .range-bubble {
+  .range-bolle {
     position: absolute;
     z-index: 4;
     inset-block-end: calc(100% + 12px);
@@ -572,19 +623,19 @@ export const formStyles = css`
     transition: opacity var(--md-sys-motion-duration-short4)
       var(--md-sys-motion-easing-standard);
   }
-  .range:hover .range-bubble,
-  .range:focus-within .range-bubble,
-  .range:active .range-bubble {
+  .range:hover .range-bolle,
+  .range:focus-within .range-bolle,
+  .range:active .range-bolle {
     opacity: 1;
   }
-  :host([orientation="vertical"]) .range-bubble {
+  :host([orientation="vertical"]) .range-bolle {
     display: none;
   }
   .range-track {
     position: absolute;
     z-index: 0;
     inset-inline: 0;
-    block-size: var(--bubble-track);
+    block-size: var(--bolle-track);
     border-radius: var(--md-sys-shape-corner-full);
     background: var(--md-sys-color-secondary-container);
     overflow: hidden;
@@ -593,9 +644,9 @@ export const formStyles = css`
     position: absolute;
     z-index: 2;
     inset-block: 0;
-    inset-inline-start: var(--bubble-slider-start, 0%);
+    inset-inline-start: var(--bolle-slider-start, 0%);
     inline-size: calc(
-      var(--bubble-slider-end, 0%) - var(--bubble-slider-start, 0%)
+      var(--bolle-slider-end, 0%) - var(--bolle-slider-start, 0%)
     );
     background: var(--md-sys-color-primary);
     border-start-end-radius: 2px;
@@ -606,7 +657,7 @@ export const formStyles = css`
     z-index: 3;
     inset-inline: 0;
     inline-size: 100%;
-    block-size: var(--bubble-handle);
+    block-size: var(--bolle-handle);
     margin: 0;
     padding: 0;
     appearance: none;
@@ -615,12 +666,12 @@ export const formStyles = css`
   }
   .slider::-webkit-slider-runnable-track {
     background: transparent;
-    block-size: var(--bubble-track);
+    block-size: var(--bolle-track);
   }
   .slider::-webkit-slider-thumb {
     appearance: none;
     inline-size: var(--md-comp-slider-handle-width);
-    block-size: var(--bubble-handle);
+    block-size: var(--bolle-handle);
     border: 0;
     border-radius: var(--md-sys-shape-corner-full);
     background: var(--md-sys-color-primary);
@@ -630,11 +681,11 @@ export const formStyles = css`
   }
   .slider::-moz-range-track {
     background: transparent;
-    block-size: var(--bubble-track);
+    block-size: var(--bolle-track);
   }
   .slider::-moz-range-thumb {
     inline-size: var(--md-comp-slider-handle-width);
-    block-size: var(--bubble-handle);
+    block-size: var(--bolle-handle);
     border: 0;
     border-radius: var(--md-sys-shape-corner-full);
     background: var(--md-sys-color-primary);
@@ -676,10 +727,10 @@ export const formStyles = css`
   }
   :host([orientation="vertical"]) .range-area {
     inline-size: var(--md-comp-slider-vertical-length);
-    block-size: var(--bubble-handle);
+    block-size: var(--bolle-handle);
     min-inline-size: 0;
     margin-block: calc(
-      (var(--md-comp-slider-vertical-length) - var(--bubble-handle)) / 2
+      (var(--md-comp-slider-vertical-length) - var(--bolle-handle)) / 2
     );
     transform: rotate(-90deg);
   }

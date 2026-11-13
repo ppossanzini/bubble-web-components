@@ -1,133 +1,133 @@
 import {
-  BubbleButton,
-  BubbleIconButton,
-  BubbleFloatingActionButton,
-  BubbleExtendedFab,
-  BubbleButtonGroup,
+  BolleButton,
+  BolleIconButton,
+  BolleFloatingActionButton,
+  BolleExtendedFab,
+  BolleButtonGroup,
 } from "./buttons.js";
 import {
-  BubbleCheckbox,
-  BubbleSwitch,
-  BubbleRadioButton,
-  BubbleTextField,
-  BubbleAutocomplete,
-  BubbleSearch,
-  BubbleSlider,
-  BubbleSegmentedButtons,
+  BolleCheckbox,
+  BolleSwitch,
+  BolleRadioButton,
+  BolleTextField,
+  BolleAutocomplete,
+  BolleSearch,
+  BolleSlider,
+  BolleSegmentedButtons,
 } from "./forms.js";
-import { BubbleSelect } from "./select.js";
-import { BubbleDatePicker, BubbleTimePicker } from "./pickers.js";
+import { BolleSelect } from "./select.js";
+import { BolleDatePicker, BolleTimePicker } from "./pickers.js";
 import {
-  BubbleDialog,
-  BubbleBottomSheet,
-  BubbleSideSheet,
-  BubbleNavigationDrawer,
-  BubbleSnackbar,
-  BubbleTooltip,
-  BubbleFabMenu,
-  BubbleSplitButton,
+  BolleDialog,
+  BolleBottomSheet,
+  BolleSideSheet,
+  BolleNavigationDrawer,
+  BolleSnackbar,
+  BolleTooltip,
+  BolleFabMenu,
+  BolleSplitButton,
 } from "./overlays.js";
 import {
-  BubbleAppBar,
-  BubbleToolbar,
-  BubbleCard,
-  BubbleBadge,
-  BubbleDivider,
-  BubbleList,
-  BubbleChip,
+  BolleAppBar,
+  BolleToolbar,
+  BolleCard,
+  BolleBadge,
+  BolleDivider,
+  BolleList,
+  BolleChip,
 } from "./surfaces.js";
 import {
-  BubbleNavigationBar,
-  BubbleNavigationRail,
-  BubbleTabs,
+  BolleNavigationBar,
+  BolleNavigationRail,
+  BolleTabs,
 } from "./navigation.js";
 import {
-  BubbleProgressIndicator,
-  BubbleLoadingIndicator,
-  BubbleCarousel,
+  BolleProgressIndicator,
+  BolleLoadingIndicator,
+  BolleCarousel,
 } from "./feedback.js";
 
 export {
-  BubbleButton,
-  BubbleIconButton,
-  BubbleFloatingActionButton,
-  BubbleExtendedFab,
-  BubbleButtonGroup,
-  BubbleCheckbox,
-  BubbleSwitch,
-  BubbleRadioButton,
-  BubbleTextField,
-  BubbleAutocomplete,
-  BubbleSelect,
-  BubbleSearch,
-  BubbleDatePicker,
-  BubbleTimePicker,
-  BubbleSlider,
-  BubbleSegmentedButtons,
-  BubbleDialog,
-  BubbleBottomSheet,
-  BubbleSideSheet,
-  BubbleNavigationDrawer,
-  BubbleSnackbar,
-  BubbleTooltip,
-  BubbleFabMenu,
-  BubbleSplitButton,
-  BubbleAppBar,
-  BubbleToolbar,
-  BubbleCard,
-  BubbleBadge,
-  BubbleDivider,
-  BubbleList,
-  BubbleChip,
-  BubbleNavigationBar,
-  BubbleNavigationRail,
-  BubbleTabs,
-  BubbleProgressIndicator,
-  BubbleLoadingIndicator,
-  BubbleCarousel,
+  BolleButton,
+  BolleIconButton,
+  BolleFloatingActionButton,
+  BolleExtendedFab,
+  BolleButtonGroup,
+  BolleCheckbox,
+  BolleSwitch,
+  BolleRadioButton,
+  BolleTextField,
+  BolleAutocomplete,
+  BolleSelect,
+  BolleSearch,
+  BolleDatePicker,
+  BolleTimePicker,
+  BolleSlider,
+  BolleSegmentedButtons,
+  BolleDialog,
+  BolleBottomSheet,
+  BolleSideSheet,
+  BolleNavigationDrawer,
+  BolleSnackbar,
+  BolleTooltip,
+  BolleFabMenu,
+  BolleSplitButton,
+  BolleAppBar,
+  BolleToolbar,
+  BolleCard,
+  BolleBadge,
+  BolleDivider,
+  BolleList,
+  BolleChip,
+  BolleNavigationBar,
+  BolleNavigationRail,
+  BolleTabs,
+  BolleProgressIndicator,
+  BolleLoadingIndicator,
+  BolleCarousel,
 };
-export type { BubbleItem } from "./shared.js";
+export type { BolleItem } from "./shared.js";
 export type { PickerLabels } from "./localization.js";
 export type * from "./catalogue.types.js";
 
 export const catalogue = {
-  "bubble-autocomplete": BubbleAutocomplete,
-  "bubble-app-bar": BubbleAppBar,
-  "bubble-badge": BubbleBadge,
-  "bubble-bottom-sheet": BubbleBottomSheet,
-  "bubble-button-group": BubbleButtonGroup,
-  "bubble-button": BubbleButton,
-  "bubble-card": BubbleCard,
-  "bubble-carousel": BubbleCarousel,
-  "bubble-checkbox": BubbleCheckbox,
-  "bubble-chip": BubbleChip,
-  "bubble-date-picker": BubbleDatePicker,
-  "bubble-dialog": BubbleDialog,
-  "bubble-divider": BubbleDivider,
-  "bubble-extended-fab": BubbleExtendedFab,
-  "bubble-fab-menu": BubbleFabMenu,
-  "bubble-floating-action-button": BubbleFloatingActionButton,
-  "bubble-icon-button": BubbleIconButton,
-  "bubble-list": BubbleList,
-  "bubble-loading-indicator": BubbleLoadingIndicator,
-  "bubble-navigation-bar": BubbleNavigationBar,
-  "bubble-navigation-drawer": BubbleNavigationDrawer,
-  "bubble-navigation-rail": BubbleNavigationRail,
-  "bubble-progress-indicator": BubbleProgressIndicator,
-  "bubble-radio-button": BubbleRadioButton,
-  "bubble-search": BubbleSearch,
-  "bubble-select": BubbleSelect,
-  "bubble-segmented-buttons": BubbleSegmentedButtons,
-  "bubble-side-sheet": BubbleSideSheet,
-  "bubble-slider": BubbleSlider,
-  "bubble-snackbar": BubbleSnackbar,
-  "bubble-split-button": BubbleSplitButton,
-  "bubble-switch": BubbleSwitch,
-  "bubble-tabs": BubbleTabs,
-  "bubble-text-field": BubbleTextField,
-  "bubble-time-picker": BubbleTimePicker,
-  "bubble-toolbar": BubbleToolbar,
-  "bubble-tooltip": BubbleTooltip,
+  "bolle-autocomplete": BolleAutocomplete,
+  "bolle-app-bar": BolleAppBar,
+  "bolle-badge": BolleBadge,
+  "bolle-bottom-sheet": BolleBottomSheet,
+  "bolle-button-group": BolleButtonGroup,
+  "bolle-button": BolleButton,
+  "bolle-card": BolleCard,
+  "bolle-carousel": BolleCarousel,
+  "bolle-checkbox": BolleCheckbox,
+  "bolle-chip": BolleChip,
+  "bolle-date-picker": BolleDatePicker,
+  "bolle-dialog": BolleDialog,
+  "bolle-divider": BolleDivider,
+  "bolle-extended-fab": BolleExtendedFab,
+  "bolle-fab-menu": BolleFabMenu,
+  "bolle-floating-action-button": BolleFloatingActionButton,
+  "bolle-icon-button": BolleIconButton,
+  "bolle-list": BolleList,
+  "bolle-loading-indicator": BolleLoadingIndicator,
+  "bolle-navigation-bar": BolleNavigationBar,
+  "bolle-navigation-drawer": BolleNavigationDrawer,
+  "bolle-navigation-rail": BolleNavigationRail,
+  "bolle-progress-indicator": BolleProgressIndicator,
+  "bolle-radio-button": BolleRadioButton,
+  "bolle-search": BolleSearch,
+  "bolle-select": BolleSelect,
+  "bolle-segmented-buttons": BolleSegmentedButtons,
+  "bolle-side-sheet": BolleSideSheet,
+  "bolle-slider": BolleSlider,
+  "bolle-snackbar": BolleSnackbar,
+  "bolle-split-button": BolleSplitButton,
+  "bolle-switch": BolleSwitch,
+  "bolle-tabs": BolleTabs,
+  "bolle-text-field": BolleTextField,
+  "bolle-time-picker": BolleTimePicker,
+  "bolle-toolbar": BolleToolbar,
+  "bolle-tooltip": BolleTooltip,
 } as const;
 
 for (const [name, constructor] of Object.entries(catalogue)) {
@@ -136,42 +136,42 @@ for (const [name, constructor] of Object.entries(catalogue)) {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "bubble-autocomplete": BubbleAutocomplete;
-    "bubble-app-bar": BubbleAppBar;
-    "bubble-badge": BubbleBadge;
-    "bubble-bottom-sheet": BubbleBottomSheet;
-    "bubble-button-group": BubbleButtonGroup;
-    "bubble-button": BubbleButton;
-    "bubble-card": BubbleCard;
-    "bubble-carousel": BubbleCarousel;
-    "bubble-checkbox": BubbleCheckbox;
-    "bubble-chip": BubbleChip;
-    "bubble-date-picker": BubbleDatePicker;
-    "bubble-dialog": BubbleDialog;
-    "bubble-divider": BubbleDivider;
-    "bubble-extended-fab": BubbleExtendedFab;
-    "bubble-fab-menu": BubbleFabMenu;
-    "bubble-floating-action-button": BubbleFloatingActionButton;
-    "bubble-icon-button": BubbleIconButton;
-    "bubble-list": BubbleList;
-    "bubble-loading-indicator": BubbleLoadingIndicator;
-    "bubble-navigation-bar": BubbleNavigationBar;
-    "bubble-navigation-drawer": BubbleNavigationDrawer;
-    "bubble-navigation-rail": BubbleNavigationRail;
-    "bubble-progress-indicator": BubbleProgressIndicator;
-    "bubble-radio-button": BubbleRadioButton;
-    "bubble-search": BubbleSearch;
-    "bubble-select": BubbleSelect;
-    "bubble-segmented-buttons": BubbleSegmentedButtons;
-    "bubble-side-sheet": BubbleSideSheet;
-    "bubble-slider": BubbleSlider;
-    "bubble-snackbar": BubbleSnackbar;
-    "bubble-split-button": BubbleSplitButton;
-    "bubble-switch": BubbleSwitch;
-    "bubble-tabs": BubbleTabs;
-    "bubble-text-field": BubbleTextField;
-    "bubble-time-picker": BubbleTimePicker;
-    "bubble-toolbar": BubbleToolbar;
-    "bubble-tooltip": BubbleTooltip;
+    "bolle-autocomplete": BolleAutocomplete;
+    "bolle-app-bar": BolleAppBar;
+    "bolle-badge": BolleBadge;
+    "bolle-bottom-sheet": BolleBottomSheet;
+    "bolle-button-group": BolleButtonGroup;
+    "bolle-button": BolleButton;
+    "bolle-card": BolleCard;
+    "bolle-carousel": BolleCarousel;
+    "bolle-checkbox": BolleCheckbox;
+    "bolle-chip": BolleChip;
+    "bolle-date-picker": BolleDatePicker;
+    "bolle-dialog": BolleDialog;
+    "bolle-divider": BolleDivider;
+    "bolle-extended-fab": BolleExtendedFab;
+    "bolle-fab-menu": BolleFabMenu;
+    "bolle-floating-action-button": BolleFloatingActionButton;
+    "bolle-icon-button": BolleIconButton;
+    "bolle-list": BolleList;
+    "bolle-loading-indicator": BolleLoadingIndicator;
+    "bolle-navigation-bar": BolleNavigationBar;
+    "bolle-navigation-drawer": BolleNavigationDrawer;
+    "bolle-navigation-rail": BolleNavigationRail;
+    "bolle-progress-indicator": BolleProgressIndicator;
+    "bolle-radio-button": BolleRadioButton;
+    "bolle-search": BolleSearch;
+    "bolle-select": BolleSelect;
+    "bolle-segmented-buttons": BolleSegmentedButtons;
+    "bolle-side-sheet": BolleSideSheet;
+    "bolle-slider": BolleSlider;
+    "bolle-snackbar": BolleSnackbar;
+    "bolle-split-button": BolleSplitButton;
+    "bolle-switch": BolleSwitch;
+    "bolle-tabs": BolleTabs;
+    "bolle-text-field": BolleTextField;
+    "bolle-time-picker": BolleTimePicker;
+    "bolle-toolbar": BolleToolbar;
+    "bolle-tooltip": BolleTooltip;
   }
 }

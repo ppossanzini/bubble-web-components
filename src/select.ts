@@ -1,10 +1,10 @@
 import { html, nothing } from "lit";
 import { createRef, ref } from "lit/directives/ref.js";
-import { BubbleFormElement } from "./shared.js";
+import { BolleFormElement } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
 import { formStyles } from "./forms.styles.js";
 import { selectStyles } from "./select.styles.js";
-import { BubbleMenu } from "./menu.js";
+import { BolleMenu } from "./menu.js";
 import type { MenuAction, MenuEntry } from "./menu.types.js";
 import { messages } from "./localization.js";
 
@@ -15,7 +15,7 @@ interface SelectOption {
 }
 
 /** Single choice over the `<option>` and `<optgroup>` children, rendered as a Material field. */
-export class BubbleSelect extends BubbleFormElement {
+export class BolleSelect extends BolleFormElement {
   static properties = {
     variant: { reflect: true },
     placeholder: {},
@@ -23,7 +23,7 @@ export class BubbleSelect extends BubbleFormElement {
     error: { type: Boolean, reflect: true },
     open: { type: Boolean, reflect: true },
     _revision: { state: true },
-    ...BubbleFormElement.properties,
+    ...BolleFormElement.properties,
   };
   static styles = [commonStyles, formStyles, selectStyles];
   variant = "filled";
@@ -32,7 +32,7 @@ export class BubbleSelect extends BubbleFormElement {
   error = false;
   open = false;
   private _revision = 0;
-  private menuRef = createRef<BubbleMenu>();
+  private menuRef = createRef<BolleMenu>();
   private observer?: MutationObserver;
 
   connectedCallback() {
@@ -185,14 +185,14 @@ export class BubbleSelect extends BubbleFormElement {
       <span class="support-row">
         <span class="support" id="support">${this.supportingText}</span>
       </span>
-      <bubble-menu
+      <bolle-menu
         ${ref(this.menuRef)}
         menu-label=${this.label || this.placeholder || "Select"}
         selection-mode="single"
         .items=${entries}
         @menu-select=${this.choose}
         @menu-close=${this.closed}
-      ></bubble-menu>
+      ></bolle-menu>
     </div>`;
   }
 }

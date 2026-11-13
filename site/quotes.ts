@@ -26,7 +26,7 @@ export interface Quote {
 
 /** Token name without the stylesheet prefix, the component name included. */
 export const shortTokenName = (token: string, tag: string): string => {
-  const component = tag.replace(/^bubble-/, "");
+  const component = tag.replace(/^bolle-/, "");
   const name = token.replace(/^--md-comp-/, "");
   return name.startsWith(component)
     ? name.slice(component.length).replace(/^-/, "")

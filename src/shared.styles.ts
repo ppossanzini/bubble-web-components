@@ -1,6 +1,125 @@
 import { css } from "lit";
 
+/** Bolle signature: tail corner toward the origin, inflate on open, pop on close. */
+export const bolleStyles = css`
+  :host {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+  input,
+  textarea,
+  [contenteditable]:not([contenteditable="false"]) {
+    -webkit-user-select: text;
+    user-select: text;
+  }
+  [data-tail] {
+    --bb-r: var(--bb-corner, var(--bb-radius));
+    --bb-shape: var(--bb-r);
+  }
+  [data-tail="top-left"] {
+    --bb-shape: var(--bb-tail) var(--bb-r) var(--bb-r) var(--bb-r);
+    transform-origin: top left;
+  }
+  [data-tail="top-right"] {
+    --bb-shape: var(--bb-r) var(--bb-tail) var(--bb-r) var(--bb-r);
+    transform-origin: top right;
+  }
+  [data-tail="bottom-right"] {
+    --bb-shape: var(--bb-r) var(--bb-r) var(--bb-tail) var(--bb-r);
+    transform-origin: bottom right;
+  }
+  [data-tail="bottom-left"] {
+    --bb-shape: var(--bb-r) var(--bb-r) var(--bb-r) var(--bb-tail);
+    transform-origin: bottom left;
+  }
+  [popover][data-tail] {
+    transition:
+      opacity var(--bb-pop-duration) ease-in,
+      scale var(--bb-pop-duration) ease-in,
+      overlay var(--bb-pop-duration) allow-discrete,
+      display var(--bb-pop-duration) allow-discrete;
+  }
+  [popover][data-tail]:popover-open {
+    animation: bb-inflate var(--bb-inflate-duration) ease-out;
+  }
+  [popover][data-tail]:not(:popover-open) {
+    opacity: 0;
+    scale: 1.05;
+  }
+  @keyframes bb-inflate {
+    0% {
+      opacity: 0;
+      scale: 0.6;
+    }
+    55% {
+      opacity: 1;
+      scale: 1.04;
+    }
+    80% {
+      scale: 0.99;
+    }
+    100% {
+      scale: 1;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [popover][data-tail]:popover-open {
+      animation: bb-fade var(--bb-pop-duration) linear;
+    }
+    [popover][data-tail]:not(:popover-open) {
+      scale: none;
+    }
+    @keyframes bb-fade {
+      from {
+        opacity: 0;
+      }
+    }
+  }
+`;
+
 export const commonStyles = css`
+  ${bolleStyles}
+  /* Film ring: decorative halo around the solid focus outline or the selected state. */
+  .button::before,
+  .chip::before {
+    content: "";
+    position: absolute;
+    inset: calc(-1 * var(--bb-ring-gap));
+    padding: var(--bb-ring-width);
+    border-radius: inherit;
+    background: var(--bb-film);
+    mask:
+      linear-gradient(#000 0 0) content-box exclude,
+      linear-gradient(#000 0 0);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--md-sys-motion-duration-short3);
+  }
+  .button:focus-visible::before,
+  .chip:has(:focus-visible)::before {
+    opacity: 1;
+  }
+  /* Solid inner ring carries focus; the film ring outside it is only decoration. */
+  .button:focus-visible,
+  .chip label:has(input:focus-visible),
+  .chip :is(button, a):focus-visible {
+    outline: 2px solid var(--md-sys-color-primary);
+    outline-offset: 1px;
+  }
+  :host([selected]),
+  [aria-current="page"],
+  [aria-current="true"],
+  [aria-selected="true"],
+  [aria-pressed="true"],
+  label:has(input:checked) {
+    --md-icon-fill: 1;
+  }
+  @media (forced-colors: active) {
+    .button::before,
+    .chip::before {
+      display: none;
+    }
+  }
   .icon {
     font-family: var(--md-ref-typeface-icons, inherit);
     font-variation-settings:
@@ -13,6 +132,7 @@ export const commonStyles = css`
     line-height: 1;
     direction: ltr;
     text-transform: none;
+    transition: font-variation-settings var(--md-sys-motion-duration-short4);
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -69,29 +189,36 @@ export const commonStyles = css`
     position: relative;
   }
   button:not(:disabled):hover,
-  a:hover {
-    background-image: linear-gradient(
-      var(--bubble-state-hover),
-      var(--bubble-state-hover)
-    );
+  a:hover,
+  label:has(> input:not(:disabled)):hover {
+    background-image:
+      linear-gradient(var(--bolle-state-hover), var(--bolle-state-hover)),
+      var(--bb-hover-glint);
   }
   button:not(:disabled):active,
-  a:active {
-    background-image: linear-gradient(
-      var(--bubble-state-pressed),
-      var(--bubble-state-pressed)
-    );
+  a:active,
+  label:has(> input:not(:disabled)):active {
+    background-image:
+      linear-gradient(var(--bolle-state-pressed), var(--bolle-state-pressed)),
+      var(--bb-hover-glint);
   }
   :host {
-    --bubble-state-hover: color-mix(in srgb, currentColor 8%, transparent);
-    --bubble-state-pressed: color-mix(in srgb, currentColor 10%, transparent);
+    --bolle-state-hover: color-mix(in srgb, currentColor 8%, transparent);
+    --bolle-state-pressed: color-mix(in srgb, currentColor 10%, transparent);
+    /* Fixed-size glint, so it stays a droplet on wide controls; declared on the host to read its --bb-glint-color. */
+    --bb-hover-glint: radial-gradient(
+      ellipse var(--bb-glint-width, 9px) var(--bb-glint-height, 5px) at
+        calc(100% - var(--bb-glint-inset, 18px)) var(--bb-glint-top, 10px),
+      var(--bb-glint-color, rgb(255 255 255 / 0.8)) 0 60%,
+      transparent 100%
+    );
   }
   .support {
     color: var(--md-sys-color-on-surface-variant);
     font: var(--md-sys-typescale-body-small-font);
   }
   @media (prefers-reduced-motion: reduce) {
-    *,
+    *:not([data-tail]),
     *::before,
     *::after {
       animation: none !important;

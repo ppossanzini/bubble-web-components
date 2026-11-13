@@ -1,9 +1,9 @@
 import { LitElement, html } from "lit";
 import { createRef, ref } from "lit/directives/ref.js";
-import type { BubbleMenu } from "../src/index.js";
+import type { BolleMenu } from "../src/index.js";
 import { ti } from "../demo/icons.js";
 
-/** Compact single-select built from bubble-button + bubble-menu. */
+/** Compact single-select built from bolle-button + bolle-menu. */
 export class DocsSelect extends LitElement {
   static properties = {
     label: {},
@@ -13,7 +13,7 @@ export class DocsSelect extends LitElement {
   declare label: string;
   declare value: string;
   declare options: string[];
-  private menu = createRef<BubbleMenu>();
+  private menu = createRef<BolleMenu>();
 
   constructor() {
     super();
@@ -44,15 +44,15 @@ export class DocsSelect extends LitElement {
 
   protected render() {
     return html`
-      <bubble-button
+      <bolle-button
         variant="outlined"
         haspopup="menu"
         .label=${`${this.label}: ${this.value}`}
         @click=${this.open}
       >
         ${this.value} ${ti("chevron-down")}
-      </bubble-button>
-      <bubble-menu
+      </bolle-button>
+      <bolle-menu
         ${ref(this.menu)}
         menu-label=${this.label}
         selection-mode="single"
@@ -62,7 +62,7 @@ export class DocsSelect extends LitElement {
           selected: id === this.value,
         }))}
         @menu-select=${this.select}
-      ></bubble-menu>
+      ></bolle-menu>
     `;
   }
 }

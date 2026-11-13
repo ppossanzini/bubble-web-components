@@ -13,27 +13,35 @@ export const buttonStyles = css`
     min-block-size: var(--md-comp-button-small-height);
     padding-inline: var(--md-comp-button-padding);
     border-start-start-radius: var(
-      --bubble-button-corner-start-start,
-      var(--bubble-button-shape, var(--md-sys-shape-corner-full))
+      --bolle-button-corner-start-start,
+      var(--bolle-button-shape, var(--md-sys-shape-corner-full))
     );
     border-start-end-radius: var(
-      --bubble-button-corner-start-end,
-      var(--bubble-button-shape, var(--md-sys-shape-corner-full))
+      --bolle-button-corner-start-end,
+      var(--bolle-button-shape, var(--md-sys-shape-corner-full))
     );
     border-end-end-radius: var(
-      --bubble-button-corner-end-end,
-      var(--bubble-button-shape, var(--md-sys-shape-corner-full))
+      --bolle-button-corner-end-end,
+      var(--bolle-button-shape, var(--md-sys-shape-corner-full))
     );
     border-end-start-radius: var(
-      --bubble-button-corner-end-start,
-      var(--bubble-button-shape, var(--md-sys-shape-corner-full))
+      --bolle-button-corner-end-start,
+      var(--bolle-button-shape, var(--md-sys-shape-corner-full))
     );
     text-decoration: none;
     background-color: var(--md-sys-color-primary);
     color: var(--md-sys-color-on-primary);
     font: var(--md-sys-typescale-label-large-font);
     letter-spacing: var(--md-sys-typescale-label-large-tracking);
-    transition: border-radius var(--md-sys-motion-duration-short2);
+    transition:
+      border-radius var(--md-sys-motion-duration-short2),
+      scale var(--bb-tension-duration) var(--bb-tension);
+  }
+  .button:active {
+    scale: var(--bb-squish);
+    transition:
+      border-radius var(--md-sys-motion-duration-short2),
+      scale var(--bb-squish-duration) ease-out;
   }
   :host([shape="square"]) .button {
     border-radius: var(--md-sys-shape-corner-medium);
@@ -61,10 +69,21 @@ export const buttonStyles = css`
     position: absolute;
     inset: -4px;
   }
+  :host([variant="text"]),
+  :host([variant="standard"]),
+  :host([variant="outlined"]),
+  :host([variant="elevated"]) {
+    /* No coloured fill to reflect on: the glint takes the label colour. */
+    --bb-glint-color: color-mix(in srgb, currentColor 35%, transparent);
+  }
   :host([variant="tonal"]) .button,
   :host([variant="filled-tonal"]) .button {
     background-color: var(--md-sys-color-secondary-container);
     color: var(--md-sys-color-on-secondary-container);
+  }
+  :host([variant="accent"]) .button {
+    background-color: var(--bb-accent);
+    color: var(--bb-on-accent);
   }
   :host([variant="outlined"]) .button {
     background-color: transparent;
@@ -181,14 +200,21 @@ export const buttonStyles = css`
     min-block-size: var(--md-comp-fab-height);
     min-inline-size: var(--md-comp-fab-height);
     background-color: var(--md-sys-color-primary-container);
+    background-image: var(--bb-highlight), var(--bb-film-wash);
     color: var(--md-sys-color-on-primary-container);
     border-radius: var(--md-sys-shape-corner-large);
-    box-shadow: var(--md-sys-elevation-level3);
+    box-shadow: var(--bb-float-3, var(--md-sys-elevation-level3));
   }
   :host([fab]) .button:hover {
-    box-shadow: var(--md-sys-elevation-level4);
+    background-image:
+      linear-gradient(var(--bolle-state-hover), var(--bolle-state-hover)),
+      var(--bb-hover-glint), var(--bb-highlight), var(--bb-film-wash);
+    box-shadow: var(--bb-float-4, var(--md-sys-elevation-level4));
   }
   :host([fab]) .button:active {
+    background-image:
+      linear-gradient(var(--bolle-state-pressed), var(--bolle-state-pressed)),
+      var(--bb-highlight), var(--bb-film-wash);
     border-radius: var(--md-sys-shape-corner-large);
   }
   :host([fab][size="small"]) .button {
@@ -301,39 +327,39 @@ export const groupStyles = css`
   :host([variant="connected"]) ::slotted(*) {
     flex: 1 1 auto;
     min-inline-size: fit-content;
-    --bubble-button-shape: var(--md-sys-shape-corner-full);
+    --bolle-button-shape: var(--md-sys-shape-corner-full);
   }
   :host([variant="connected"]) ::slotted(:not(:first-child)) {
-    --bubble-button-corner-start-start: var(
+    --bolle-button-corner-start-start: var(
       --md-comp-button-group-inner-corner
     );
-    --bubble-button-corner-end-start: var(
+    --bolle-button-corner-end-start: var(
       --md-comp-button-group-inner-corner
     );
   }
   :host([variant="connected"]) ::slotted(:not(:last-child)) {
-    --bubble-button-corner-start-end: var(
+    --bolle-button-corner-start-end: var(
       --md-comp-button-group-inner-corner
     );
-    --bubble-button-corner-end-end: var(
+    --bolle-button-corner-end-end: var(
       --md-comp-button-group-inner-corner
     );
   }
   /* Angolo interno che si allarga al passaggio: la giunzione si apre senza
      spostare i vicini. */
   :host([variant="connected"]) ::slotted(:not(:first-child):hover) {
-    --bubble-button-corner-start-start: var(
+    --bolle-button-corner-start-start: var(
       --md-comp-button-group-inner-corner-hovered
     );
-    --bubble-button-corner-end-start: var(
+    --bolle-button-corner-end-start: var(
       --md-comp-button-group-inner-corner-hovered
     );
   }
   :host([variant="connected"]) ::slotted(:not(:last-child):hover) {
-    --bubble-button-corner-start-end: var(
+    --bolle-button-corner-start-end: var(
       --md-comp-button-group-inner-corner-hovered
     );
-    --bubble-button-corner-end-end: var(
+    --bolle-button-corner-end-end: var(
       --md-comp-button-group-inner-corner-hovered
     );
   }

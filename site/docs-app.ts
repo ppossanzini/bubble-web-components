@@ -1,9 +1,9 @@
 import { LitElement, html, nothing, svg, type TemplateResult } from "lit";
 import type {
-  BubbleItem,
-  BubbleNavigationDrawer,
-  BubbleSideSheet,
-  BubbleSnackbar,
+  BolleItem,
+  BolleNavigationDrawer,
+  BolleSideSheet,
+  BolleSnackbar,
 } from "../src/index.js";
 import { ti } from "../demo/icons.js";
 import {
@@ -26,6 +26,8 @@ import {
   type ComponentTokenUsage,
 } from "./usage.js";
 import { componentQuotes, shortTokenName, type Quote } from "./quotes.js";
+import { bolleLogo, bolleMark, renderLanding } from "./landing.js";
+import { renderFoundations } from "./foundations.js";
 import {
   applyTokens,
   defaultTokenSet,
@@ -89,7 +91,7 @@ export class DocsApp extends LitElement {
 
   constructor() {
     super();
-    this.route = "overview";
+    this.route = "home";
     this.codeTab = "vue";
     this.dark = false;
     this.rtl = false;
@@ -130,7 +132,7 @@ export class DocsApp extends LitElement {
       host?.close?.(value);
     },
     snackbar: (id, message) => {
-      this.querySelector<BubbleSnackbar>(`#${id}`)?.show(message);
+      this.querySelector<BolleSnackbar>(`#${id}`)?.show(message);
     },
   };
 
@@ -153,7 +155,7 @@ export class DocsApp extends LitElement {
   }
 
   protected updated() {
-    if (this.isTokens || this.isOverview) return;
+    if (this.isHome || this.isTokens || this.isPage) return;
     const element = this.querySelector(
       `.preview-surface ${this.entry.tag}`,
     );
@@ -216,12 +218,18 @@ export class DocsApp extends LitElement {
   }
 
   private readHash = () => {
-    const tag = location.hash.replace(/^#\/?/, "");
-    if (tag === "tokens" || tag === "overview" || entryByTag(tag)) {
+    const tag = location.hash.replace(/^#\/?/, "") || "home";
+    if (
+      tag === "home" ||
+      tag === "tokens" ||
+      tag === "foundations" ||
+      tag === "overview" ||
+      entryByTag(tag)
+    ) {
       if (this.route !== tag) {
         this.usageRetry = 0;
         this.hoverToken = "";
-        this.querySelector<BubbleSideSheet>("#site-config")?.close();
+        this.querySelector<BolleSideSheet>("#site-config")?.close();
       }
       this.route = tag;
     }
@@ -233,6 +241,19 @@ export class DocsApp extends LitElement {
 
   private get isOverview(): boolean {
     return this.route === "overview";
+  }
+
+  private get isHome(): boolean {
+    return this.route === "home";
+  }
+
+  private get isFoundations(): boolean {
+    return this.route === "foundations";
+  }
+
+  /** Pages without a component entry: no preview, no configuration sheet. */
+  private get isPage(): boolean {
+    return this.isOverview || this.isFoundations;
   }
 
   private get activeTheme(): ThemeName {
@@ -264,7 +285,7 @@ export class DocsApp extends LitElement {
     else location.hash = `#/${tag}`;
   }
 
-  private navItems(): BubbleItem[] {
+  private navItems(): BolleItem[] {
     const families = groups
       .map((group) => ({
         group,
@@ -420,13 +441,13 @@ export class DocsApp extends LitElement {
   };
 
   private openDrawer = (event: Event) => {
-    this.querySelector<BubbleNavigationDrawer>("#site-drawer")?.show(
+    this.querySelector<BolleNavigationDrawer>("#site-drawer")?.show(
       event.currentTarget as HTMLElement,
     );
   };
 
   private openConfig = async (event: Event) => {
-    const sheet = this.querySelector<BubbleSideSheet>("#site-config");
+    const sheet = this.querySelector<BolleSideSheet>("#site-config");
     if (!sheet) return;
     await sheet.show(event.currentTarget as HTMLElement);
     // The sheet keeps the scroll position of the previous visit, which lands on
@@ -436,7 +457,7 @@ export class DocsApp extends LitElement {
   };
 
   private closeDrawer = () => {
-    this.querySelector<BubbleNavigationDrawer>("#site-drawer")?.close();
+    this.querySelector<BolleNavigationDrawer>("#site-drawer")?.close();
   };
 
   private drawerNavigate = (event: Event) => {
@@ -455,7 +476,7 @@ export class DocsApp extends LitElement {
     try {
       await navigator.clipboard.writeText(text);
     } finally {
-      this.querySelector<BubbleSnackbar>("#site-snackbar")?.show(
+      this.querySelector<BolleSnackbar>("#site-snackbar")?.show(
         "Codice copiato",
       );
     }
@@ -468,7 +489,7 @@ export class DocsApp extends LitElement {
     const value = state[control.prop];
     switch (control.kind) {
       case "bool":
-        return html`<bubble-switch
+        return html`<bolle-switch
           .label=${control.label}
           ?checked=${Boolean(value)}
           @change=${(event: Event) =>
@@ -476,9 +497,9 @@ export class DocsApp extends LitElement {
               control.prop,
               (event as CustomEvent<{ checked: boolean }>).detail.checked,
             )}
-        ></bubble-switch>`;
+        ></bolle-switch>`;
       case "range":
-        return html`<bubble-slider
+        return html`<bolle-slider
           .label=${control.label}
           .min=${control.min}
           .max=${control.max}
@@ -490,9 +511,9 @@ export class DocsApp extends LitElement {
               control.prop,
               (event as CustomEvent<{ value: string }>).detail.value,
             )}
-        ></bubble-slider>`;
+        ></bolle-slider>`;
       case "text":
-        return html`<bubble-text-field
+        return html`<bolle-text-field
           .label=${control.label}
           .value=${String(value ?? "")}
           placeholder=${control.placeholder ?? ""}
@@ -501,9 +522,9 @@ export class DocsApp extends LitElement {
               control.prop,
               (event as CustomEvent<{ value: string }>).detail.value,
             )}
-        ></bubble-text-field>`;
+        ></bolle-text-field>`;
       case "longtext":
-        return html`<bubble-text-field
+        return html`<bolle-text-field
           .label=${control.label}
           multiline
           .rows=${control.rows ?? 3}
@@ -513,10 +534,10 @@ export class DocsApp extends LitElement {
               control.prop,
               (event as CustomEvent<{ value: string }>).detail.value,
             )}
-        ></bubble-text-field>`;
+        ></bolle-text-field>`;
       case "enum":
         if (control.options.length <= 4)
-          return html`<bubble-segmented-buttons
+          return html`<bolle-segmented-buttons
             .label=${control.label}
             .items=${control.options.map((option) => ({
               id: option,
@@ -528,7 +549,7 @@ export class DocsApp extends LitElement {
                 control.prop,
                 (event as CustomEvent<{ value: string }>).detail.value,
               )}
-          ></bubble-segmented-buttons>`;
+          ></bolle-segmented-buttons>`;
         return html`<div class="config-field">
           <span class="config-label">${control.label}</span>
           <docs-select
@@ -566,8 +587,8 @@ export class DocsApp extends LitElement {
 
       <div class="overview-grid">
         ${families.map(
-          (family) => html`<bubble-card
-            variant="outlined"
+          (family) => html`<bolle-card
+            variant="elevated"
             href=${`#/${family.list[0].tag}`}
             label=${family.group}
           >
@@ -581,14 +602,14 @@ export class DocsApp extends LitElement {
                 .map((entry) => entry.navLabel ?? entry.title)
                 .join(" · ")}
             </p>
-          </bubble-card>`,
+          </bolle-card>`,
         )}
       </div>`;
   }
 
   private renderTokensPreview(): TemplateResult {
     return html`<div class="token-preview">
-      <bubble-app-bar label="Anteprima" subtitle="Token applicati"></bubble-app-bar>
+      <bolle-app-bar label="Anteprima" subtitle="Token applicati"></bolle-app-bar>
       <div class="token-type">
         <p class="type-display">Aa</p>
         <h2>Titolo di sezione</h2>
@@ -598,24 +619,24 @@ export class DocsApp extends LitElement {
         </p>
       </div>
       <div class="token-row">
-        <bubble-button variant="filled">Salva</bubble-button>
-        <bubble-button variant="tonal">Anteprima</bubble-button>
-        <bubble-button variant="outlined">Annulla</bubble-button>
-        <bubble-chip variant="filter" selected label="Filtro"></bubble-chip>
+        <bolle-button variant="filled">Salva</bolle-button>
+        <bolle-button variant="tonal">Anteprima</bolle-button>
+        <bolle-button variant="outlined">Annulla</bolle-button>
+        <bolle-chip variant="filter" selected label="Filtro"></bolle-chip>
       </div>
       <div class="token-fields">
-        <bubble-text-field
+        <bolle-text-field
           label="Titolo"
           value="Documento di esempio"
           supporting-text="Testo di supporto"
-        ></bubble-text-field>
-        <bubble-switch label="Notifiche" checked></bubble-switch>
+        ></bolle-text-field>
+        <bolle-switch label="Notifiche" checked></bolle-switch>
       </div>
-      <bubble-progress-indicator label="Avanzamento" value="60"></bubble-progress-indicator>
-      <bubble-card variant="outlined" label="Scheda di esempio">
+      <bolle-progress-indicator label="Avanzamento" value="60"></bolle-progress-indicator>
+      <bolle-card variant="outlined" label="Scheda di esempio">
         <h3>Superficie</h3>
         <p>Forma, colore e tipografia applicati a una scheda.</p>
-      </bubble-card>
+      </bolle-card>
     </div>`;
   }
 
@@ -682,11 +703,11 @@ export class DocsApp extends LitElement {
     return html`<aside class="panel size-panel" aria-label="Token di dimensione">
       <div class="section-head">
         <h2>Dimensioni</h2>
-        <bubble-button
+        <bolle-button
           variant="text"
           aria-pressed=${this.quotes ? "true" : "false"}
           @click=${this.toggleQuotes}
-          >${this.quotes ? "Nascondi quote" : "Mostra quote"}</bubble-button
+          >${this.quotes ? "Nascondi quote" : "Mostra quote"}</bolle-button
         >
       </div>
       <span class="hint">Dichiarato · attivo</span>
@@ -795,10 +816,10 @@ export class DocsApp extends LitElement {
   private renderTokensConfig(): TemplateResult {
     const set = this.tokenSet;
     const contrasts = ["Standard", "Medium", "High"];
-    return html`<bubble-card variant="outlined">
+    return html`<bolle-card variant="elevated">
       <div class="config-head">
         <h2>Token</h2>
-        <bubble-button variant="text" @click=${this.resetTokens}>Reimposta</bubble-button>
+        <bolle-button variant="text" @click=${this.resetTokens}>Reimposta</bolle-button>
       </div>
       <div class="config-body tokens-config">
         <h3 class="config-group">Template</h3>
@@ -831,8 +852,8 @@ export class DocsApp extends LitElement {
                 )}
             ></docs-select>
           </div>
-          <bubble-button variant="tonal" @click=${this.generateHct}
-            >Genera da Primary</bubble-button
+          <bolle-button variant="tonal" @click=${this.generateHct}
+            >Genera da Primary</bolle-button
           >
           <p class="hct-hint">
             Il seme è il valore corrente di Primary. La generazione sostituisce
@@ -859,7 +880,7 @@ export class DocsApp extends LitElement {
 
         <h3 class="config-group">Forma</h3>
         ${SHAPE_TOKENS.map(
-          (shape) => html`<bubble-slider
+          (shape) => html`<bolle-slider
             .label=${shape.label}
             .min=${0}
             .max=${shape.max}
@@ -871,7 +892,7 @@ export class DocsApp extends LitElement {
                 shape.token,
                 Number((event as CustomEvent<{ value: string }>).detail.value),
               )}
-          ></bubble-slider>`,
+          ></bolle-slider>`,
         )}
 
         <h3 class="config-group">Tipografia</h3>
@@ -901,7 +922,7 @@ export class DocsApp extends LitElement {
               )}
           ></docs-select>
         </div>
-        <bubble-slider
+        <bolle-slider
           label="Dimensione base (px)"
           .min=${14}
           .max=${20}
@@ -912,9 +933,9 @@ export class DocsApp extends LitElement {
             this.setBaseSize(
               Number((event as CustomEvent<{ value: string }>).detail.value),
             )}
-        ></bubble-slider>
+        ></bolle-slider>
       </div>
-    </bubble-card>`;
+    </bolle-card>`;
   }
 
   private renderEntryTokens(): TemplateResult | typeof nothing {
@@ -941,11 +962,11 @@ export class DocsApp extends LitElement {
       <div class="config-head">
         <h2>Token del componente</h2>
         ${hasOverrides
-          ? html`<bubble-button
+          ? html`<bolle-button
               variant="text"
               size="xs"
               @click=${() => this.resetDetails(tag)}
-              >Reimposta dettaglio</bubble-button
+              >Reimposta dettaglio</bolle-button
             >`
           : nothing}
       </div>
@@ -983,7 +1004,7 @@ export class DocsApp extends LitElement {
               ${usage.shapes.map((token) => {
                 const shape = shapes.get(token);
                 if (!shape) return nothing;
-                return html`<bubble-slider
+                return html`<bolle-slider
                   .label=${shape.label}
                   .min=${0}
                   .max=${shape.max}
@@ -997,7 +1018,7 @@ export class DocsApp extends LitElement {
                         (event as CustomEvent<{ value: string }>).detail.value,
                       ),
                     )}
-                ></bubble-slider>`;
+                ></bolle-slider>`;
               })}`
           : nothing}
 
@@ -1041,7 +1062,7 @@ export class DocsApp extends LitElement {
                     )}
                 ></docs-select>
               </div>
-              <bubble-slider
+              <bolle-slider
                 label="Dimensione base (px)"
                 .min=${14}
                 .max=${20}
@@ -1054,7 +1075,7 @@ export class DocsApp extends LitElement {
                       (event as CustomEvent<{ value: string }>).detail.value,
                     ),
                   )}
-              ></bubble-slider>`
+              ></bolle-slider>`
           : nothing}
       </div>
     </section>`;
@@ -1126,11 +1147,11 @@ export class DocsApp extends LitElement {
         >
       </span>
       ${overridden
-        ? html`<bubble-button
+        ? html`<bolle-button
             variant="text"
             size="xs"
             @click=${() => this.setDetail(tag, token, "")}
-            >Reset</bubble-button
+            >Reset</bolle-button
           >`
         : nothing}
     </div>`;
@@ -1201,82 +1222,113 @@ export class DocsApp extends LitElement {
       <section class="panel code-panel" aria-label="Codice CSS">
         <div class="section-head">
           <h2>Codice CSS</h2>
-          <bubble-button variant="text" @click=${() => this.copy(css)}>Copia</bubble-button>
+          <bolle-button variant="text" @click=${() => this.copy(css)}>Copia</bolle-button>
         </div>
         <pre class="code-block"><code>${css}</code></pre>
       </section>`;
   }
 
+  private renderFooter(): TemplateResult {
+    return html`<footer class="site-footer">
+      <span class="bb-logo">${bolleMark(20)}<span>
+        <strong class="site-footer-name">bolle</strong> · ispirata a Material 3, non
+        affiliata a Google.</span></span>
+      <a class="md-text-link" href="https://materialui.co/colors" target="_blank" rel="noopener noreferrer"
+        >Palette Material</a
+      >
+      <a class="md-text-link" href="https://tabler.io/icons" target="_blank" rel="noopener noreferrer"
+        >Icone Tabler</a
+      >
+    </footer>`;
+  }
+
   protected render() {
+    if (this.isHome)
+      return html`${renderLanding({
+          presetId: this.presetId,
+          applyPreset: this.applyPreset,
+          navigate: (route) => this.navigate(route),
+          copy: (text) => this.copy(text),
+        })}
+        ${this.renderFooter()}
+        <bolle-snackbar id="site-snackbar" .duration=${3000}></bolle-snackbar>`;
     const isTokens = this.isTokens;
     const entry = this.entry;
     const state = this.state;
     const vue = buildVue(entry.tag, entry.code(state));
     const react = buildReact(entry.tag, entry.code(state));
     const css = tokensCss(this.tokenSet);
-    const navList = (navigate: (event: Event) => void) => html`<bubble-list
+    const navList = (navigate: (event: Event) => void) => html`<bolle-list
       label="Componenti"
       selection="single"
       interactive
       .items=${this.navItems()}
-      .value=${isTokens ? "" : this.isOverview ? "overview" : entry.tag}
+      .value=${isTokens || this.isFoundations ? "" : this.isOverview ? "overview" : entry.tag}
       .expanded=${this.expanded}
       @change=${navigate}
       @expand=${this.onExpand}
-    ></bubble-list>`;
+    ></bolle-list>`;
 
     return html`
       <style>
         ${this.detailsCss}
       </style>
       <header class="topbar">
-        <bubble-app-bar
-          label="Bubble"
+        <bolle-app-bar
+          label="bolle"
           subtitle="Material 3 web components"
           sticky
         >
-          <span>Bubble</span>
-          <bubble-icon-button
+          <a href="#/" class="bb-logo-link" aria-label="bolle, presentazione"
+            >${bolleLogo(28)}</a
+          >
+          <bolle-icon-button
             slot="leading"
             class="nav-toggle"
             label="Apri navigazione"
             @click=${this.openDrawer}
-            >${ti("menu-2")}</bubble-icon-button
+            >${ti("menu-2")}</bolle-icon-button
           >
           <span slot="trailing" class="topbar-actions">
-            ${!isTokens && !this.isOverview
-              ? html`<bubble-icon-button
+            ${!isTokens && !this.isPage
+              ? html`<bolle-icon-button
                   label="Configurazione"
                   @click=${this.openConfig}
-                  >${ti("settings")}</bubble-icon-button
+                  >${ti("settings")}</bolle-icon-button
                 >`
               : nothing}
-            <bubble-icon-button
+            <bolle-icon-button
               label=${this.dark ? "Tema chiaro" : "Tema scuro"}
               toggle
               ?selected=${this.dark}
               @click=${this.toggleTheme}
-              >${this.dark ? ti("sun") : ti("moon")}</bubble-icon-button
+              >${this.dark ? ti("sun") : ti("moon")}</bolle-icon-button
             >
-            <bubble-icon-button
+            <bolle-icon-button
               label="Direzione RTL"
               toggle
               ?selected=${this.rtl}
               @click=${this.toggleRtl}
-              >RTL</bubble-icon-button
+              >RTL</bolle-icon-button
             >
           </span>
-        </bubble-app-bar>
+        </bolle-app-bar>
       </header>
 
       <div class="shell ${isTokens ? "with-panel" : ""}">
         <aside class="nav-panel" aria-label="Elenco componenti">
           <p class="panel-kicker">Catalogo</p>
-          <bubble-button
+          <bolle-button
+            class="tokens-link"
+            .variant=${this.isFoundations ? "filled-tonal" : "text"}
+            @click=${() => this.navigate("foundations")}
+            >${ti("star")}<span>Foundations</span></bolle-button
+          >
+          <bolle-button
             class="tokens-link"
             .variant=${isTokens ? "filled-tonal" : "text"}
             @click=${() => this.navigate("tokens")}
-            >${ti("palette")}<span>Design tokens</span></bubble-button
+            >${ti("palette")}<span>Design tokens</span></bolle-button
           >
           ${navList(this.onNavigate)}
         </aside>
@@ -1284,7 +1336,9 @@ export class DocsApp extends LitElement {
         <main class="content">
           ${isTokens
             ? this.renderTokensMain(css)
-            : this.isOverview
+            : this.isFoundations
+              ? renderFoundations()
+              : this.isOverview
               ? this.renderOverview()
               : html`<header class="component-header">
                   <span class="kicker">${entry.group}</span>
@@ -1298,8 +1352,8 @@ export class DocsApp extends LitElement {
                   <section class="panel preview-panel" aria-label="Anteprima">
                     <div class="section-head">
                       <h2>Anteprima</h2>
-                      <bubble-button variant="text" @click=${this.openConfig}
-                        >Configura</bubble-button
+                      <bolle-button variant="text" @click=${this.openConfig}
+                        >Configura</bolle-button
                       >
                     </div>
                     <div
@@ -1319,7 +1373,7 @@ export class DocsApp extends LitElement {
                   <div class="section-head">
                     <h2>Codice</h2>
                     <div class="code-actions">
-                      <bubble-segmented-buttons
+                      <bolle-segmented-buttons
                         label="Framework"
                         .items=${[
                           { id: "vue", label: "Vue" },
@@ -1327,11 +1381,11 @@ export class DocsApp extends LitElement {
                         ]}
                         .value=${this.codeTab}
                         @change=${this.onCodeTab}
-                      ></bubble-segmented-buttons>
-                      <bubble-button
+                      ></bolle-segmented-buttons>
+                      <bolle-button
                         variant="text"
                         @click=${() => this.copy(this.codeTab === "vue" ? vue : react)}
-                        >Copia</bubble-button
+                        >Copia</bolle-button
                       >
                     </div>
                   </div>
@@ -1346,8 +1400,8 @@ export class DocsApp extends LitElement {
           : nothing}
       </div>
 
-      ${!isTokens && !this.isOverview
-        ? html`<bubble-side-sheet
+      ${!isTokens && !this.isPage
+        ? html`<bolle-side-sheet
             id="site-config"
             class="config-sheet"
             label="Configurazione"
@@ -1370,11 +1424,11 @@ export class DocsApp extends LitElement {
               <section class="config-section" aria-label="Parametri">
                 <div class="config-head">
                   <h2>Parametri</h2>
-                  <bubble-button
+                  <bolle-button
                     variant="text"
                     size="xs"
                     @click=${() => this.reset(entry)}
-                    >Reimposta</bubble-button
+                    >Reimposta</bolle-button
                   >
                 </div>
                 <div class="config-body">
@@ -1385,40 +1439,41 @@ export class DocsApp extends LitElement {
               </section>
               ${this.renderEntryTokens()}
             </div>
-          </bubble-side-sheet>`
+          </bolle-side-sheet>`
         : nothing}
 
-      <footer class="site-footer">
-        <span>Material 3 web components</span>
-        <a class="md-text-link" href="https://materialui.co/colors" target="_blank" rel="noopener noreferrer"
-          >Palette Material</a
-        >
-        <a class="md-text-link" href="https://tabler.io/icons" target="_blank" rel="noopener noreferrer"
-          >Icone Tabler</a
-        >
-      </footer>
+      ${this.renderFooter()}
 
-      <bubble-snackbar id="site-snackbar" .duration=${3000}></bubble-snackbar>
+      <bolle-snackbar id="site-snackbar" .duration=${3000}></bolle-snackbar>
 
-      <bubble-navigation-drawer
+      <bolle-navigation-drawer
         id="site-drawer"
         label="Componenti"
         close-label="Chiudi"
       >
-        <bubble-button
+        <bolle-button
+          class="tokens-link"
+          .variant=${this.isFoundations ? "filled-tonal" : "text"}
+          @click=${() => {
+            this.navigate("foundations");
+            this.closeDrawer();
+          }}
+          >${ti("star")}<span>Foundations</span></bolle-button
+        >
+        <bolle-button
           class="tokens-link"
           .variant=${isTokens ? "filled-tonal" : "text"}
           @click=${() => {
             this.navigate("tokens");
             this.closeDrawer();
           }}
-          >${ti("palette")}<span>Design tokens</span></bubble-button
+          >${ti("palette")}<span>Design tokens</span></bolle-button
         >
         ${navList(this.drawerNavigate)}
-      </bubble-navigation-drawer>
+      </bolle-navigation-drawer>
     `;
   }
 }
 
-if (!customElements.get("bubble-docs"))
-  customElements.define("bubble-docs", DocsApp);
+if (!customElements.get("bolle-docs"))
+  customElements.define("bolle-docs", DocsApp);

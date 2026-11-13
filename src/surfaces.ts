@@ -1,15 +1,15 @@
 import { html, nothing } from "lit";
 import {
-  BubbleElement,
-  BubbleFormElement,
+  BolleElement,
+  BolleFormElement,
   moveFocus,
-  type BubbleItem,
+  type BolleItem,
 } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
 import { listLabels } from "./localization.js";
 import { surfaceStyles } from "./surfaces.styles.js";
 
-export class BubbleAppBar extends BubbleElement {
+export class BolleAppBar extends BolleElement {
   static properties = {
     label: {},
     variant: { reflect: true },
@@ -42,7 +42,7 @@ export class BubbleAppBar extends BubbleElement {
     </header>`;
   }
 }
-export class BubbleToolbar extends BubbleElement {
+export class BolleToolbar extends BolleElement {
   static properties = {
     label: {},
     variant: { reflect: true },
@@ -57,7 +57,7 @@ export class BubbleToolbar extends BubbleElement {
   private controls() {
     return Array.from(
       this.querySelectorAll<HTMLElement>(
-        "button,a,bubble-button,bubble-icon-button",
+        "button,a,bolle-button,bolle-icon-button",
       ),
     )
       .map(
@@ -78,7 +78,7 @@ export class BubbleToolbar extends BubbleElement {
         @slotchange=${() => {
           Promise.all(
             Array.from(this.children).map(
-              (child) => (child as BubbleElement).updateComplete,
+              (child) => (child as BolleElement).updateComplete,
             ),
           ).then(() =>
             this.controls().forEach(
@@ -90,7 +90,7 @@ export class BubbleToolbar extends BubbleElement {
     </div>`;
   }
 }
-export class BubbleCard extends BubbleElement {
+export class BolleCard extends BolleElement {
   static properties = {
     variant: { reflect: true },
     orientation: { reflect: true },
@@ -109,7 +109,7 @@ export class BubbleCard extends BubbleElement {
     </article>`;
   }
 }
-export class BubbleBadge extends BubbleElement {
+export class BolleBadge extends BolleElement {
   static properties = {
     value: {},
     label: {},
@@ -131,7 +131,7 @@ export class BubbleBadge extends BubbleElement {
     >`;
   }
 }
-export class BubbleDivider extends BubbleElement {
+export class BolleDivider extends BolleElement {
   static properties = {
     vertical: { type: Boolean, reflect: true },
     inset: { type: Boolean, reflect: true },
@@ -160,7 +160,7 @@ export class BubbleDivider extends BubbleElement {
     ></div>`;
   }
 }
-export class BubbleList extends BubbleElement {
+export class BolleList extends BolleElement {
   static properties = {
     items: { attribute: false },
     label: {},
@@ -171,7 +171,7 @@ export class BubbleList extends BubbleElement {
     expanded: { attribute: false },
   };
   static styles = [commonStyles, surfaceStyles];
-  items: BubbleItem[] = [];
+  items: BolleItem[] = [];
   label = "";
   variant = "standard";
   interactive = false;
@@ -182,13 +182,13 @@ export class BubbleList extends BubbleElement {
     if (Array.isArray(this.value)) return [...this.value];
     return this.value ? [this.value] : [];
   }
-  private isSelected(item: BubbleItem) {
+  private isSelected(item: BolleItem) {
     return (
       this.selectedIds().includes(item.id) ||
       (this.selection === "none" && Boolean(item.selected))
     );
   }
-  private toggle(item: BubbleItem) {
+  private toggle(item: BolleItem) {
     if (item.items) {
       const open = this.expanded.includes(item.id);
       this.expanded = open
@@ -215,7 +215,7 @@ export class BubbleList extends BubbleElement {
       selected: this.isSelected(item),
     });
   }
-  private content(item: BubbleItem) {
+  private content(item: BolleItem) {
     return html`${item.icon ? html`<span class="icon" aria-hidden="true">${item.icon}</span>` : nothing}<span
         class="list-text"
         ><span>${item.label}</span
@@ -227,10 +227,10 @@ export class BubbleList extends BubbleElement {
   private listRole() {
     return this.selection === "single" ? "listbox" : nothing;
   }
-  private state(item: BubbleItem) {
+  private state(item: BolleItem) {
     return this.isSelected(item) ? "true" : nothing;
   }
-  private disclosure(item: BubbleItem) {
+  private disclosure(item: BolleItem) {
     if (!item.items) return nothing;
     const open = this.expanded.includes(item.id);
     return html`<button
@@ -256,7 +256,7 @@ export class BubbleList extends BubbleElement {
       </svg>
     </button>`;
   }
-  private nested(item: BubbleItem) {
+  private nested(item: BolleItem) {
     if (!item.items || !this.expanded.includes(item.id)) return nothing;
     return html`<ul class="list-sublist">
       ${item.items.map(
@@ -339,9 +339,9 @@ export class BubbleList extends BubbleElement {
     </ul>`;
   }
 }
-export class BubbleChip extends BubbleFormElement {
+export class BolleChip extends BolleFormElement {
   static properties = {
-    ...BubbleFormElement.properties,
+    ...BolleFormElement.properties,
     variant: { reflect: true },
     label: {},
     selected: { type: Boolean, reflect: true },

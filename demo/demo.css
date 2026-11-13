@@ -160,18 +160,18 @@ main {
   color: var(--md-sys-color-on-surface-variant);
 }
 
-.variant-body > bubble-app-bar,
-.variant-body > bubble-navigation-bar,
-.variant-body > bubble-tabs,
-.variant-body > bubble-toolbar,
-.variant-body > bubble-carousel,
-.variant-body > bubble-list,
-.variant-body > bubble-search,
-.variant-body > bubble-date-picker,
-.variant-body > bubble-time-picker,
-.variant-body > bubble-slider,
-.variant-body > bubble-progress-indicator,
-.variant-body > bubble-segmented-buttons {
+.variant-body > bolle-app-bar,
+.variant-body > bolle-navigation-bar,
+.variant-body > bolle-tabs,
+.variant-body > bolle-toolbar,
+.variant-body > bolle-carousel,
+.variant-body > bolle-list,
+.variant-body > bolle-search,
+.variant-body > bolle-date-picker,
+.variant-body > bolle-time-picker,
+.variant-body > bolle-slider,
+.variant-body > bolle-progress-indicator,
+.variant-body > bolle-segmented-buttons {
   flex: 1 1 100%;
   min-inline-size: 0;
 }
@@ -343,13 +343,13 @@ main {
   }
 }
 
-.variant-body > bubble-text-field {
+.variant-body > bolle-text-field {
   flex: 0 1 320px;
   max-inline-size: 400px;
 }
 
-.variant-body > bubble-date-picker,
-.variant-body > bubble-time-picker {
+.variant-body > bolle-date-picker,
+.variant-body > bolle-time-picker {
   flex: 0 1 360px;
 }
 
@@ -370,7 +370,7 @@ main {
   min-inline-size: 0;
 }
 
-.variant-body > bubble-carousel {
+.variant-body > bolle-carousel {
   inline-size: 100%;
 }
 

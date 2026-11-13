@@ -14,14 +14,14 @@ booléennes (voir ci-dessous).
 ## Installation et enregistrement
 
 ```sh
-npm install @bubble/web-components
+npm install @bolle/web-components
 ```
 
 ```tsx
 // src/main.tsx
-import "@bubble/web-components/tokens.css";
-import "@bubble/web-components/typography.css";
-import "@bubble/web-components"; // registra tutti i tag bubble-*
+import "@bolle/web-components/tokens.css";
+import "@bolle/web-components/typography.css";
+import "@bolle/web-components"; // registra tutti i tag bolle-*
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 
@@ -42,15 +42,15 @@ sinon un attribut. Les tableaux, les objets et les booléens se passent donc
 directement :
 
 ```tsx
-<bubble-list items={items} value={selected} expanded={expanded} />
-<bubble-text-field value={email} maxlength={120} counter />
-<bubble-button disabled={false} />
+<bolle-list items={items} value={selected} expanded={expanded} />
+<bolle-text-field value={email} maxlength={120} counter />
+<bolle-button disabled={false} />
 ```
 
 Avec React 18, les valeurs non chaînes deviendraient des attributs
 (`[object Object]`) et `disabled={false}` écrirait `disabled="false"`, ce qui est
 de toute façon vrai. Dans ce cas, affectez les propriétés avec le hook
-`useBubbleProps` présenté ci-dessous, ou utilisez
+`useBolleProps` présenté ci-dessous, ou utilisez
 `disabled={undefined}` pour les booléens faux.
 
 ### Événements
@@ -61,10 +61,10 @@ sur une ref. Les événements natifs `click` et `submit` continuent d'utiliser
 `onClick` et `onSubmit`.
 
 ```tsx
-// src/bubble.ts
+// src/bolle.ts
 import { useEffect, useLayoutEffect, useRef, type RefObject } from "react";
 
-export function useBubbleEvent<T extends HTMLElement, D = unknown>(
+export function useBolleEvent<T extends HTMLElement, D = unknown>(
   ref: RefObject<T | null>,
   name: string,
   handler: (detail: D, event: Event) => void,
@@ -83,7 +83,7 @@ export function useBubbleEvent<T extends HTMLElement, D = unknown>(
 }
 
 /** Solo per React 18: assegna come proprietà i valori non stringa. */
-export function useBubbleProps<T extends HTMLElement>(
+export function useBolleProps<T extends HTMLElement>(
   ref: RefObject<T | null>,
   props: Record<string, unknown>,
 ) {
@@ -106,10 +106,10 @@ Dialog, sheet, snackbar, tooltip, menu, fab-menu et carousel exposent des
 méthodes impératives. La ref est typée avec la classe du composant.
 
 ```tsx
-const snackbar = useRef<BubbleSnackbar | null>(null);
+const snackbar = useRef<BolleSnackbar | null>(null);
 
-<bubble-snackbar ref={snackbar} message="Documento salvato" />
-<bubble-button onClick={() => snackbar.current?.show("Documento salvato")}>Salva</bubble-button>
+<bolle-snackbar ref={snackbar} message="Documento salvato" />
+<bolle-button onClick={() => snackbar.current?.show("Documento salvato")}>Salva</bolle-button>
 ```
 
 ### État contrôlé
@@ -119,14 +119,14 @@ réaligné dans le listener.
 
 ```tsx
 const [email, setEmail] = useState("");
-const field = useRef<BubbleTextField | null>(null);
-useBubbleEvent(field, "value-input", ({ value }: { value: string }) => setEmail(value));
+const field = useRef<BolleTextField | null>(null);
+useBolleEvent(field, "value-input", ({ value }: { value: string }) => setEmail(value));
 
-<bubble-text-field ref={field} label="Email" value={email} />
+<bolle-text-field ref={field} label="Email" value={email} />
 
-const terms = useRef<BubbleCheckbox | null>(null);
-useBubbleEvent(terms, "change", ({ checked }: { checked: boolean }) => setAccepted(checked));
-<bubble-checkbox ref={terms} label="Accetto" checked={accepted} />
+const terms = useRef<BolleCheckbox | null>(null);
+useBolleEvent(terms, "change", ({ checked }: { checked: boolean }) => setAccepted(checked));
+<bolle-checkbox ref={terms} label="Accetto" checked={accepted} />
 ```
 
 Pour la checkbox, le switch, le radio et la chip de filtre, l'événement est
@@ -134,7 +134,7 @@ Pour la checkbox, le switch, le radio et la chip de filtre, l'événement est
 les segmented buttons, le date et le time picker, c'est
 `value-input`/`change` avec `value`. Même lorsque l'événement s'appelle
 `change`, ce n'est pas l'événement natif de React : il faut le brancher avec
-`useBubbleEvent`.
+`useBolleEvent`.
 
 ### Formulaires
 
@@ -154,18 +154,31 @@ function onSubmit(event: React.FormEvent<HTMLFormElement>) {
 Les slots sont en light DOM : on passe un enfant avec l'attribut `slot`.
 
 ```tsx
-<bubble-app-bar label="Posta">
-  <bubble-icon-button slot="leading" label="Menu">☰</bubble-icon-button>
-</bubble-app-bar>
+<bolle-app-bar label="Posta">
+  <bolle-icon-button slot="leading" label="Menu">☰</bolle-icon-button>
+</bolle-app-bar>
 
-<bubble-button>
+<bolle-button>
   <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">…</svg>
   Nuovo
-</bubble-button>
+</bolle-button>
 ```
 
 React 19 prend en charge `slot` comme attribut ; avec React 18, il est de toute
 façon écrit comme attribut personnalisé.
+
+### Raccourcis clavier
+
+Chaque élément `bolle-*` sauf `bolle-menu` accepte `shortcut` avec la syntaxe
+de `aria-keyshortcuts`. Le composant pose `aria-keyshortcuts` sur le contrôle
+interne qui reçoit le focus et gère la touche lui-même : aucun écouteur dans
+`useEffect` n’est nécessaire. Les règles sont dans le
+[guide Vue](vue.md#raccourcis-clavier).
+
+```tsx
+<bolle-button shortcut="Alt+S" onClick={save}>Enregistrer</bolle-button>
+<bolle-text-field label="Rechercher" shortcut="Control+K Meta+K" />
+```
 
 ### Icônes
 
@@ -179,10 +192,10 @@ pas de balisage sous forme de chaîne.
 Sans déclarations, TypeScript refuse les tags inconnus. Un fallback compact :
 
 ```ts
-// src/bubble-elements.d.ts
+// src/bolle-elements.d.ts
 import type * as React from "react";
 
-type BubbleElementProps = React.DetailedHTMLProps<
+type BolleElementProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLElement>,
   HTMLElement
 > & { [prop: string]: unknown };
@@ -190,7 +203,7 @@ type BubbleElementProps = React.DetailedHTMLProps<
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      [tag: `bubble-${string}`]: BubbleElementProps;
+      [tag: `bolle-${string}`]: BolleElementProps;
     }
   }
 }
@@ -203,7 +216,7 @@ priorité sur le fallback :
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      "bubble-text-field": React.DetailedHTMLProps<
+      "bolle-text-field": React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
@@ -219,15 +232,16 @@ declare module "react" {
         counter?: boolean;
         prefix?: string;
         suffix?: string;
+        shortcut?: string;
         name?: string;
         required?: boolean;
         disabled?: boolean;
       };
-      "bubble-list": React.DetailedHTMLProps<
+      "bolle-list": React.DetailedHTMLProps<
         React.HTMLAttributes<HTMLElement>,
         HTMLElement
       > & {
-        items?: import("@bubble/web-components").BubbleItem[];
+        items?: import("@bolle/web-components").BolleItem[];
         label?: string;
         variant?: "standard" | "segmented";
         interactive?: boolean;
@@ -246,14 +260,14 @@ chaque exemple.
 
 ## Actions
 
-### bubble-button
+### bolle-button
 
 ```tsx
 export function ButtonExamples() {
   const [expanded, setExpanded] = useState(false);
   const [submitted, setSubmitted] = useState("");
-  const toggle = useRef<BubbleButton | null>(null);
-  useBubbleEvent(toggle, "change", ({ selected }: { selected: boolean }) =>
+  const toggle = useRef<BolleButton | null>(null);
+  useBolleEvent(toggle, "change", ({ selected }: { selected: boolean }) =>
     setExpanded(selected),
   );
 
@@ -263,22 +277,22 @@ export function ButtonExamples() {
   return (
     <div>
       {variants.map((variant) => (
-        <bubble-button key={variant} variant={variant}>{variant}</bubble-button>
+        <bolle-button key={variant} variant={variant}>{variant}</bolle-button>
       ))}
       {sizes.map((size) => (
-        <bubble-button key={size} size={size} variant="tonal">{size}</bubble-button>
+        <bolle-button key={size} size={size} variant="tonal">{size}</bolle-button>
       ))}
 
-      <bubble-button variant="outlined" shape="square">Quadrato</bubble-button>
+      <bolle-button variant="outlined" shape="square">Quadrato</bolle-button>
 
-      <bubble-button variant="filled">
+      <bolle-button variant="filled">
         <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="currentColor" d="M11 5h2v14h-2zM5 11h14v2H5z" />
         </svg>
         Nuovo
-      </bubble-button>
+      </bolle-button>
 
-      <bubble-button
+      <bolle-button
         ref={toggle}
         toggle
         haspopup="menu"
@@ -287,11 +301,11 @@ export function ButtonExamples() {
         controls="pannello"
       >
         {expanded ? "Chiudi" : "Apri"}
-      </bubble-button>
+      </bolle-button>
 
-      <bubble-button href="https://example.com" target="_blank" variant="text">
+      <bolle-button href="https://example.com" target="_blank" variant="text">
         Documentazione
-      </bubble-button>
+      </bolle-button>
 
       <form
         onSubmit={(event) => {
@@ -299,54 +313,54 @@ export function ButtonExamples() {
           setSubmitted(String(new FormData(event.currentTarget).get("azione")));
         }}
       >
-        <bubble-button type="submit" name="azione" value="salva">Salva</bubble-button>
-        <bubble-button type="reset" variant="outlined">Reimposta</bubble-button>
+        <bolle-button type="submit" name="azione" value="salva">Salva</bolle-button>
+        <bolle-button type="reset" variant="outlined">Reimposta</bolle-button>
       </form>
 
-      <bubble-button label="Aggiungi" disabled>Disabilitato</bubble-button>
+      <bolle-button label="Aggiungi" disabled>Disabilitato</bolle-button>
       <output>{submitted}</output>
     </div>
   );
 }
 ```
 
-### bubble-icon-button
+### bolle-icon-button
 
 ```tsx
 export function IconButtonExamples() {
   const [pinned, setPinned] = useState(false);
-  const pin = useRef<BubbleIconButton | null>(null);
-  useBubbleEvent(pin, "change", ({ selected }: { selected: boolean }) =>
+  const pin = useRef<BolleIconButton | null>(null);
+  useBolleEvent(pin, "change", ({ selected }: { selected: boolean }) =>
     setPinned(selected),
   );
 
   return (
     <div>
       {(["xs", "small", "medium", "large", "xl"] as const).map((size) => (
-        <bubble-icon-button key={size} size={size} label={`Azione ${size}`}>
+        <bolle-icon-button key={size} size={size} label={`Azione ${size}`}>
           <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="currentColor" d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
           </svg>
-        </bubble-icon-button>
+        </bolle-icon-button>
       ))}
 
-      <bubble-icon-button width="narrow" label="Ristretto">★</bubble-icon-button>
-      <bubble-icon-button width="wide" label="Largo">★</bubble-icon-button>
-      <bubble-icon-button variant="tonal" shape="square" label="Quadrato">★</bubble-icon-button>
+      <bolle-icon-button width="narrow" label="Ristretto">★</bolle-icon-button>
+      <bolle-icon-button width="wide" label="Largo">★</bolle-icon-button>
+      <bolle-icon-button variant="tonal" shape="square" label="Quadrato">★</bolle-icon-button>
 
-      <bubble-icon-button ref={pin} toggle selected={pinned} label="Fissa in alto">
+      <bolle-icon-button ref={pin} toggle selected={pinned} label="Fissa in alto">
         📌
-      </bubble-icon-button>
+      </bolle-icon-button>
 
-      <bubble-icon-button haspopup="menu" expanded controls="menu-azioni" label="Altre azioni">
+      <bolle-icon-button haspopup="menu" expanded controls="menu-azioni" label="Altre azioni">
         ⋯
-      </bubble-icon-button>
+      </bolle-icon-button>
     </div>
   );
 }
 ```
 
-### bubble-floating-action-button
+### bolle-floating-action-button
 
 ```tsx
 const colors = [
@@ -363,61 +377,61 @@ export function FabExamples() {
   return (
     <div>
       {colors.map((color) => (
-        <bubble-floating-action-button key={color} color={color} label={`Crea (${color})`}>
+        <bolle-floating-action-button key={color} color={color} label={`Crea (${color})`}>
           ＋
-        </bubble-floating-action-button>
+        </bolle-floating-action-button>
       ))}
 
-      <bubble-floating-action-button size="small" label="Crea piccolo">＋</bubble-floating-action-button>
-      <bubble-floating-action-button size="medium" color="tertiary" label="Crea medio">＋</bubble-floating-action-button>
-      <bubble-floating-action-button size="large" color="secondary" label="Crea grande">＋</bubble-floating-action-button>
-      <bubble-floating-action-button href="https://example.com" label="Apri collegamento">↗</bubble-floating-action-button>
-      <bubble-floating-action-button label="Crea disabilitato" disabled>＋</bubble-floating-action-button>
+      <bolle-floating-action-button size="small" label="Crea piccolo">＋</bolle-floating-action-button>
+      <bolle-floating-action-button size="medium" color="tertiary" label="Crea medio">＋</bolle-floating-action-button>
+      <bolle-floating-action-button size="large" color="secondary" label="Crea grande">＋</bolle-floating-action-button>
+      <bolle-floating-action-button href="https://example.com" label="Apri collegamento">↗</bolle-floating-action-button>
+      <bolle-floating-action-button label="Crea disabilitato" disabled>＋</bolle-floating-action-button>
     </div>
   );
 }
 ```
 
-### bubble-extended-fab
+### bolle-extended-fab
 
 ```tsx
 export function ExtendedFabExamples() {
   return (
     <div>
-      <bubble-extended-fab label="Nuovo documento" size="small" color="primary-container">
+      <bolle-extended-fab label="Nuovo documento" size="small" color="primary-container">
         Nuovo documento
-      </bubble-extended-fab>
-      <bubble-extended-fab label="Condividi" size="medium" color="tertiary">
+      </bolle-extended-fab>
+      <bolle-extended-fab label="Condividi" size="medium" color="tertiary">
         Condividi
-      </bubble-extended-fab>
-      <bubble-extended-fab label="Crea presentazione" size="large" color="secondary">
+      </bolle-extended-fab>
+      <bolle-extended-fab label="Crea presentazione" size="large" color="secondary">
         <span slot="icon" aria-hidden="true">＋</span>
         Crea presentazione
-      </bubble-extended-fab>
+      </bolle-extended-fab>
     </div>
   );
 }
 ```
 
-### bubble-button-group
+### bolle-button-group
 
 ```tsx
 export function ButtonGroupExamples() {
   const [alignment, setAlignment] = useState("left");
   const [formats, setFormats] = useState<string[]>(["bold"]);
-  const alignmentGroup = useRef<BubbleButtonGroup | null>(null);
-  const formatGroup = useRef<BubbleButtonGroup | null>(null);
+  const alignmentGroup = useRef<BolleButtonGroup | null>(null);
+  const formatGroup = useRef<BolleButtonGroup | null>(null);
 
-  useBubbleEvent(alignmentGroup, "selection-change", ({ values }: { values: string[] }) =>
+  useBolleEvent(alignmentGroup, "selection-change", ({ values }: { values: string[] }) =>
     setAlignment(values[0] ?? "left"),
   );
-  useBubbleEvent(formatGroup, "selection-change", ({ values }: { values: string[] }) =>
+  useBolleEvent(formatGroup, "selection-change", ({ values }: { values: string[] }) =>
     setFormats(values),
   );
 
   return (
     <div>
-      <bubble-button-group
+      <bolle-button-group
         ref={alignmentGroup}
         label="Allineamento"
         variant="connected"
@@ -427,13 +441,13 @@ export function ButtonGroupExamples() {
         shape="round"
       >
         {["left", "center", "right"].map((value) => (
-          <bubble-button key={value} value={value} selected={alignment === value}>
+          <bolle-button key={value} value={value} selected={alignment === value}>
             {value}
-          </bubble-button>
+          </bolle-button>
         ))}
-      </bubble-button-group>
+      </bolle-button-group>
 
-      <bubble-button-group
+      <bolle-button-group
         ref={formatGroup}
         label="Formato"
         variant="connected"
@@ -441,16 +455,16 @@ export function ButtonGroupExamples() {
         size="small"
       >
         {["bold", "italic", "underline"].map((value) => (
-          <bubble-button key={value} value={value} selected={formats.includes(value)}>
+          <bolle-button key={value} value={value} selected={formats.includes(value)}>
             {value}
-          </bubble-button>
+          </bolle-button>
         ))}
-      </bubble-button-group>
+      </bolle-button-group>
 
-      <bubble-button-group label="Gruppo semplice" variant="standard" selection="none" size="large">
-        <bubble-button variant="outlined">A</bubble-button>
-        <bubble-button variant="outlined">B</bubble-button>
-      </bubble-button-group>
+      <bolle-button-group label="Gruppo semplice" variant="standard" selection="none" size="large">
+        <bolle-button variant="outlined">A</bolle-button>
+        <bolle-button variant="outlined">B</bolle-button>
+      </bolle-button-group>
     </div>
   );
 }
@@ -458,78 +472,78 @@ export function ButtonGroupExamples() {
 
 ## Communication
 
-### bubble-badge
+### bolle-badge
 
 ```tsx
 export function BadgeExamples() {
   return (
     <div>
       <span className="badge-anchor">
-        <bubble-icon-button label="Notifiche">🔔</bubble-icon-button>
-        <bubble-badge
+        <bolle-icon-button label="Notifiche">🔔</bolle-icon-button>
+        <bolle-badge
           value="12"
           style={{ position: "absolute", insetBlockStart: -4, insetInlineEnd: -4 }}
         />
       </span>
 
-      <bubble-badge value={1200} max={999} label="Messaggi non letti" />
-      <bubble-badge value="Nuovo" label="Novità" />
-      <bubble-badge value="" label="Aggiornamento disponibile" small />
-      <bubble-badge value="7" />
+      <bolle-badge value={1200} max={999} label="Messaggi non letti" />
+      <bolle-badge value="Nuovo" label="Novità" />
+      <bolle-badge value="" label="Aggiornamento disponibile" small />
+      <bolle-badge value="7" />
     </div>
   );
 }
 ```
 
-### bubble-progress-indicator
+### bolle-progress-indicator
 
 ```tsx
 export function ProgressExamples() {
   return (
     <div>
-      <bubble-progress-indicator label="Download" value={65} />
-      <bubble-progress-indicator label="Connessione" indeterminate />
-      <bubble-progress-indicator label="Avanzamento pratica" value={35} max={50} />
-      <bubble-progress-indicator wavy label="Avanzamento ondulato" value={60} />
-      <bubble-progress-indicator wavy indeterminate label="Attesa ondulata" />
-      <bubble-progress-indicator variant="circular" label="Caricamento file" value={65} />
-      <bubble-progress-indicator variant="circular" indeterminate label="Attesa circolare" />
+      <bolle-progress-indicator label="Download" value={65} />
+      <bolle-progress-indicator label="Connessione" indeterminate />
+      <bolle-progress-indicator label="Avanzamento pratica" value={35} max={50} />
+      <bolle-progress-indicator wavy label="Avanzamento ondulato" value={60} />
+      <bolle-progress-indicator wavy indeterminate label="Attesa ondulata" />
+      <bolle-progress-indicator variant="circular" label="Caricamento file" value={65} />
+      <bolle-progress-indicator variant="circular" indeterminate label="Attesa circolare" />
     </div>
   );
 }
 ```
 
-### bubble-loading-indicator
+### bolle-loading-indicator
 
 ```tsx
 export function LoadingExamples() {
   return (
     <div>
-      <bubble-loading-indicator label="Caricamento" />
-      <bubble-loading-indicator variant="contained" label="Caricamento allegati" />
+      <bolle-loading-indicator label="Caricamento" />
+      <bolle-loading-indicator variant="contained" label="Caricamento allegati" />
     </div>
   );
 }
 ```
 
-### bubble-snackbar
+### bolle-snackbar
 
 ```tsx
 export function SnackbarExamples() {
-  const snackbar = useRef<BubbleSnackbar | null>(null);
+  const snackbar = useRef<BolleSnackbar | null>(null);
   const [log, setLog] = useState("");
 
-  useBubbleEvent(snackbar, "closed", ({ reason }: { reason: string }) =>
+  useBolleEvent(snackbar, "closed", ({ reason }: { reason: string }) =>
     setLog(`chiuso: ${reason}`),
   );
-  useBubbleEvent(snackbar, "action", () => setLog("azione: annulla"));
-  useBubbleEvent(snackbar, "queued", ({ pending }: { pending: number }) =>
+  useBolleEvent(snackbar, "action", () => setLog("azione: annulla"));
+  useBolleEvent(snackbar, "queued", ({ pending }: { pending: number }) =>
     setLog(`in coda: ${pending}`),
   );
 
   return (
     <div>
-      <bubble-snackbar
+      <bolle-snackbar
         ref={snackbar}
         message="Documento eliminato"
         actionLabel="Annulla"
@@ -537,10 +551,10 @@ export function SnackbarExamples() {
         duration={6000}
       />
 
-      <bubble-button variant="tonal" onClick={() => snackbar.current?.show("Documento salvato")}>
+      <bolle-button variant="tonal" onClick={() => snackbar.current?.show("Documento salvato")}>
         Mostra
-      </bubble-button>
-      <bubble-button
+      </bolle-button>
+      <bolle-button
         variant="outlined"
         onClick={() => {
           snackbar.current?.show("Primo");
@@ -549,54 +563,54 @@ export function SnackbarExamples() {
         }}
       >
         Accoda tre messaggi
-      </bubble-button>
-      <bubble-button variant="text" onClick={() => snackbar.current?.close("manuale")}>
+      </bolle-button>
+      <bolle-button variant="text" onClick={() => snackbar.current?.close("manuale")}>
         Chiudi
-      </bubble-button>
+      </bolle-button>
       <output>{log}</output>
     </div>
   );
 }
 ```
 
-### bubble-tooltip
+### bolle-tooltip
 
 ```tsx
 export function TooltipExamples() {
-  const tip = useRef<BubbleTooltip | null>(null);
+  const tip = useRef<BolleTooltip | null>(null);
 
   return (
     <div>
-      <bubble-tooltip label="Conserva una copia del documento">
-        <bubble-button variant="tonal">Salva una copia</bubble-button>
-      </bubble-tooltip>
+      <bolle-tooltip label="Conserva una copia del documento">
+        <bolle-button variant="tonal">Salva una copia</bolle-button>
+      </bolle-tooltip>
 
-      <bubble-tooltip
+      <bolle-tooltip
         ref={tip}
         variant="rich"
         persistent
         label="Spazio personale"
         supportingText="La copia resta nel tuo spazio e resta aperta finché non la chiudi."
       >
-        <bubble-button variant="outlined">Dettagli</bubble-button>
+        <bolle-button variant="outlined">Dettagli</bolle-button>
         <p slot="content">Puoi riaprire la copia dalla sezione Documenti.</p>
-        <bubble-button slot="actions" variant="text">Apri Documenti</bubble-button>
-      </bubble-tooltip>
+        <bolle-button slot="actions" variant="text">Apri Documenti</bolle-button>
+      </bolle-tooltip>
 
-      <bubble-button variant="text" onClick={() => tip.current?.show()}>Mostra tooltip ricco</bubble-button>
-      <bubble-button variant="text" onClick={() => tip.current?.hide()}>Nascondi</bubble-button>
+      <bolle-button variant="text" onClick={() => tip.current?.show()}>Mostra tooltip ricco</bolle-button>
+      <bolle-button variant="text" onClick={() => tip.current?.hide()}>Nascondi</bolle-button>
     </div>
   );
 }
 ```
 
-### bubble-carousel
+### bolle-carousel
 
 ```tsx
 export function CarouselExamples() {
   const [current, setCurrent] = useState(0);
-  const carousel = useRef<BubbleCarousel | null>(null);
-  useBubbleEvent(carousel, "change", ({ index }: { index: number }) =>
+  const carousel = useRef<BolleCarousel | null>(null);
+  useBolleEvent(carousel, "change", ({ index }: { index: number }) =>
     setCurrent(index),
   );
 
@@ -611,7 +625,7 @@ export function CarouselExamples() {
 
   return (
     <div>
-      <bubble-carousel
+      <bolle-carousel
         ref={carousel}
         variant="hero"
         label="Documenti recenti"
@@ -622,10 +636,10 @@ export function CarouselExamples() {
         <article><h3>Posta</h3><p>Messaggi ricevuti</p></article>
         <article><h3>Archivio</h3><p>Documenti salvati</p></article>
         <article><h3>Impostazioni</h3><p>Preferenze personali</p></article>
-      </bubble-carousel>
+      </bolle-carousel>
 
       {variants.map((variant) => (
-        <bubble-carousel
+        <bolle-carousel
           key={variant}
           variant={variant}
           label={`Carousel ${variant}`}
@@ -635,15 +649,15 @@ export function CarouselExamples() {
           <article>A · {variant}</article>
           <article>B · {variant}</article>
           <article>C · {variant}</article>
-        </bubble-carousel>
+        </bolle-carousel>
       ))}
 
-      <bubble-button variant="outlined" onClick={() => carousel.current?.goTo(0)}>
+      <bolle-button variant="outlined" onClick={() => carousel.current?.goTo(0)}>
         Prima slide
-      </bubble-button>
-      <bubble-button variant="outlined" onClick={() => carousel.current?.goTo(2)}>
+      </bolle-button>
+      <bolle-button variant="outlined" onClick={() => carousel.current?.goTo(2)}>
         Ultima slide
-      </bubble-button>
+      </bolle-button>
       <output>{current + 1}</output>
     </div>
   );
@@ -652,59 +666,59 @@ export function CarouselExamples() {
 
 ## Conteneurs
 
-### bubble-card
+### bolle-card
 
 ```tsx
 export function CardExamples() {
   return (
     <div>
       {(["filled", "elevated", "outlined"] as const).map((variant) => (
-        <bubble-card key={variant} variant={variant} label={`Scheda ${variant}`}>
+        <bolle-card key={variant} variant={variant} label={`Scheda ${variant}`}>
           <h3>Documento</h3>
           <p>Contenuto indipendente con un'azione interna.</p>
-          <bubble-button variant="text">Apri</bubble-button>
-        </bubble-card>
+          <bolle-button variant="text">Apri</bolle-button>
+        </bolle-card>
       ))}
 
-      <bubble-card orientation="horizontal" href="https://example.com" label="Rapporto annuale">
+      <bolle-card orientation="horizontal" href="https://example.com" label="Rapporto annuale">
         <img slot="media" src="/cover.jpg" alt="Copertina del rapporto" />
         <h3>Rapporto annuale</h3>
         <p>Riepilogo delle attività dell'anno.</p>
-      </bubble-card>
+      </bolle-card>
     </div>
   );
 }
 ```
 
-### bubble-dialog
+### bolle-dialog
 
 ```tsx
 export function DialogExamples() {
-  const confirm = useRef<BubbleDialog | null>(null);
-  const fullscreen = useRef<BubbleDialog | null>(null);
-  const nonModal = useRef<BubbleDialog | null>(null);
-  const proposal = useRef<BubbleDialog | null>(null);
+  const confirm = useRef<BolleDialog | null>(null);
+  const fullscreen = useRef<BolleDialog | null>(null);
+  const nonModal = useRef<BolleDialog | null>(null);
+  const proposal = useRef<BolleDialog | null>(null);
   const [proposalOpen, setProposalOpen] = useState(false);
   const [dirty] = useState(true);
   const [result, setResult] = useState("");
 
-  useBubbleEvent(confirm, "before-close", (_detail, event) => {
+  useBolleEvent(confirm, "before-close", (_detail, event) => {
     if (dirty) event.preventDefault();
   });
-  useBubbleEvent(confirm, "closed", ({ returnValue }: { returnValue?: string }) =>
+  useBolleEvent(confirm, "closed", ({ returnValue }: { returnValue?: string }) =>
     setResult(returnValue ?? ""),
   );
-  useBubbleEvent(proposal, "closed", ({ returnValue }: { returnValue?: string }) => {
+  useBolleEvent(proposal, "closed", ({ returnValue }: { returnValue?: string }) => {
     setProposalOpen(false);
     setResult(returnValue ?? "");
   });
 
   return (
     <div>
-      <bubble-button variant="filled" onClick={() => confirm.current?.show()}>
+      <bolle-button variant="filled" onClick={() => confirm.current?.show()}>
         Elimina
-      </bubble-button>
-      <bubble-dialog
+      </bolle-button>
+      <bolle-dialog
         ref={confirm}
         label="Eliminare il documento?"
         variant="basic"
@@ -712,131 +726,131 @@ export function DialogExamples() {
         closeLabel="Annulla"
       >
         <p>L'operazione non può essere annullata.</p>
-        <bubble-button slot="actions" variant="text" onClick={() => confirm.current?.close("elimina")}>
+        <bolle-button slot="actions" variant="text" onClick={() => confirm.current?.close("elimina")}>
           Elimina
-        </bubble-button>
-      </bubble-dialog>
+        </bolle-button>
+      </bolle-dialog>
 
-      <bubble-button variant="outlined" onClick={() => fullscreen.current?.show()}>
+      <bolle-button variant="outlined" onClick={() => fullscreen.current?.show()}>
         Apri a schermo intero
-      </bubble-button>
-      <bubble-dialog ref={fullscreen} variant="full-screen" label="Editor" closeLabel="Chiudi">
+      </bolle-button>
+      <bolle-dialog ref={fullscreen} variant="full-screen" label="Editor" closeLabel="Chiudi">
         <p>Contenuto a schermo intero.</p>
-        <bubble-button slot="actions" onClick={() => fullscreen.current?.close("salvato")}>
+        <bolle-button slot="actions" onClick={() => fullscreen.current?.close("salvato")}>
           Salva
-        </bubble-button>
-      </bubble-dialog>
+        </bolle-button>
+      </bolle-dialog>
 
-      <bubble-button variant="text" onClick={() => nonModal.current?.show()}>
+      <bolle-button variant="text" onClick={() => nonModal.current?.show()}>
         Dialog non modale
-      </bubble-button>
-      <bubble-dialog ref={nonModal} modal={false} label="Nota" closeLabel="Chiudi">
+      </bolle-button>
+      <bolle-dialog ref={nonModal} modal={false} label="Nota" closeLabel="Chiudi">
         <p>Questo dialog non blocca il resto della pagina.</p>
-      </bubble-dialog>
+      </bolle-dialog>
 
-      <bubble-button variant="tonal" onClick={() => setProposalOpen(true)}>
+      <bolle-button variant="tonal" onClick={() => setProposalOpen(true)}>
         Dialog dichiarativo
-      </bubble-button>
-      <bubble-dialog
+      </bolle-button>
+      <bolle-dialog
         ref={proposal}
         open={proposalOpen}
         label="Proposta"
         closeLabel="Chiudi"
       >
         <p>Controllato dalla proprietà open.</p>
-      </bubble-dialog>
+      </bolle-dialog>
       <output>{result}</output>
     </div>
   );
 }
 ```
 
-### bubble-bottom-sheet
+### bolle-bottom-sheet
 
 ```tsx
 export function BottomSheetExamples() {
-  const sheet = useRef<BubbleBottomSheet | null>(null);
+  const sheet = useRef<BolleBottomSheet | null>(null);
   const [inlineOpen, setInlineOpen] = useState(true);
   const [result, setResult] = useState("");
-  useBubbleEvent(sheet, "closed", ({ returnValue }: { returnValue?: string }) =>
+  useBolleEvent(sheet, "closed", ({ returnValue }: { returnValue?: string }) =>
     setResult(returnValue ?? ""),
   );
 
   return (
     <div>
-      <bubble-button variant="filled" onClick={() => sheet.current?.show()}>
+      <bolle-button variant="filled" onClick={() => sheet.current?.show()}>
         Apri foglio modale
-      </bubble-button>
-      <bubble-bottom-sheet ref={sheet} dragHandle label="Filtri" closeLabel="Chiudi">
+      </bolle-button>
+      <bolle-bottom-sheet ref={sheet} dragHandle label="Filtri" closeLabel="Chiudi">
         <p>Scegli i filtri da applicare.</p>
-        <bubble-button slot="actions" onClick={() => sheet.current?.close("applica")}>
+        <bolle-button slot="actions" onClick={() => sheet.current?.close("applica")}>
           Applica
-        </bubble-button>
-      </bubble-bottom-sheet>
+        </bolle-button>
+      </bolle-bottom-sheet>
 
-      <bubble-bottom-sheet open={inlineOpen} variant="standard" dragHandle label="Filtri inline">
+      <bolle-bottom-sheet open={inlineOpen} variant="standard" dragHandle label="Filtri inline">
         <p>Foglio standard ancorato in basso.</p>
-        <bubble-button variant="text" onClick={() => setInlineOpen(false)}>Chiudi</bubble-button>
-      </bubble-bottom-sheet>
+        <bolle-button variant="text" onClick={() => setInlineOpen(false)}>Chiudi</bolle-button>
+      </bolle-bottom-sheet>
       <output>{result}</output>
     </div>
   );
 }
 ```
 
-### bubble-side-sheet
+### bolle-side-sheet
 
 ```tsx
 export function SideSheetExamples() {
-  const side = useRef<BubbleSideSheet | null>(null);
+  const side = useRef<BolleSideSheet | null>(null);
   const [standardOpen, setStandardOpen] = useState(true);
 
   return (
     <div>
-      <bubble-button variant="filled" onClick={() => side.current?.show()}>
+      <bolle-button variant="filled" onClick={() => side.current?.show()}>
         Apri pannello
-      </bubble-button>
-      <bubble-side-sheet ref={side} label="Dettagli" detached closeLabel="Chiudi">
+      </bolle-button>
+      <bolle-side-sheet ref={side} label="Dettagli" detached closeLabel="Chiudi">
         <p>Dettagli del documento selezionato.</p>
-        <bubble-button slot="actions" onClick={() => side.current?.close("salvato")}>
+        <bolle-button slot="actions" onClick={() => side.current?.close("salvato")}>
           Salva
-        </bubble-button>
-      </bubble-side-sheet>
+        </bolle-button>
+      </bolle-side-sheet>
 
-      <bubble-side-sheet
+      <bolle-side-sheet
         open={standardOpen}
         variant="standard"
         detached
         label="Dettagli inline"
       >
         <p>Pannello standard sempre visibile accanto al contenuto.</p>
-        <bubble-button variant="text" onClick={() => setStandardOpen(false)}>Chiudi</bubble-button>
-      </bubble-side-sheet>
+        <bolle-button variant="text" onClick={() => setStandardOpen(false)}>Chiudi</bolle-button>
+      </bolle-side-sheet>
     </div>
   );
 }
 ```
 
-### bubble-divider
+### bolle-divider
 
 ```tsx
 export function DividerExamples() {
   return (
     <div>
-      <bubble-divider />
-      <bubble-divider inset />
-      <bubble-divider variant="inset-start" />
-      <bubble-divider variant="inset-end" />
-      <bubble-divider decorative />
+      <bolle-divider />
+      <bolle-divider inset />
+      <bolle-divider variant="inset-start" />
+      <bolle-divider variant="inset-end" />
+      <bolle-divider decorative />
 
       <div style={{ display: "flex", blockSize: 120, alignItems: "center", gap: 8 }}>
         <span>Prima</span>
-        <bubble-divider vertical />
+        <bolle-divider vertical />
         <span>Dopo</span>
       </div>
       <div style={{ display: "flex", blockSize: 120, alignItems: "center", gap: 8 }}>
         <span>Prima</span>
-        <bubble-divider vertical decorative />
+        <bolle-divider vertical decorative />
         <span>Dopo</span>
       </div>
     </div>
@@ -846,7 +860,7 @@ export function DividerExamples() {
 
 ## Navigation
 
-### bubble-app-bar
+### bolle-app-bar
 
 ```tsx
 export function AppBarExamples() {
@@ -856,7 +870,7 @@ export function AppBarExamples() {
 
   return (
     <div>
-      <bubble-app-bar
+      <bolle-app-bar
         label="Posta"
         variant="small"
         subtitle="12 non letti"
@@ -865,77 +879,77 @@ export function AppBarExamples() {
         scrolled={scrolled}
         collapsed={collapsed}
       >
-        <bubble-icon-button slot="leading" label="Menu">☰</bubble-icon-button>
-        <bubble-icon-button slot="trailing" label="Cerca">🔍</bubble-icon-button>
-      </bubble-app-bar>
+        <bolle-icon-button slot="leading" label="Menu">☰</bolle-icon-button>
+        <bolle-icon-button slot="trailing" label="Cerca">🔍</bolle-icon-button>
+      </bolle-app-bar>
 
       {variants.map((variant) => (
-        <bubble-app-bar
+        <bolle-app-bar
           key={variant}
           variant={variant}
           label={`Posta ${variant}`}
           subtitle="12 non letti"
           collapsed={collapsed}
         >
-          <bubble-icon-button slot="leading" label="Menu">☰</bubble-icon-button>
-        </bubble-app-bar>
+          <bolle-icon-button slot="leading" label="Menu">☰</bolle-icon-button>
+        </bolle-app-bar>
       ))}
 
-      <bubble-app-bar variant="search">
-        <bubble-search label="Cerca" placeholder="Cerca nella posta">
+      <bolle-app-bar variant="search">
+        <bolle-search label="Cerca" placeholder="Cerca nella posta">
           <span slot="leading" aria-hidden="true">🔍</span>
-        </bubble-search>
-      </bubble-app-bar>
+        </bolle-search>
+      </bolle-app-bar>
 
-      <bubble-button variant="outlined" onClick={() => setScrolled((value) => !value)}>
+      <bolle-button variant="outlined" onClick={() => setScrolled((value) => !value)}>
         Alterna scrolled
-      </bubble-button>
-      <bubble-button variant="outlined" onClick={() => setCollapsed((value) => !value)}>
+      </bolle-button>
+      <bolle-button variant="outlined" onClick={() => setCollapsed((value) => !value)}>
         Alterna collapsed
-      </bubble-button>
+      </bolle-button>
     </div>
   );
 }
 ```
 
-### bubble-toolbar
+### bolle-toolbar
 
 ```tsx
 export function ToolbarExamples() {
   return (
     <div>
-      <bubble-toolbar label="Formato" variant="docked" orientation="horizontal" color="standard">
-        <bubble-icon-button label="Grassetto" toggle>B</bubble-icon-button>
-        <bubble-icon-button label="Corsivo" toggle>I</bubble-icon-button>
-        <bubble-icon-button label="Sottolineato" toggle>U</bubble-icon-button>
-        <bubble-divider vertical decorative />
-        <bubble-icon-button label="Allinea a sinistra">≡</bubble-icon-button>
-      </bubble-toolbar>
+      <bolle-toolbar label="Formato" variant="docked" orientation="horizontal" color="standard">
+        <bolle-icon-button label="Grassetto" toggle>B</bolle-icon-button>
+        <bolle-icon-button label="Corsivo" toggle>I</bolle-icon-button>
+        <bolle-icon-button label="Sottolineato" toggle>U</bolle-icon-button>
+        <bolle-divider vertical decorative />
+        <bolle-icon-button label="Allinea a sinistra">≡</bolle-icon-button>
+      </bolle-toolbar>
 
-      <bubble-toolbar label="Modifica" color="vibrant">
-        <bubble-icon-button label="Taglia" variant="standard">✂</bubble-icon-button>
-        <bubble-icon-button label="Copia" variant="standard">⧉</bubble-icon-button>
-        <bubble-icon-button label="Incolla" variant="standard">📋</bubble-icon-button>
-      </bubble-toolbar>
+      <bolle-toolbar label="Modifica" color="vibrant">
+        <bolle-icon-button label="Taglia" variant="standard">✂</bolle-icon-button>
+        <bolle-icon-button label="Copia" variant="standard">⧉</bolle-icon-button>
+        <bolle-icon-button label="Incolla" variant="standard">📋</bolle-icon-button>
+      </bolle-toolbar>
 
-      <bubble-toolbar label="Formato" variant="floating">
-        <bubble-icon-button label="Grassetto" toggle>B</bubble-icon-button>
-        <bubble-icon-button label="Corsivo" toggle>I</bubble-icon-button>
-      </bubble-toolbar>
+      <bolle-toolbar label="Formato" variant="floating">
+        <bolle-icon-button label="Grassetto" toggle>B</bolle-icon-button>
+        <bolle-icon-button label="Corsivo" toggle>I</bolle-icon-button>
+      </bolle-toolbar>
 
-      <bubble-toolbar label="Allineamento" variant="floating" orientation="vertical">
-        <bubble-icon-button label="Su">↑</bubble-icon-button>
-        <bubble-icon-button label="Giù">↓</bubble-icon-button>
-      </bubble-toolbar>
+      <bolle-toolbar label="Allineamento" variant="floating" orientation="vertical">
+        <bolle-icon-button label="Su">↑</bolle-icon-button>
+        <bolle-icon-button label="Giù">↓</bolle-icon-button>
+      </bolle-toolbar>
     </div>
   );
 }
 ```
 
-### bubble-navigation-bar
+### bolle-navigation-bar
 
 ```tsx
-const destinations: BubbleItem[] = [
+const destinations: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox" },
   { id: "archive", label: "Archivio", icon: "archive", href: "/archivio" },
   { id: "settings", label: "Impostazioni", icon: "settings" },
@@ -944,14 +958,14 @@ const destinations: BubbleItem[] = [
 
 export function NavigationBarExamples() {
   const [current, setCurrent] = useState("inbox");
-  const bar = useRef<BubbleNavigationBar | null>(null);
-  const flexible = useRef<BubbleNavigationBar | null>(null);
-  useBubbleEvent(bar, "navigate", ({ id }: { id: string }) => setCurrent(id));
-  useBubbleEvent(flexible, "navigate", ({ id }: { id: string }) => setCurrent(id));
+  const bar = useRef<BolleNavigationBar | null>(null);
+  const flexible = useRef<BolleNavigationBar | null>(null);
+  useBolleEvent(bar, "navigate", ({ id }: { id: string }) => setCurrent(id));
+  useBolleEvent(flexible, "navigate", ({ id }: { id: string }) => setCurrent(id));
 
   return (
     <div>
-      <bubble-navigation-bar
+      <bolle-navigation-bar
         ref={bar}
         label="Navigazione principale"
         items={destinations}
@@ -959,7 +973,7 @@ export function NavigationBarExamples() {
         variant="standard"
         layout="vertical"
       />
-      <bubble-navigation-bar
+      <bolle-navigation-bar
         ref={flexible}
         label="Navigazione flessibile"
         items={destinations}
@@ -973,24 +987,24 @@ export function NavigationBarExamples() {
 }
 ```
 
-### bubble-navigation-rail
+### bolle-navigation-rail
 
 ```tsx
-// `destinations` è lo stesso array della sezione bubble-navigation-bar.
+// `destinations` è lo stesso array della sezione bolle-navigation-bar.
 export function NavigationRailExamples() {
   const [current, setCurrent] = useState("inbox");
-  const rail = useRef<BubbleNavigationRail | null>(null);
-  useBubbleEvent(rail, "navigate", ({ id }: { id: string }) => setCurrent(id));
+  const rail = useRef<BolleNavigationRail | null>(null);
+  useBolleEvent(rail, "navigate", ({ id }: { id: string }) => setCurrent(id));
 
   return (
     <div>
-      <bubble-navigation-rail
+      <bolle-navigation-rail
         ref={rail}
         label="Rail compresso"
         items={destinations}
         value={current}
       />
-      <bubble-navigation-rail
+      <bolle-navigation-rail
         expanded
         variant="standard"
         layout="vertical"
@@ -1003,22 +1017,22 @@ export function NavigationRailExamples() {
 }
 ```
 
-### bubble-navigation-drawer
+### bolle-navigation-drawer
 
 ```tsx
-// `destinations` è lo stesso array della sezione bubble-navigation-bar.
+// `destinations` è lo stesso array della sezione bolle-navigation-bar.
 export function NavigationDrawerExamples() {
   const [current, setCurrent] = useState("inbox");
   const [standardOpen, setStandardOpen] = useState(true);
-  const drawer = useRef<BubbleNavigationDrawer | null>(null);
-  useBubbleEvent(drawer, "navigate", ({ id }: { id: string }) => setCurrent(id));
+  const drawer = useRef<BolleNavigationDrawer | null>(null);
+  useBolleEvent(drawer, "navigate", ({ id }: { id: string }) => setCurrent(id));
 
   return (
     <div>
-      <bubble-button variant="filled" onClick={() => drawer.current?.show()}>
+      <bolle-button variant="filled" onClick={() => drawer.current?.show()}>
         Apri drawer
-      </bubble-button>
-      <bubble-navigation-drawer
+      </bolle-button>
+      <bolle-navigation-drawer
         ref={drawer}
         label="Sezioni"
         closeLabel="Chiudi"
@@ -1026,9 +1040,9 @@ export function NavigationDrawerExamples() {
         value={current}
       >
         <p>Contenuto aggiuntivo del drawer.</p>
-      </bubble-navigation-drawer>
+      </bolle-navigation-drawer>
 
-      <bubble-navigation-drawer
+      <bolle-navigation-drawer
         open={standardOpen}
         variant="standard"
         detached
@@ -1036,24 +1050,24 @@ export function NavigationDrawerExamples() {
         items={destinations}
         value={current}
       >
-        <bubble-button variant="text" onClick={() => setStandardOpen(false)}>Chiudi</bubble-button>
-      </bubble-navigation-drawer>
+        <bolle-button variant="text" onClick={() => setStandardOpen(false)}>Chiudi</bolle-button>
+      </bolle-navigation-drawer>
     </div>
   );
 }
 ```
 
-### bubble-tabs
+### bolle-tabs
 
 ```tsx
-const primaryTabs: BubbleItem[] = [
+const primaryTabs: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox", badge: "3" },
   { id: "archive", label: "Archivio", icon: "archive" },
   { id: "settings", label: "Preferenze", icon: "settings" },
   { id: "trash", label: "Cestino", icon: "trash", disabled: true },
 ];
 
-const manyTabs: BubbleItem[] = Array.from({ length: 8 }, (_, index) => ({
+const manyTabs: BolleItem[] = Array.from({ length: 8 }, (_, index) => ({
   id: `s${index}`,
   label: `Vista ${index + 1}`,
 }));
@@ -1061,16 +1075,16 @@ const manyTabs: BubbleItem[] = Array.from({ length: 8 }, (_, index) => ({
 export function TabsExamples() {
   const [tab, setTab] = useState("inbox");
   const [manyTab, setManyTab] = useState("s0");
-  const tabs = useRef<BubbleTabs | null>(null);
-  const secondary = useRef<BubbleTabs | null>(null);
-  const scrollTabs = useRef<BubbleTabs | null>(null);
-  useBubbleEvent(tabs, "change", ({ value }: { value: string }) => setTab(value));
-  useBubbleEvent(secondary, "change", ({ value }: { value: string }) => setTab(value));
-  useBubbleEvent(scrollTabs, "change", ({ value }: { value: string }) => setManyTab(value));
+  const tabs = useRef<BolleTabs | null>(null);
+  const secondary = useRef<BolleTabs | null>(null);
+  const scrollTabs = useRef<BolleTabs | null>(null);
+  useBolleEvent(tabs, "change", ({ value }: { value: string }) => setTab(value));
+  useBolleEvent(secondary, "change", ({ value }: { value: string }) => setTab(value));
+  useBolleEvent(scrollTabs, "change", ({ value }: { value: string }) => setManyTab(value));
 
   return (
     <div>
-      <bubble-tabs
+      <bolle-tabs
         ref={tabs}
         label="Categorie"
         items={primaryTabs}
@@ -1083,9 +1097,9 @@ export function TabsExamples() {
         <p slot="archive">Documenti salvati.</p>
         <p slot="settings">Preferenze personali.</p>
         <p slot="trash">Elementi eliminati.</p>
-      </bubble-tabs>
+      </bolle-tabs>
 
-      <bubble-tabs
+      <bolle-tabs
         ref={secondary}
         label="Dettagli"
         items={primaryTabs}
@@ -1097,9 +1111,9 @@ export function TabsExamples() {
         <p slot="archive">Archivio secondario.</p>
         <p slot="settings">Impostazioni secondarie.</p>
         <p slot="trash">Cestino secondario.</p>
-      </bubble-tabs>
+      </bolle-tabs>
 
-      <bubble-tabs
+      <bolle-tabs
         ref={scrollTabs}
         label="Viste scorrevoli"
         items={manyTabs}
@@ -1109,7 +1123,7 @@ export function TabsExamples() {
         {manyTabs.map((item) => (
           <p key={item.id} slot={item.id}>{item.label}</p>
         ))}
-      </bubble-tabs>
+      </bolle-tabs>
     </div>
   );
 }
@@ -1117,24 +1131,24 @@ export function TabsExamples() {
 
 ## Sélection
 
-### bubble-checkbox
+### bolle-checkbox
 
 ```tsx
 export function CheckboxExamples() {
   const [terms, setTerms] = useState(false);
   const [newsletter, setNewsletter] = useState(true);
-  const termsField = useRef<BubbleCheckbox | null>(null);
-  const newsletterField = useRef<BubbleCheckbox | null>(null);
-  useBubbleEvent(termsField, "change", ({ checked }: { checked: boolean }) =>
+  const termsField = useRef<BolleCheckbox | null>(null);
+  const newsletterField = useRef<BolleCheckbox | null>(null);
+  useBolleEvent(termsField, "change", ({ checked }: { checked: boolean }) =>
     setTerms(checked),
   );
-  useBubbleEvent(newsletterField, "change", ({ checked }: { checked: boolean }) =>
+  useBolleEvent(newsletterField, "change", ({ checked }: { checked: boolean }) =>
     setNewsletter(checked),
   );
 
   return (
     <form>
-      <bubble-checkbox
+      <bolle-checkbox
         ref={termsField}
         label="Accetto i termini"
         name="terms"
@@ -1143,16 +1157,16 @@ export function CheckboxExamples() {
         checked={terms}
         supportingText="Puoi revocare il consenso in qualsiasi momento."
       />
-      <bubble-checkbox
+      <bolle-checkbox
         ref={newsletterField}
         name="newsletter"
         value="si"
         checked={newsletter}
         label="Newsletter"
       />
-      <bubble-checkbox indeterminate label="Selezione parziale" />
-      <bubble-checkbox checked disabled label="Disabilitata" />
-      <bubble-checkbox
+      <bolle-checkbox indeterminate label="Selezione parziale" />
+      <bolle-checkbox checked disabled label="Disabilitata" />
+      <bolle-checkbox
         checked
         error
         required
@@ -1165,27 +1179,27 @@ export function CheckboxExamples() {
 ```
 
 L'événement `change` du composant n'est pas l'événement natif du navigateur : il
-faut toujours le brancher avec `useBubbleEvent` sur une ref, comme dans les deux
+faut toujours le brancher avec `useBolleEvent` sur une ref, comme dans les deux
 champs contrôlés.
 
-### bubble-switch
+### bolle-switch
 
 ```tsx
 export function SwitchExamples() {
   const [wifi, setWifi] = useState(true);
   const [notifications, setNotifications] = useState(false);
-  const wifiSwitch = useRef<BubbleSwitch | null>(null);
-  const notificationsSwitch = useRef<BubbleSwitch | null>(null);
-  useBubbleEvent(wifiSwitch, "change", ({ checked }: { checked: boolean }) =>
+  const wifiSwitch = useRef<BolleSwitch | null>(null);
+  const notificationsSwitch = useRef<BolleSwitch | null>(null);
+  useBolleEvent(wifiSwitch, "change", ({ checked }: { checked: boolean }) =>
     setWifi(checked),
   );
-  useBubbleEvent(notificationsSwitch, "change", ({ checked }: { checked: boolean }) =>
+  useBolleEvent(notificationsSwitch, "change", ({ checked }: { checked: boolean }) =>
     setNotifications(checked),
   );
 
   return (
     <div>
-      <bubble-switch
+      <bolle-switch
         ref={wifiSwitch}
         label="Wi-Fi"
         name="wifi"
@@ -1194,14 +1208,14 @@ export function SwitchExamples() {
         icon="🔅"
         iconSelected="🔆"
       />
-      <bubble-switch
+      <bolle-switch
         ref={notificationsSwitch}
         label="Notifiche"
         checked={notifications}
         supportingText="Ricevi un avviso per ogni aggiornamento."
       />
-      <bubble-switch checked disabled label="Bluetooth disabilitato" />
-      <bubble-switch checked error required label="Con errore" supportingText="Azione richiesta." />
+      <bolle-switch checked disabled label="Bluetooth disabilitato" />
+      <bolle-switch checked error required label="Con errore" supportingText="Azione richiesta." />
     </div>
   );
 }
@@ -1209,20 +1223,20 @@ export function SwitchExamples() {
 
 `icon` et `iconSelected` existent uniquement comme propriétés (aucun attribut) :
 React 19 les affecte correctement. Avec React 18, utilisez
-`useBubbleProps(switchRef, { icon, iconSelected })`.
+`useBolleProps(switchRef, { icon, iconSelected })`.
 
-### bubble-radio-button
+### bolle-radio-button
 
 ```tsx
 export function RadioExamples() {
   const [plan, setPlan] = useState("standard");
   const group = useRef<HTMLDivElement | null>(null);
-  useBubbleEvent(group, "change", ({ value }: { value: string }) => setPlan(value));
+  useBolleEvent(group, "change", ({ value }: { value: string }) => setPlan(value));
 
   return (
     <form ref={group}>
       {["standard", "plus", "enterprise"].map((option) => (
-        <bubble-radio-button
+        <bolle-radio-button
           key={option}
           name="plan"
           value={option}
@@ -1231,9 +1245,9 @@ export function RadioExamples() {
           required
         />
       ))}
-      <bubble-radio-button name="plan" value="legacy" label="Legacy" disabled />
-      <bubble-radio-button name="locale" value="it" label="Italiano" checked />
-      <bubble-radio-button name="locale" value="en" label="Inglese" />
+      <bolle-radio-button name="plan" value="legacy" label="Legacy" disabled />
+      <bolle-radio-button name="locale" value="it" label="Italiano" checked />
+      <bolle-radio-button name="locale" value="en" label="Inglese" />
     </form>
   );
 }
@@ -1242,7 +1256,7 @@ export function RadioExamples() {
 Le listener se trouve sur le conteneur, pas sur le radio individuel : il reçoit
 ainsi le `change` de tout le groupe.
 
-### bubble-chip
+### bolle-chip
 
 ```tsx
 export function ChipExamples() {
@@ -1251,30 +1265,30 @@ export function ChipExamples() {
   const [log, setLog] = useState("");
   const chips = useRef<HTMLDivElement | null>(null);
 
-  useBubbleEvent(chips, "action", () => setLog("assist"));
-  useBubbleEvent(chips, "change", ({ selected }: { selected: boolean }) =>
+  useBolleEvent(chips, "action", () => setLog("assist"));
+  useBolleEvent(chips, "change", ({ selected }: { selected: boolean }) =>
     setFavorite(selected),
   );
-  useBubbleEvent(chips, "remove", (_detail, event) => {
-    const label = (event.target as BubbleChip).label;
+  useBolleEvent(chips, "remove", (_detail, event) => {
+    const label = (event.target as BolleChip).label;
     setCities((current) => current.filter((city) => city !== label));
   });
 
   return (
     <div ref={chips}>
-      <bubble-chip variant="assist" label="Aggiungi al calendario" />
-      <bubble-chip
+      <bolle-chip variant="assist" label="Aggiungi al calendario" />
+      <bolle-chip
         variant="filter"
         name="filters"
         value="favorite"
         label="Preferiti"
         selected={favorite}
       />
-      <bubble-chip variant="filter" name="filters" value="unread" label="Solo non letti" />
-      <bubble-chip variant="filter" elevated label="Elevata" />
+      <bolle-chip variant="filter" name="filters" value="unread" label="Solo non letti" />
+      <bolle-chip variant="filter" elevated label="Elevata" />
 
       {cities.map((city) => (
-        <bubble-chip
+        <bolle-chip
           key={city}
           variant="input"
           label={city}
@@ -1282,16 +1296,16 @@ export function ChipExamples() {
           removeLabel={`Rimuovi ${city}`}
         >
           <span slot="avatar" aria-hidden="true">{city.slice(0, 2)}</span>
-        </bubble-chip>
+        </bolle-chip>
       ))}
 
-      <bubble-chip variant="suggestion" label="Grazie!">
+      <bolle-chip variant="suggestion" label="Grazie!">
         <span slot="icon" aria-hidden="true">✓</span>
-      </bubble-chip>
-      <bubble-chip variant="assist" href="https://example.com" label="Apri collegamento">
+      </bolle-chip>
+      <bolle-chip variant="assist" href="https://example.com" label="Apri collegamento">
         <span slot="icon" aria-hidden="true">↗</span>
-      </bubble-chip>
-      <bubble-chip variant="assist" label="Disabilitata" disabled />
+      </bolle-chip>
+      <bolle-chip variant="assist" label="Disabilitata" disabled />
       <output>{log}</output>
     </div>
   );
@@ -1300,10 +1314,10 @@ export function ChipExamples() {
 
 Seule la variante `filter` participe au formulaire avec `name` et `value`.
 
-### bubble-list
+### bolle-list
 
 ```tsx
-const listItems: BubbleItem[] = [
+const listItems: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox", supportingText: "Messaggi ricevuti" },
   { id: "archive", label: "Archivio", icon: "archive", href: "/archivio" },
   {
@@ -1324,20 +1338,20 @@ export function ListExamples() {
   const [multiple, setMultiple] = useState<string[]>(["inbox"]);
   const [expanded, setExpanded] = useState<string[]>(["folders"]);
   const [log, setLog] = useState("");
-  const singleList = useRef<BubbleList | null>(null);
-  const multiList = useRef<BubbleList | null>(null);
-  const actionList = useRef<BubbleList | null>(null);
+  const singleList = useRef<BolleList | null>(null);
+  const multiList = useRef<BolleList | null>(null);
+  const actionList = useRef<BolleList | null>(null);
 
-  useBubbleEvent(singleList, "change", ({ value }: { value: string }) => setSingle(value));
-  useBubbleEvent(singleList, "expand", ({ id, expanded: open }: { id: string; expanded: boolean }) =>
+  useBolleEvent(singleList, "change", ({ value }: { value: string }) => setSingle(value));
+  useBolleEvent(singleList, "expand", ({ id, expanded: open }: { id: string; expanded: boolean }) =>
     setExpanded((current) => (open ? [...current, id] : current.filter((value) => value !== id))),
   );
-  useBubbleEvent(multiList, "change", ({ value }: { value: string[] }) => setMultiple(value));
-  useBubbleEvent(actionList, "action", ({ id }: { id: string }) => setLog(`azione ${id}`));
+  useBolleEvent(multiList, "change", ({ value }: { value: string[] }) => setMultiple(value));
+  useBolleEvent(actionList, "action", ({ id }: { id: string }) => setLog(`azione ${id}`));
 
   return (
     <div>
-      <bubble-list
+      <bolle-list
         ref={singleList}
         label="Selezione singola"
         variant="standard"
@@ -1347,7 +1361,7 @@ export function ListExamples() {
         value={single}
         expanded={expanded}
       />
-      <bubble-list
+      <bolle-list
         ref={multiList}
         label="Selezione multipla"
         variant="segmented"
@@ -1355,26 +1369,26 @@ export function ListExamples() {
         items={listItems}
         value={multiple}
       />
-      <bubble-list
+      <bolle-list
         ref={actionList}
         label="Azioni"
         interactive
         selection="none"
         items={listItems}
       />
-      <bubble-list label="Statico con link" selection="none" items={listItems}>
+      <bolle-list label="Statico con link" selection="none" items={listItems}>
         <li><div className="list-item">Riga personalizzata</div></li>
-      </bubble-list>
+      </bolle-list>
       <output>{log}</output>
     </div>
   );
 }
 ```
 
-### bubble-segmented-buttons
+### bolle-segmented-buttons
 
 ```tsx
-const segments: BubbleItem[] = [
+const segments: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox" },
   { id: "archive", label: "Archivio", icon: "archive" },
   { id: "settings", label: "Impostazioni", icon: "settings" },
@@ -1384,14 +1398,14 @@ const segments: BubbleItem[] = [
 export function SegmentedExamples() {
   const [view, setView] = useState("inbox");
   const [filters, setFilters] = useState<string[]>(["inbox", "archive"]);
-  const single = useRef<BubbleSegmentedButtons | null>(null);
-  const multi = useRef<BubbleSegmentedButtons | null>(null);
-  useBubbleEvent(single, "change", ({ value }: { value: string }) => setView(value));
-  useBubbleEvent(multi, "change", ({ values }: { values: string[] }) => setFilters(values));
+  const single = useRef<BolleSegmentedButtons | null>(null);
+  const multi = useRef<BolleSegmentedButtons | null>(null);
+  useBolleEvent(single, "change", ({ value }: { value: string }) => setView(value));
+  useBolleEvent(multi, "change", ({ values }: { values: string[] }) => setFilters(values));
 
   return (
     <form>
-      <bubble-segmented-buttons
+      <bolle-segmented-buttons
         ref={single}
         label="Vista"
         name="view"
@@ -1399,7 +1413,7 @@ export function SegmentedExamples() {
         value={view}
         required
       />
-      <bubble-segmented-buttons
+      <bolle-segmented-buttons
         ref={multi}
         label="Filtri"
         name="filters"
@@ -1407,13 +1421,13 @@ export function SegmentedExamples() {
         items={segments}
         values={filters}
       />
-      <bubble-segmented-buttons label="Disabilitati" name="disabled" items={segments} value="inbox" disabled />
+      <bolle-segmented-buttons label="Disabilitati" name="disabled" items={segments} value="inbox" disabled />
     </form>
   );
 }
 ```
 
-### bubble-slider
+### bolle-slider
 
 ```tsx
 export function SliderExamples() {
@@ -1422,22 +1436,22 @@ export function SliderExamples() {
   const [price, setPrice] = useState("20");
   const [upper, setUpper] = useState(80);
   const [brightness, setBrightness] = useState("40");
-  const volumeSlider = useRef<BubbleSlider | null>(null);
-  const balanceSlider = useRef<BubbleSlider | null>(null);
-  const range = useRef<BubbleSlider | null>(null);
-  const brightnessSlider = useRef<BubbleSlider | null>(null);
+  const volumeSlider = useRef<BolleSlider | null>(null);
+  const balanceSlider = useRef<BolleSlider | null>(null);
+  const range = useRef<BolleSlider | null>(null);
+  const brightnessSlider = useRef<BolleSlider | null>(null);
 
-  useBubbleEvent(volumeSlider, "value-input", ({ value }: { value: string }) => setVolume(value));
-  useBubbleEvent(balanceSlider, "value-input", ({ value }: { value: string }) => setBalance(value));
-  useBubbleEvent(brightnessSlider, "value-input", ({ value }: { value: string }) => setBrightness(value));
-  useBubbleEvent(range, "value-input", ({ value, upperValue }: { value: string; upperValue?: number }) => {
+  useBolleEvent(volumeSlider, "value-input", ({ value }: { value: string }) => setVolume(value));
+  useBolleEvent(balanceSlider, "value-input", ({ value }: { value: string }) => setBalance(value));
+  useBolleEvent(brightnessSlider, "value-input", ({ value }: { value: string }) => setBrightness(value));
+  useBolleEvent(range, "value-input", ({ value, upperValue }: { value: string; upperValue?: number }) => {
     setPrice(value);
     setUpper(upperValue ?? upper);
   });
 
   return (
     <div>
-      <bubble-slider
+      <bolle-slider
         ref={volumeSlider}
         name="volume"
         label="Volume"
@@ -1450,14 +1464,14 @@ export function SliderExamples() {
         orientation="horizontal"
         showValue
       />
-      <bubble-slider
+      <bolle-slider
         ref={balanceSlider}
         label="Bilanciamento"
         variant="centered"
         value={balance}
         showValue
       />
-      <bubble-slider
+      <bolle-slider
         ref={range}
         label="Prezzo"
         name="price"
@@ -1468,7 +1482,7 @@ export function SliderExamples() {
         showValue
         required
       />
-      <bubble-slider
+      <bolle-slider
         ref={brightnessSlider}
         label="Luminosità"
         value={brightness}
@@ -1476,37 +1490,37 @@ export function SliderExamples() {
         iconStart="🔅"
         iconEnd="🔆"
       />
-      <bubble-slider label="Passo 10 con indicatori" step={10} value="40" showValue stops />
-      <bubble-slider label="Small" size="small" value="30" />
-      <bubble-slider label="Large" size="large" value="70" />
-      <bubble-slider label="Verticale" orientation="vertical" value="50" />
-      <bubble-slider label="Disabilitato" value="20" disabled />
+      <bolle-slider label="Passo 10 con indicatori" step={10} value="40" showValue stops />
+      <bolle-slider label="Small" size="small" value="30" />
+      <bolle-slider label="Large" size="large" value="70" />
+      <bolle-slider label="Verticale" orientation="vertical" value="50" />
+      <bolle-slider label="Disabilitato" value="20" disabled />
     </div>
   );
 }
 ```
 
 `iconStart` et `iconEnd` sont des propriétés : React 19 les affecte ; avec
-React 18, utilisez `useBubbleProps`.
+React 18, utilisez `useBolleProps`.
 
 ## Texte et saisie
 
-### bubble-text-field
+### bolle-text-field
 
 ```tsx
 export function TextFieldExamples() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const field = useRef<BubbleTextField | null>(null);
-  const bio = useRef<BubbleTextField | null>(null);
+  const field = useRef<BolleTextField | null>(null);
+  const bio = useRef<BolleTextField | null>(null);
   const emailError = email.length > 0 && !email.includes("@");
 
-  useBubbleEvent(field, "value-input", ({ value }: { value: string }) => setEmail(value));
-  useBubbleEvent(bio, "value-input", ({ value }: { value: string }) => setMessage(value));
+  useBolleEvent(field, "value-input", ({ value }: { value: string }) => setEmail(value));
+  useBolleEvent(bio, "value-input", ({ value }: { value: string }) => setMessage(value));
 
   return (
     <form>
-      <bubble-text-field
+      <bolle-text-field
         ref={field}
         name="email"
         label="Email"
@@ -1523,11 +1537,11 @@ export function TextFieldExamples() {
       >
         <span slot="leading" aria-hidden="true">✉</span>
         <span slot="trailing" aria-hidden="true">?</span>
-      </bubble-text-field>
+      </bolle-text-field>
 
-      <bubble-text-field label="Nome utente" variant="filled" prefix="@" maxlength={30} counter />
-      <bubble-text-field label="Prezzo" type="number" min="0" max="9999" step="0.01" prefix="€" suffix="EUR" value="12.50" />
-      <bubble-text-field
+      <bolle-text-field label="Nome utente" variant="filled" prefix="@" maxlength={30} counter />
+      <bolle-text-field label="Prezzo" type="number" min="0" max="9999" step="0.01" prefix="€" suffix="EUR" value="12.50" />
+      <bolle-text-field
         ref={bio}
         label="Messaggio"
         multiline
@@ -1536,18 +1550,18 @@ export function TextFieldExamples() {
         counter
         value={message}
       />
-      <bubble-text-field label="Solo lettura" readonly value="Valore bloccato" />
-      <bubble-text-field label="Quantità" type="number" min="1" max="10" step="1" value="2" />
-      <bubble-text-field label="Codice" pattern="[A-Z]{3}[0-9]{3}" value="ABC123" supportingText="Tre lettere e tre cifre." />
-      <bubble-text-field label="Data" type="date" min="2026-01-01" max="2026-12-31" />
-      <bubble-text-field label="Ricerca" type="search" placeholder="Cerca" />
-      <bubble-text-field label="Disabilitato" disabled value="Non modificabile" />
+      <bolle-text-field label="Solo lettura" readonly value="Valore bloccato" />
+      <bolle-text-field label="Quantità" type="number" min="1" max="10" step="1" value="2" />
+      <bolle-text-field label="Codice" pattern="[A-Z]{3}[0-9]{3}" value="ABC123" supportingText="Tre lettere e tre cifre." />
+      <bolle-text-field label="Data" type="date" min="2026-01-01" max="2026-12-31" />
+      <bolle-text-field label="Ricerca" type="search" placeholder="Cerca" />
+      <bolle-text-field label="Disabilitato" disabled value="Non modificabile" />
     </form>
   );
 }
 ```
 
-### bubble-search
+### bolle-search
 
 ```tsx
 const allCities = ["Bologna", "Bolzano", "Firenze", "Genova", "Milano", "Napoli", "Roma", "Torino"];
@@ -1556,17 +1570,17 @@ export function SearchExamples() {
   const [query, setQuery] = useState("");
   const [cities, setCities] = useState(allCities);
   const [lastSearch, setLastSearch] = useState("");
-  const search = useRef<BubbleSearch | null>(null);
+  const search = useRef<BolleSearch | null>(null);
 
-  useBubbleEvent(search, "value-input", ({ value }: { value: string }) => setQuery(value));
-  useBubbleEvent(search, "suggest", ({ value }: { value: string }) =>
+  useBolleEvent(search, "value-input", ({ value }: { value: string }) => setQuery(value));
+  useBolleEvent(search, "suggest", ({ value }: { value: string }) =>
     setCities(allCities.filter((city) => city.toLowerCase().includes(value.toLowerCase()))),
   );
-  useBubbleEvent(search, "search", ({ value }: { value: string }) => setLastSearch(value));
+  useBolleEvent(search, "search", ({ value }: { value: string }) => setLastSearch(value));
 
   return (
     <div>
-      <bubble-search
+      <bolle-search
         label="Cerca documenti"
         placeholder="Titolo o autore"
         appearance="contained"
@@ -1577,7 +1591,7 @@ export function SearchExamples() {
       >
         <span slot="leading" aria-hidden="true">🔍</span>
         <span slot="trailing" aria-hidden="true">⌘K</span>
-        <bubble-list
+        <bolle-list
           slot="results"
           label="Risultati"
           selection="none"
@@ -1586,12 +1600,12 @@ export function SearchExamples() {
             { id: "r2", label: "Torino", supportingText: "Capoluogo piemontese" },
           ]}
         />
-      </bubble-search>
+      </bolle-search>
 
-      <bubble-search appearance="divided" label="Cerca nel testo" placeholder="Parola chiave" />
-      <bubble-search layout="full-screen" label="Cerca ovunque" placeholder="Cerca ovunque" />
+      <bolle-search appearance="divided" label="Cerca nel testo" placeholder="Parola chiave" />
+      <bolle-search layout="full-screen" label="Cerca ovunque" placeholder="Cerca ovunque" />
 
-      <bubble-search
+      <bolle-search
         ref={search}
         filter
         label="Cerca città"
@@ -1606,25 +1620,25 @@ export function SearchExamples() {
 }
 ```
 
-### bubble-date-picker
+### bolle-date-picker
 
 ```tsx
 export function DatePickerExamples() {
   const [appointment, setAppointment] = useState("2026-11-11");
   const [rangeStart, setRangeStart] = useState("2026-11-01");
   const [rangeEnd, setRangeEnd] = useState("2026-11-20");
-  const single = useRef<BubbleDatePicker | null>(null);
-  const range = useRef<BubbleDatePicker | null>(null);
+  const single = useRef<BolleDatePicker | null>(null);
+  const range = useRef<BolleDatePicker | null>(null);
 
-  useBubbleEvent(single, "change", ({ value }: { value: string }) => setAppointment(value));
-  useBubbleEvent(range, "change", ({ value, endValue }: { value: string; endValue: string }) => {
+  useBolleEvent(single, "change", ({ value }: { value: string }) => setAppointment(value));
+  useBolleEvent(range, "change", ({ value, endValue }: { value: string; endValue: string }) => {
     setRangeStart(value);
     setRangeEnd(endValue);
   });
 
   return (
     <form>
-      <bubble-date-picker
+      <bolle-date-picker
         ref={single}
         label="Data appuntamento"
         name="appointment"
@@ -1638,7 +1652,7 @@ export function DatePickerExamples() {
         supportingText="Seleziona un giorno lavorativo."
       />
 
-      <bubble-date-picker
+      <bolle-date-picker
         ref={range}
         label="Periodo"
         name="period"
@@ -1648,7 +1662,7 @@ export function DatePickerExamples() {
         endValue={rangeEnd}
       />
 
-      <bubble-date-picker
+      <bolle-date-picker
         variant="docked"
         label="Calendario sempre visibile"
         locale="it"
@@ -1658,27 +1672,27 @@ export function DatePickerExamples() {
         labels={{ previous: "Mese precedente", next: "Mese successivo" }}
       />
 
-      <bubble-date-picker label="Disabilitato" disabled value="2026-11-11" />
+      <bolle-date-picker label="Disabilitato" disabled value="2026-11-11" />
     </form>
   );
 }
 ```
 
-### bubble-time-picker
+### bolle-time-picker
 
 ```tsx
 export function TimePickerExamples() {
   const [time, setTime] = useState("09:30");
   const [evening, setEvening] = useState("18:45");
-  const dial = useRef<BubbleTimePicker | null>(null);
-  const twelve = useRef<BubbleTimePicker | null>(null);
+  const dial = useRef<BolleTimePicker | null>(null);
+  const twelve = useRef<BolleTimePicker | null>(null);
 
-  useBubbleEvent(dial, "change", ({ value }: { value: string }) => setTime(value));
-  useBubbleEvent(twelve, "change", ({ value }: { value: string }) => setEvening(value));
+  useBolleEvent(dial, "change", ({ value }: { value: string }) => setTime(value));
+  useBolleEvent(twelve, "change", ({ value }: { value: string }) => setEvening(value));
 
   return (
     <form>
-      <bubble-time-picker
+      <bolle-time-picker
         ref={dial}
         label="Ora promemoria"
         name="time"
@@ -1688,7 +1702,7 @@ export function TimePickerExamples() {
         required
         value={time}
       />
-      <bubble-time-picker
+      <bolle-time-picker
         ref={twelve}
         label="Ora in formato 12"
         variant="dial"
@@ -1697,8 +1711,8 @@ export function TimePickerExamples() {
         value={evening}
         labels={{ period: "AM o PM", hour: "Ora", minute: "Minuti" }}
       />
-      <bubble-time-picker label="Inserimento da tastiera" variant="input" hourCycle={24} value="08:15" />
-      <bubble-time-picker label="Disabilitato" disabled value="07:00" />
+      <bolle-time-picker label="Inserimento da tastiera" variant="input" hourCycle={24} value="08:15" />
+      <bolle-time-picker label="Disabilitato" disabled value="07:00" />
     </form>
   );
 }
@@ -1706,7 +1720,7 @@ export function TimePickerExamples() {
 
 ## Menu
 
-### bubble-menu
+### bolle-menu
 
 ```tsx
 const documentItems: MenuEntry[] = [
@@ -1744,22 +1758,22 @@ const baselineItems: MenuEntry[] = [
 ];
 
 export function MenuExamples() {
-  const actions = useRef<BubbleMenu | null>(null);
-  const filters = useRef<BubbleMenu | null>(null);
-  const baseline = useRef<BubbleMenu | null>(null);
+  const actions = useRef<BolleMenu | null>(null);
+  const filters = useRef<BolleMenu | null>(null);
+  const baseline = useRef<BolleMenu | null>(null);
   const [last, setLast] = useState("");
 
   const onSelect = ({ item, selectedIds }: { item: { label: string }; selectedIds: string[] }) =>
     setLast(`${item.label} (${selectedIds.join(", ")})`);
 
-  useBubbleEvent(actions, "menu-select", onSelect);
-  useBubbleEvent(filters, "menu-select", onSelect);
-  useBubbleEvent(baseline, "menu-select", onSelect);
-  useBubbleEvent(actions, "menu-open", () => setLast("menu aperto"));
-  useBubbleEvent(actions, "menu-close", () => setLast("menu chiuso"));
+  useBolleEvent(actions, "menu-select", onSelect);
+  useBolleEvent(filters, "menu-select", onSelect);
+  useBolleEvent(baseline, "menu-select", onSelect);
+  useBolleEvent(actions, "menu-open", () => setLast("menu aperto"));
+  useBolleEvent(actions, "menu-close", () => setLast("menu chiuso"));
 
   function open(
-    menu: BubbleMenu | null,
+    menu: BolleMenu | null,
     event: React.MouseEvent,
     options?: { last?: boolean; x?: number; y?: number },
   ) {
@@ -1768,10 +1782,10 @@ export function MenuExamples() {
 
   return (
     <div>
-      <bubble-button haspopup="menu" onClick={(event) => open(actions.current, event)}>
+      <bolle-button haspopup="menu" onClick={(event) => open(actions.current, event)}>
         Azioni
-      </bubble-button>
-      <bubble-menu
+      </bolle-button>
+      <bolle-menu
         ref={actions}
         menuLabel="Azioni documento"
         variant="vertical"
@@ -1783,14 +1797,14 @@ export function MenuExamples() {
         items={documentItems}
       />
 
-      <bubble-button
+      <bolle-button
         variant="tonal"
         haspopup="menu"
         onClick={(event) => open(filters.current, event, { last: true })}
       >
         Filtri
-      </bubble-button>
-      <bubble-menu
+      </bolle-button>
+      <bolle-menu
         ref={filters}
         menuLabel="Filtri contenuti"
         colorScheme="vibrant"
@@ -1799,27 +1813,27 @@ export function MenuExamples() {
         items={filterItems}
       />
 
-      <bubble-button
+      <bolle-button
         variant="outlined"
         haspopup="menu"
         onClick={(event) => open(baseline.current, event, { x: 120, y: 160 })}
       >
         Menu baseline a coordinate
-      </bubble-button>
-      <bubble-button variant="text" onClick={() => actions.current?.close()}>
+      </bolle-button>
+      <bolle-button variant="text" onClick={() => actions.current?.close()}>
         Chiudi menu azioni
-      </bubble-button>
-      <bubble-menu ref={baseline} menuLabel="Azioni rapide" variant="baseline" items={baselineItems} />
+      </bolle-button>
+      <bolle-menu ref={baseline} menuLabel="Azioni rapide" variant="baseline" items={baselineItems} />
       <output>{last}</output>
     </div>
   );
 }
 ```
 
-### bubble-fab-menu
+### bolle-fab-menu
 
 ```tsx
-const fabItems: BubbleItem[] = [
+const fabItems: BolleItem[] = [
   { id: "note", label: "Nota", icon: "note" },
   { id: "folder", label: "Cartella", icon: "folder" },
   { id: "upload", label: "Carica file", icon: "upload" },
@@ -1828,21 +1842,21 @@ const fabItems: BubbleItem[] = [
 
 export function FabMenuExamples() {
   const [log, setLog] = useState("");
-  const fab = useRef<BubbleFabMenu | null>(null);
-  useBubbleEvent(fab, "action", ({ id }: { id?: string }) => setLog(`crea ${id}`));
+  const fab = useRef<BolleFabMenu | null>(null);
+  useBolleEvent(fab, "action", ({ id }: { id?: string }) => setLog(`crea ${id}`));
 
   return (
     <div>
-      <bubble-fab-menu ref={fab} label="Crea" items={fabItems}>
+      <bolle-fab-menu ref={fab} label="Crea" items={fabItems}>
         <span slot="icon" aria-hidden="true">＋</span>
-      </bubble-fab-menu>
+      </bolle-fab-menu>
       <output>{log}</output>
     </div>
   );
 }
 ```
 
-### bubble-split-button
+### bolle-split-button
 
 ```tsx
 const splitItems: MenuEntry[] = [
@@ -1856,19 +1870,19 @@ export function SplitButtonExamples() {
   const [log, setLog] = useState("");
   const variants = ["filled", "tonal", "outlined", "elevated"] as const;
   const sizes = ["xs", "small", "medium", "large", "xl"] as const;
-  const split = useRef<BubbleSplitButton | null>(null);
+  const split = useRef<BolleSplitButton | null>(null);
 
-  useBubbleEvent(split, "action", () => setLog("azione principale"));
-  useBubbleEvent(split, "menu-select", ({ item }: { item: { label: string } }) =>
+  useBolleEvent(split, "action", () => setLog("azione principale"));
+  useBolleEvent(split, "menu-select", ({ item }: { item: { label: string } }) =>
     setLog(item.label),
   );
-  useBubbleEvent(split, "menu-open", () => setLog("menu aperto"));
-  useBubbleEvent(split, "menu-close", () => setLog("menu chiuso"));
+  useBolleEvent(split, "menu-open", () => setLog("menu aperto"));
+  useBolleEvent(split, "menu-close", () => setLog("menu chiuso"));
 
   return (
     <div>
       {variants.map((variant) => (
-        <bubble-split-button
+        <bolle-split-button
           key={variant}
           variant={variant}
           label={`Invia ${variant}`}
@@ -1878,7 +1892,7 @@ export function SplitButtonExamples() {
       ))}
 
       {sizes.map((size) => (
-        <bubble-split-button
+        <bolle-split-button
           key={size}
           size={size}
           label={size}
@@ -1887,13 +1901,13 @@ export function SplitButtonExamples() {
         />
       ))}
 
-      <bubble-split-button
+      <bolle-split-button
         ref={split}
         label="Invia"
         menuLabel="Altre opzioni"
         items={splitItems}
       />
-      <bubble-split-button label="Invia" menuLabel="Altre opzioni" disabled items={splitItems} />
+      <bolle-split-button label="Invia" menuLabel="Altre opzioni" disabled items={splitItems} />
       <output>{log}</output>
     </div>
   );

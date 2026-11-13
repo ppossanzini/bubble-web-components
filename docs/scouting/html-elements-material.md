@@ -48,7 +48,7 @@ flowchart LR
 
 | Elemento | Resa predefinita | Material 3 | Libreria |
 | --- | --- | --- | --- |
-| `<h1>`–`<h6>` | blocchi con scala dimensionale del browser | ruolo tipografico, nessuna associazione all'elemento: `typography.md` definisce display, headline, title, body, label senza mappatura | `<h1>` nel titolo di `bubble-app-bar` (`src/surfaces.ts:36`) |
+| `<h1>`–`<h6>` | blocchi con scala dimensionale del browser | ruolo tipografico, nessuna associazione all'elemento: `typography.md` definisce display, headline, title, body, label senza mappatura | `<h1>` nel titolo di `bolle-app-bar` (`src/surfaces.ts:36`) |
 | `<p>` | blocco con margini verticali | nessuna associazione; il testo dei componenti usa body-medium o body-large secondo il componente | `<p>` nel contenuto del dialog e nello snackbar |
 | `<hr>` | riga con bordo in rilievo | componente divider: 1dp, colore `outline-variant`, spazio 8dp (`divider.md`, riga `Platform` con `<hr>`) | `<hr>` nel divisore (`src/surfaces.ts:150`) |
 | `<ul>`, `<ol>`, `<li>` | elenco con rientranza e marcatori | componente list: token `list.*`, arresto del rientro, `role="listbox"` quando la lista è selezionabile (`lists.md`, riga `Platform` con `<ul>` e `<li>`) | `<ul>` in navigazione, lista, risultati di ricerca, sottoliste |
@@ -94,9 +94,9 @@ La tabella dei dati è l'assenza più ampia del catalogo. Material 3 definisce a
 | `<input type="color">` | selettore colore del sistema | assente: Material 3 pubblica ruoli di colore, non un controllo di scelta colore | non usato |
 | `<input type="submit">`, `reset`, `image`, `button` | pulsanti nativi | componenti button e icon button; la libreria non usa i tipi submit o reset come superficie | non usati |
 | `<textarea>` | area di testo ridimensionabile | componente text field multiriga: `text-fields.md` cita `<textarea>` | 1 occorrenza nel campo multiriga |
-| `<select>`, `<option>`, `<optgroup>` | menu a comparsa del sistema | nessun componente select nel catalogo; il token set contiene `md.comp.filled-select.*` e `md.comp.outlined-select.*` che riusano l'albero del text field (`text-fields.md`, sezione 8), e la scelta avviene in un componente di selezione annidato raggiunto da un'icona | `bubble-select` veste `option` e `optgroup` native con il menu Material; il date picker usa ancora il `select` nativo per mese e anno |
+| `<select>`, `<option>`, `<optgroup>` | menu a comparsa del sistema | nessun componente select nel catalogo; il token set contiene `md.comp.filled-select.*` e `md.comp.outlined-select.*` che riusano l'albero del text field (`text-fields.md`, sezione 8), e la scelta avviene in un componente di selezione annidato raggiunto da un'icona | `bolle-select` veste `option` e `optgroup` native con il menu Material; il date picker usa ancora il `select` nativo per mese e anno |
 | `<selectedcontent>` | contenuto dell'opzione scelta nel select chiuso | assente | non usato |
-| `<datalist>` | suggerimenti nativi del campo | assente; i suggerimenti sono il componente search con lista | `bubble-autocomplete` è la forma Material del campo con datalist, con lista in popover e filtro; `<datalist>` resta per gli stop dello slider |
+| `<datalist>` | suggerimenti nativi del campo | assente; i suggerimenti sono il componente search con lista | `bolle-autocomplete` è la forma Material del campo con datalist, con lista in popover e filtro; `<datalist>` resta per gli stop dello slider |
 | `<output>` | testo senza resa | assente | `<output>` per il valore corrente dello slider |
 | `<progress>` | barra di avanzamento del browser | componente progress indicator: `progress-indicators.md` e `loading-indicator.md` citano `<progress>` come base | nessun `<progress>` nei template; la barra lineare è un `div` con `role="progressbar"` |
 | `<meter>` | indicatore a barra con zone colorate | assente: il catalogo copre l'avanzamento di un'attività, non la misura di un valore | non usato |

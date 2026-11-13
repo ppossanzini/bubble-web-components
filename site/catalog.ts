@@ -1,6 +1,6 @@
 import { html, nothing, type TemplateResult } from "lit";
 import { ti } from "../demo/icons.js";
-import type { BubbleItem, MenuEntry } from "../src/index.js";
+import type { BolleItem, MenuEntry } from "../src/index.js";
 import type { AttrSpec, SnippetSpec } from "./codegen.js";
 import { code } from "./codegen.js";
 
@@ -127,7 +127,7 @@ const sixItems = [
   { id: "trash", label: "Cestino", icon: "trash" },
   { id: "help", label: "Aiuto", icon: "help" },
 ];
-const navItems = (source = ICON_ITEMS): BubbleItem[] =>
+const navItems = (source = ICON_ITEMS): BolleItem[] =>
   source.map((item) => ({ ...item, icon: ti(item.icon) }));
 
 const LIST_CODE = [
@@ -150,7 +150,7 @@ const LIST_CODE = [
   },
   { id: "trash", label: "Cestino", icon: "trash", disabled: true },
 ];
-const listItems = (): BubbleItem[] =>
+const listItems = (): BolleItem[] =>
   LIST_CODE.map((item) => ({
     ...item,
     icon: item.icon ? ti(item.icon) : undefined,
@@ -210,7 +210,7 @@ const TAB_CODE = [
   { id: "archive", label: "Archivio", icon: "archive" },
   { id: "settings", label: "Preferenze", icon: "settings" },
 ];
-const tabItems = (): BubbleItem[] =>
+const tabItems = (): BolleItem[] =>
   TAB_CODE.map((item) => ({ ...item, icon: ti(item.icon) }));
 
 const snippets = (items: unknown, name = "items") => ({
@@ -220,14 +220,14 @@ const snippets = (items: unknown, name = "items") => ({
 
 export const entries: Entry[] = [
   {
-    tag: "bubble-button",
+    tag: "bolle-button",
     title: "Button",
     navLabel: "Buttons",
     group: "Buttons",
     summary:
       "Azione principale o secondaria, con stati di toggle, link e invio form.",
     controls: [
-      en("variant", "Variante", ["filled", "tonal", "outlined", "elevated", "text"], "filled"),
+      en("variant", "Variante", ["filled", "tonal", "outlined", "elevated", "text", "accent"], "filled"),
       en("size", "Dimensione", ["xs", "small", "medium", "large", "xl"], "small"),
       en("shape", "Forma", ["round", "square"], "round"),
       fl("icon", "Icona iniziale", false),
@@ -236,7 +236,7 @@ export const entries: Entry[] = [
       fl("disabled", "Disabilitato", false),
       tx("label", "Etichetta accessibile", "Azione"),
     ],
-    render: (state) => html`<bubble-button
+    render: (state) => html`<bolle-button
       .variant=${s(state, "variant")}
       .size=${s(state, "size")}
       .shape=${s(state, "shape")}
@@ -246,7 +246,7 @@ export const entries: Entry[] = [
       .label=${s(state, "label")}
       >${b(state, "icon")
         ? html`<span slot="icon" aria-hidden="true">${ti("plus")}</span>`
-        : nothing}${s(state, "label") || "Azione"}</bubble-button
+        : nothing}${s(state, "label") || "Azione"}</bolle-button
     >`,
     code: (state) => ({
       attrs: [
@@ -262,7 +262,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-icon-button",
+    tag: "bolle-icon-button",
     title: "Icon button",
     navLabel: "Icon buttons",
     group: "Buttons",
@@ -277,7 +277,7 @@ export const entries: Entry[] = [
       fl("disabled", "Disabilitato", false),
       tx("label", "Etichetta accessibile", "Notifiche"),
     ],
-    render: (state) => html`<bubble-icon-button
+    render: (state) => html`<bolle-icon-button
       .variant=${s(state, "variant")}
       .size=${s(state, "size")}
       .shape=${s(state, "shape")}
@@ -286,7 +286,7 @@ export const entries: Entry[] = [
       ?selected=${b(state, "selected")}
       ?disabled=${b(state, "disabled")}
       .label=${s(state, "label")}
-      >${ti("star")}</bubble-icon-button
+      >${ti("star")}</bolle-icon-button
     >`,
     code: (state) => ({
       attrs: [
@@ -303,7 +303,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-floating-action-button",
+    tag: "bolle-floating-action-button",
     title: "FAB",
     navLabel: "FABs",
     group: "Buttons",
@@ -314,12 +314,12 @@ export const entries: Entry[] = [
       fl("disabled", "Disabilitato", false),
       tx("label", "Etichetta accessibile", "Crea"),
     ],
-    render: (state) => html`<bubble-floating-action-button
+    render: (state) => html`<bolle-floating-action-button
       .size=${s(state, "size")}
       .color=${s(state, "color")}
       ?disabled=${b(state, "disabled")}
       .label=${s(state, "label")}
-      >${ti("plus")}</bubble-floating-action-button
+      >${ti("plus")}</bolle-floating-action-button
     >`,
     code: (state) => ({
       attrs: [
@@ -332,7 +332,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-extended-fab",
+    tag: "bolle-extended-fab",
     title: "Extended FAB",
     navLabel: "Extended FABs",
     group: "Buttons",
@@ -344,14 +344,14 @@ export const entries: Entry[] = [
       fl("disabled", "Disabilitato", false),
       tx("label", "Etichetta", "Crea documento"),
     ],
-    render: (state) => html`<bubble-extended-fab
+    render: (state) => html`<bolle-extended-fab
       .size=${s(state, "size")}
       .color=${s(state, "color")}
       ?disabled=${b(state, "disabled")}
       .label=${s(state, "label")}
       >${b(state, "icon")
         ? html`<span slot="icon" aria-hidden="true">${ti("plus")}</span>`
-        : nothing}${s(state, "label")}</bubble-extended-fab
+        : nothing}${s(state, "label")}</bolle-extended-fab
     >`,
     code: (state) => ({
       attrs: [
@@ -364,7 +364,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-button-group",
+    tag: "bolle-button-group",
     title: "Button group",
     navLabel: "Button groups",
     group: "Buttons",
@@ -380,7 +380,7 @@ export const entries: Entry[] = [
       fl("required", "Obbligatorio", false),
       tx("label", "Etichetta del gruppo", "Allineamento"),
     ],
-    render: (state) => html`<bubble-button-group
+    render: (state) => html`<bolle-button-group
       .variant=${s(state, "variant")}
       .selection=${s(state, "selection")}
       .size=${s(state, "size")}
@@ -388,25 +388,25 @@ export const entries: Entry[] = [
       ?required=${b(state, "required")}
       .label=${s(state, "label")}
     >
-      <bubble-button
+      <bolle-button
         value="left"
         variant=${s(state, "buttonVariant")}
         selected
         >${b(state, "icons")
           ? html`<span slot="icon" aria-hidden="true">${ti("bold")}</span>`
-          : nothing}Sinistra</bubble-button
+          : nothing}Sinistra</bolle-button
       >
-      <bubble-button value="center" variant=${s(state, "buttonVariant")}
+      <bolle-button value="center" variant=${s(state, "buttonVariant")}
         >${b(state, "icons")
           ? html`<span slot="icon" aria-hidden="true">${ti("italic")}</span>`
-          : nothing}Centro</bubble-button
+          : nothing}Centro</bolle-button
       >
-      <bubble-button value="right" variant=${s(state, "buttonVariant")}
+      <bolle-button value="right" variant=${s(state, "buttonVariant")}
         >${b(state, "icons")
           ? html`<span slot="icon" aria-hidden="true">${ti("underline")}</span>`
-          : nothing}Destra</bubble-button
+          : nothing}Destra</bolle-button
       >
-    </bubble-button-group>`,
+    </bolle-button-group>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -424,13 +424,13 @@ export const entries: Entry[] = [
           const leading = b(state, "icons")
             ? `<span slot="icon" aria-hidden="true">${icon}</span>`
             : "";
-          return `<bubble-button ${attrs}>${leading}${text}</bubble-button>`;
+          return `<bolle-button ${attrs}>${leading}${text}</bolle-button>`;
         })
         .join("\n"),
     }),
   },
   {
-    tag: "bubble-badge",
+    tag: "bolle-badge",
     title: "Badge",
     group: "Badges",
     summary: "Contatore o punto di notifica; con etichetta diventa uno stato annunciato.",
@@ -440,12 +440,12 @@ export const entries: Entry[] = [
       fl("small", "Solo punto", false),
       tx("label", "Etichetta accessibile", "Notifiche"),
     ],
-    render: (state) => html`<bubble-badge
+    render: (state) => html`<bolle-badge
       .value=${s(state, "value")}
       .max=${n(state, "max")}
       ?small=${b(state, "small")}
       .label=${s(state, "label")}
-    ></bubble-badge>`,
+    ></bolle-badge>`,
     code: (state) => ({
       attrs: [
         a("value", s(state, "value")),
@@ -456,7 +456,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-progress-indicator",
+    tag: "bolle-progress-indicator",
     title: "Progress indicator",
     group: "Progress indicators",
     summary: "Avanzamento lineare o circolare, determinato o indeterminato, anche ondulato.",
@@ -467,13 +467,13 @@ export const entries: Entry[] = [
       fl("wavy", "Ondulato", false),
       tx("label", "Etichetta accessibile", "Avanzamento"),
     ],
-    render: (state) => html`<bubble-progress-indicator
+    render: (state) => html`<bolle-progress-indicator
       .variant=${s(state, "variant")}
       .value=${n(state, "value")}
       ?indeterminate=${b(state, "indeterminate")}
       ?wavy=${b(state, "wavy")}
       .label=${s(state, "label")}
-    ></bubble-progress-indicator>`,
+    ></bolle-progress-indicator>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -485,7 +485,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-loading-indicator",
+    tag: "bolle-loading-indicator",
     title: "Loading indicator",
     group: "Loading indicator",
     summary: "Indicatore Morph, libero o dentro un contenitore.",
@@ -493,16 +493,16 @@ export const entries: Entry[] = [
       en("variant", "Variante", ["default", "contained"], "default"),
       tx("label", "Etichetta accessibile", "Caricamento"),
     ],
-    render: (state) => html`<bubble-loading-indicator
+    render: (state) => html`<bolle-loading-indicator
       .variant=${s(state, "variant")}
       .label=${s(state, "label")}
-    ></bubble-loading-indicator>`,
+    ></bolle-loading-indicator>`,
     code: (state) => ({
       attrs: [a("variant", s(state, "variant")), a("label", s(state, "label"))],
     }),
   },
   {
-    tag: "bubble-snackbar",
+    tag: "bolle-snackbar",
     title: "Snackbar",
     group: "Snackbar",
     summary: "Messaggio temporaneo con azione, chiusura e coda di messaggi.",
@@ -513,16 +513,16 @@ export const entries: Entry[] = [
       rg("duration", "Durata (ms)", 0, 10000, 5000, 1000),
     ],
     render: (state, ctx) => html`
-      <bubble-button variant="tonal" @click=${() => ctx.snackbar("pv-snackbar", s(state, "message"))}>
+      <bolle-button variant="tonal" @click=${() => ctx.snackbar("pv-snackbar", s(state, "message"))}>
         Mostra snackbar
-      </bubble-button>
-      <bubble-snackbar
+      </bolle-button>
+      <bolle-snackbar
         id="pv-snackbar"
         .message=${s(state, "message")}
         .actionLabel=${s(state, "actionLabel")}
         .closeLabel=${s(state, "closeLabel")}
         .duration=${n(state, "duration")}
-      ></bubble-snackbar>
+      ></bolle-snackbar>
     `,
     code: (state) => ({
       attrs: [
@@ -534,7 +534,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-tooltip",
+    tag: "bolle-tooltip",
     title: "Tooltip",
     group: "Tooltips",
     summary: "Testo di aiuto su hover e focus, semplice o con contenuto ricco.",
@@ -544,14 +544,14 @@ export const entries: Entry[] = [
       tx("label", "Etichetta", "Salva una copia"),
       tx("supportingText", "Testo di supporto", "La copia resta nel tuo spazio personale."),
     ],
-    render: (state) => html`<bubble-tooltip
+    render: (state) => html`<bolle-tooltip
       .variant=${s(state, "variant")}
       ?persistent=${b(state, "persistent")}
       .label=${s(state, "label")}
       .supportingText=${s(state, "supportingText")}
     >
-      <bubble-button variant="tonal">Salva una copia</bubble-button>
-    </bubble-tooltip>`,
+      <bolle-button variant="tonal">Salva una copia</bolle-button>
+    </bolle-tooltip>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -559,11 +559,11 @@ export const entries: Entry[] = [
         a("label", s(state, "label")),
         a("supportingText", s(state, "supportingText")),
       ],
-      content: '<bubble-button variant="tonal">Salva una copia</bubble-button>',
+      content: '<bolle-button variant="tonal">Salva una copia</bolle-button>',
     }),
   },
   {
-    tag: "bubble-carousel",
+    tag: "bolle-carousel",
     title: "Carousel",
     group: "Carousel",
     summary: "Sequenza di slide con controlli, contatore e varianti hero, multi-browse e full-screen.",
@@ -573,7 +573,7 @@ export const entries: Entry[] = [
       tx("previousLabel", "Etichetta precedente", "Precedente"),
       tx("nextLabel", "Etichetta successivo", "Successivo"),
     ],
-    render: (state) => html`<bubble-carousel
+    render: (state) => html`<bolle-carousel
       .variant=${s(state, "variant")}
       .label=${s(state, "label")}
       .previousLabel=${s(state, "previousLabel")}
@@ -582,7 +582,7 @@ export const entries: Entry[] = [
       <article><h3>Posta</h3><p>Messaggi ricevuti</p></article>
       <article><h3>Archivio</h3><p>Documenti salvati</p></article>
       <article><h3>Impostazioni</h3><p>Preferenze personali</p></article>
-    </bubble-carousel>`,
+    </bolle-carousel>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -597,7 +597,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-card",
+    tag: "bolle-card",
     title: "Card",
     group: "Cards",
     summary: "Superficie per contenuto correlato, con media, orientamento e varianti di elevazione.",
@@ -607,7 +607,7 @@ export const entries: Entry[] = [
       tx("href", "Collegamento", ""),
       tx("label", "Etichetta accessibile", "Documento"),
     ],
-    render: (state) => html`<bubble-card
+    render: (state) => html`<bolle-card
       .variant=${s(state, "variant")}
       .orientation=${s(state, "orientation")}
       .href=${s(state, "href")}
@@ -617,8 +617,8 @@ export const entries: Entry[] = [
       <p>Contenuto indipendente con un'azione interna.</p>
       ${s(state, "href")
         ? nothing
-        : html`<bubble-button variant="text">Apri</bubble-button>`}
-    </bubble-card>`,
+        : html`<bolle-button variant="text">Apri</bolle-button>`}
+    </bolle-card>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -631,7 +631,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-dialog",
+    tag: "bolle-dialog",
     title: "Dialog",
     group: "Dialogs",
     summary: "Finestra modale o non modale, con azioni e variante a schermo intero.",
@@ -642,10 +642,10 @@ export const entries: Entry[] = [
       tx("label", "Etichetta accessibile", "Eliminare il documento?"),
     ],
     render: (state, ctx) => html`
-      <bubble-button variant="filled" @click=${(event: Event) => ctx.show("pv-dialog", event)}>
+      <bolle-button variant="filled" @click=${(event: Event) => ctx.show("pv-dialog", event)}>
         Apri dialog
-      </bubble-button>
-      <bubble-dialog
+      </bolle-button>
+      <bolle-dialog
         id="pv-dialog"
         .variant=${s(state, "variant")}
         ?modal=${b(state, "modal")}
@@ -653,13 +653,13 @@ export const entries: Entry[] = [
         .label=${s(state, "label")}
       >
         <p>L'operazione non può essere annullata.</p>
-        <bubble-button
+        <bolle-button
           slot="actions"
           variant="text"
           @click=${() => ctx.close("pv-dialog", "elimina")}
-          >Elimina</bubble-button
+          >Elimina</bolle-button
         >
-      </bubble-dialog>
+      </bolle-dialog>
     `,
     code: (state) => ({
       attrs: [
@@ -670,11 +670,11 @@ export const entries: Entry[] = [
       ],
       content:
         "<p>L'operazione non può essere annullata.</p>\n" +
-        '<bubble-button slot="actions" variant="text">Elimina</bubble-button>',
+        '<bolle-button slot="actions" variant="text">Elimina</bolle-button>',
     }),
   },
   {
-    tag: "bubble-bottom-sheet",
+    tag: "bolle-bottom-sheet",
     title: "Bottom sheet",
     group: "Sheets",
     summary: "Foglio ancorato in basso, modale o standard, con maniglia di trascinamento.",
@@ -686,11 +686,11 @@ export const entries: Entry[] = [
     ],
     render: (state, ctx) => html`
       ${s(state, "variant") === "modal"
-        ? html`<bubble-button variant="filled" @click=${(event: Event) => ctx.show("pv-sheet", event)}>
+        ? html`<bolle-button variant="filled" @click=${(event: Event) => ctx.show("pv-sheet", event)}>
             Apri foglio
-          </bubble-button>`
+          </bolle-button>`
         : nothing}
-      <bubble-bottom-sheet
+      <bolle-bottom-sheet
         id="pv-sheet"
         .variant=${s(state, "variant")}
         ?dragHandle=${b(state, "dragHandle")}
@@ -699,10 +699,10 @@ export const entries: Entry[] = [
         .label=${s(state, "label")}
       >
         <p>Scegli i filtri da applicare.</p>
-        <bubble-button slot="actions" @click=${() => ctx.close("pv-sheet", "applica")}>
+        <bolle-button slot="actions" @click=${() => ctx.close("pv-sheet", "applica")}>
           Applica
-        </bubble-button>
-      </bubble-bottom-sheet>
+        </bolle-button>
+      </bolle-bottom-sheet>
     `,
     code: (state) => ({
       attrs: [
@@ -714,11 +714,11 @@ export const entries: Entry[] = [
       ],
       content:
         "<p>Scegli i filtri da applicare.</p>\n" +
-        '<bubble-button slot="actions">Applica</bubble-button>',
+        '<bolle-button slot="actions">Applica</bolle-button>',
     }),
   },
   {
-    tag: "bubble-side-sheet",
+    tag: "bolle-side-sheet",
     title: "Side sheet",
     group: "Sheets",
     summary: "Pannello laterale modale o standard, con variante staccata dal bordo.",
@@ -730,11 +730,11 @@ export const entries: Entry[] = [
     ],
     render: (state, ctx) => html`
       ${s(state, "variant") === "modal"
-        ? html`<bubble-button variant="filled" @click=${(event: Event) => ctx.show("pv-side", event)}>
+        ? html`<bolle-button variant="filled" @click=${(event: Event) => ctx.show("pv-side", event)}>
             Apri pannello
-          </bubble-button>`
+          </bolle-button>`
         : nothing}
-      <bubble-side-sheet
+      <bolle-side-sheet
         id="pv-side"
         .variant=${s(state, "variant")}
         ?detached=${b(state, "detached")}
@@ -743,10 +743,10 @@ export const entries: Entry[] = [
         .label=${s(state, "label")}
       >
         <p>Dettagli del documento selezionato.</p>
-        <bubble-button slot="actions" @click=${() => ctx.close("pv-side", "salvato")}>
+        <bolle-button slot="actions" @click=${() => ctx.close("pv-side", "salvato")}>
           Salva
-        </bubble-button>
-      </bubble-side-sheet>
+        </bolle-button>
+      </bolle-side-sheet>
     `,
     code: (state) => ({
       attrs: [
@@ -758,11 +758,11 @@ export const entries: Entry[] = [
       ],
       content:
         "<p>Dettagli del documento selezionato.</p>\n" +
-        '<bubble-button slot="actions">Salva</bubble-button>',
+        '<bolle-button slot="actions">Salva</bolle-button>',
     }),
   },
   {
-    tag: "bubble-divider",
+    tag: "bolle-divider",
     title: "Divider",
     group: "Divider",
     summary: "Separatore orizzontale o verticale, con inset e modalità decorativa.",
@@ -774,12 +774,12 @@ export const entries: Entry[] = [
     ],
     render: (state) => html`<div class="divider-row">
       ${b(state, "vertical") ? html`<span>Prima</span>` : nothing}
-      <bubble-divider
+      <bolle-divider
         .variant=${s(state, "variant")}
         ?vertical=${b(state, "vertical")}
         ?inset=${b(state, "inset")}
         ?decorative=${b(state, "decorative")}
-      ></bubble-divider>
+      ></bolle-divider>
       ${b(state, "vertical") ? html`<span>Dopo</span>` : nothing}
     </div>`,
     code: (state) => ({
@@ -792,7 +792,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-app-bar",
+    tag: "bolle-app-bar",
     title: "App bar",
     group: "App bars",
     summary: "Barra superiore con sette layout, sottotitolo, slot e stato di scorrimento.",
@@ -805,7 +805,7 @@ export const entries: Entry[] = [
       fl("collapsed", "Compresso", false),
       tx("label", "Titolo", "Posta"),
     ],
-    render: (state) => html`<bubble-app-bar
+    render: (state) => html`<bolle-app-bar
       .variant=${s(state, "variant")}
       .subtitle=${s(state, "subtitle")}
       .alignment=${s(state, "alignment")}
@@ -817,14 +817,14 @@ export const entries: Entry[] = [
       ${s(state, "variant") === "search"
         ? nothing
         : html`<span class="preview-app-title">${s(state, "label")}</span>`}
-      <bubble-icon-button slot="leading" label="Menu">${ti("menu-2")}</bubble-icon-button>
+      <bolle-icon-button slot="leading" label="Menu">${ti("menu-2")}</bolle-icon-button>
       ${s(state, "variant") === "search"
-        ? html`<bubble-search label="Cerca" placeholder="Cerca nella posta">
+        ? html`<bolle-search label="Cerca" placeholder="Cerca nella posta">
             <span slot="leading" aria-hidden="true">${ti("search")}</span>
-          </bubble-search>`
+          </bolle-search>`
         : nothing}
-      <bubble-icon-button slot="trailing" label="Cerca">${ti("search")}</bubble-icon-button>
-    </bubble-app-bar>`,
+      <bolle-icon-button slot="trailing" label="Cerca">${ti("search")}</bolle-icon-button>
+    </bolle-app-bar>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -836,12 +836,12 @@ export const entries: Entry[] = [
         a("label", s(state, "label")),
       ],
       content:
-        '<bubble-icon-button slot="leading" label="Menu">menu</bubble-icon-button>\n' +
-        '<bubble-icon-button slot="trailing" label="Cerca">search</bubble-icon-button>',
+        '<bolle-icon-button slot="leading" label="Menu">menu</bolle-icon-button>\n' +
+        '<bolle-icon-button slot="trailing" label="Cerca">search</bolle-icon-button>',
     }),
   },
   {
-    tag: "bubble-toolbar",
+    tag: "bolle-toolbar",
     title: "Toolbar",
     group: "Toolbars",
     summary: "Raggruppa azioni correlate con roving tabindex, orizzontale o verticale.",
@@ -851,16 +851,16 @@ export const entries: Entry[] = [
       en("color", "Colore", ["standard", "vibrant"], "standard"),
       tx("label", "Etichetta", "Formato"),
     ],
-    render: (state) => html`<bubble-toolbar
+    render: (state) => html`<bolle-toolbar
       .variant=${s(state, "variant")}
       .orientation=${s(state, "orientation")}
       .color=${s(state, "color")}
       .label=${s(state, "label")}
     >
-      <bubble-icon-button label="Grassetto" toggle>${ti("bold")}</bubble-icon-button>
-      <bubble-icon-button label="Corsivo" toggle>${ti("italic")}</bubble-icon-button>
-      <bubble-icon-button label="Sottolineato" toggle>${ti("underline")}</bubble-icon-button>
-    </bubble-toolbar>`,
+      <bolle-icon-button label="Grassetto" toggle>${ti("bold")}</bolle-icon-button>
+      <bolle-icon-button label="Corsivo" toggle>${ti("italic")}</bolle-icon-button>
+      <bolle-icon-button label="Sottolineato" toggle>${ti("underline")}</bolle-icon-button>
+    </bolle-toolbar>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -869,13 +869,13 @@ export const entries: Entry[] = [
         a("label", s(state, "label")),
       ],
       content:
-        '<bubble-icon-button label="Grassetto" toggle>format_bold</bubble-icon-button>\n' +
-        '<bubble-icon-button label="Corsivo" toggle>format_italic</bubble-icon-button>\n' +
-        '<bubble-icon-button label="Sottolineato" toggle>format_underline</bubble-icon-button>',
+        '<bolle-icon-button label="Grassetto" toggle>format_bold</bolle-icon-button>\n' +
+        '<bolle-icon-button label="Corsivo" toggle>format_italic</bolle-icon-button>\n' +
+        '<bolle-icon-button label="Sottolineato" toggle>format_underline</bolle-icon-button>',
     }),
   },
   {
-    tag: "bubble-navigation-bar",
+    tag: "bolle-navigation-bar",
     title: "Navigation bar",
     group: "Navigation bar",
     summary: "Da tre a cinque destinazioni, baseline o flexible, con layout orizzontale.",
@@ -884,13 +884,13 @@ export const entries: Entry[] = [
       en("layout", "Layout", ["vertical", "horizontal"], "vertical"),
       tx("label", "Etichetta", "Navigazione principale"),
     ],
-    render: (state) => html`<bubble-navigation-bar
+    render: (state) => html`<bolle-navigation-bar
       .variant=${s(state, "variant")}
       .layout=${s(state, "layout")}
       .label=${s(state, "label")}
       .items=${navItems()}
       value="inbox"
-    ></bubble-navigation-bar>`,
+    ></bolle-navigation-bar>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -903,7 +903,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-navigation-rail",
+    tag: "bolle-navigation-rail",
     title: "Navigation rail",
     group: "Navigation rail",
     summary: "Rail compresso o espanso per la navigazione laterale.",
@@ -913,14 +913,14 @@ export const entries: Entry[] = [
       en("layout", "Layout", ["vertical", "horizontal"], "vertical"),
       tx("label", "Etichetta", "Navigazione laterale"),
     ],
-    render: (state) => html`<bubble-navigation-rail
+    render: (state) => html`<bolle-navigation-rail
       ?expanded=${b(state, "expanded")}
       .variant=${s(state, "variant")}
       .layout=${s(state, "layout")}
       .label=${s(state, "label")}
       .items=${navItems()}
       value="inbox"
-    ></bubble-navigation-rail>`,
+    ></bolle-navigation-rail>`,
     code: (state) => ({
       attrs: [
         a("expanded", b(state, "expanded")),
@@ -934,7 +934,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-navigation-drawer",
+    tag: "bolle-navigation-drawer",
     title: "Navigation drawer",
     group: "Navigation drawer",
     summary: "Drawer di sezioni modale o standard, con contenuto aggiuntivo.",
@@ -946,11 +946,11 @@ export const entries: Entry[] = [
     ],
     render: (state, ctx) => html`
       ${s(state, "variant") === "modal"
-        ? html`<bubble-button variant="filled" @click=${(event: Event) => ctx.show("pv-drawer", event)}>
+        ? html`<bolle-button variant="filled" @click=${(event: Event) => ctx.show("pv-drawer", event)}>
             Apri drawer
-          </bubble-button>`
+          </bolle-button>`
         : nothing}
-      <bubble-navigation-drawer
+      <bolle-navigation-drawer
         id="pv-drawer"
         .variant=${s(state, "variant")}
         ?detached=${b(state, "detached")}
@@ -961,7 +961,7 @@ export const entries: Entry[] = [
         value="inbox"
       >
         <p>Contenuto aggiuntivo del drawer.</p>
-      </bubble-navigation-drawer>
+      </bolle-navigation-drawer>
     `,
     code: (state) => ({
       attrs: [
@@ -978,7 +978,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-tabs",
+    tag: "bolle-tabs",
     title: "Tabs",
     group: "Tabs",
     summary: "Tab primari o secondari, attivazione automatica o manuale, anche scorrevoli.",
@@ -997,7 +997,7 @@ export const entries: Entry[] = [
         icon: b(state, "icons") ? ti(item.icon) : undefined,
         badge: b(state, "badges") && index === 0 ? item.badge : undefined,
       }));
-      return html`<bubble-tabs
+      return html`<bolle-tabs
         .variant=${s(state, "variant")}
         .activation=${s(state, "activation")}
         ?scrollable=${b(state, "scrollable")}
@@ -1008,7 +1008,7 @@ export const entries: Entry[] = [
         <p slot="inbox">Messaggi ricevuti.</p>
         <p slot="archive">Documenti salvati.</p>
         <p slot="settings">Preferenze personali.</p>
-      </bubble-tabs>`;
+      </bolle-tabs>`;
     },
     code: (state) => ({
       attrs: [
@@ -1034,7 +1034,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-checkbox",
+    tag: "bolle-checkbox",
     title: "Checkbox",
     group: "Checkbox",
     summary: "Selezione binaria con stato indeterminato, errore e testo di supporto.",
@@ -1047,7 +1047,7 @@ export const entries: Entry[] = [
       tx("label", "Etichetta", "Accetto i termini"),
       tx("supportingText", "Testo di supporto", "Puoi revocare il consenso."),
     ],
-    render: (state) => html`<bubble-checkbox
+    render: (state) => html`<bolle-checkbox
       ?checked=${b(state, "checked")}
       ?indeterminate=${b(state, "indeterminate")}
       ?required=${b(state, "required")}
@@ -1055,7 +1055,7 @@ export const entries: Entry[] = [
       ?error=${b(state, "error")}
       .label=${s(state, "label")}
       .supportingText=${s(state, "supportingText")}
-    ></bubble-checkbox>`,
+    ></bolle-checkbox>`,
     code: (state) => ({
       attrs: [
         a("checked", b(state, "checked")),
@@ -1069,7 +1069,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-switch",
+    tag: "bolle-switch",
     title: "Switch",
     group: "Switch",
     summary: "Interruttore immediato con icone di stato opzionali.",
@@ -1082,7 +1082,7 @@ export const entries: Entry[] = [
       tx("label", "Etichetta", "Wi-Fi"),
       tx("supportingText", "Testo di supporto", "Rete senza fili."),
     ],
-    render: (state) => html`<bubble-switch
+    render: (state) => html`<bolle-switch
       ?checked=${b(state, "checked")}
       ?required=${b(state, "required")}
       ?disabled=${b(state, "disabled")}
@@ -1091,7 +1091,7 @@ export const entries: Entry[] = [
       .supportingText=${s(state, "supportingText")}
       .icon=${s(state, "icons") === "both" ? ti("wifi-off") : nothing}
       .iconSelected=${s(state, "icons") === "none" ? nothing : ti("wifi")}
-    ></bubble-switch>`,
+    ></bolle-switch>`,
     code: (state) => ({
       attrs: [
         a("checked", b(state, "checked")),
@@ -1104,7 +1104,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-radio-button",
+    tag: "bolle-radio-button",
     title: "Radio button",
     group: "Radio button",
     summary: "Scelta singola in un gruppo con navigazione da tastiera.",
@@ -1116,14 +1116,14 @@ export const entries: Entry[] = [
     ],
     render: (state) => html`<div class="radio-group">
       ${["standard", "plus", "enterprise"].map(
-        (value, index) => html`<bubble-radio-button
+        (value, index) => html`<bolle-radio-button
           name="plan"
           value=${value}
           .label=${index === 0 ? s(state, "label") : value}
           ?checked=${index === 0 && b(state, "checked")}
           ?required=${b(state, "required")}
           ?disabled=${b(state, "disabled")}
-        ></bubble-radio-button>`,
+        ></bolle-radio-button>`,
       )}
     </div>`,
     code: (state) => ({
@@ -1138,7 +1138,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-chip",
+    tag: "bolle-chip",
     title: "Chip",
     group: "Chips",
     summary: "Assist, filter, input e suggestion, con elevazione, rimozione e avatar.",
@@ -1151,7 +1151,7 @@ export const entries: Entry[] = [
       tx("label", "Etichetta", "Preferiti"),
       tx("removeLabel", "Etichetta rimozione", "Rimuovi Preferiti"),
     ],
-    render: (state) => html`<bubble-chip
+    render: (state) => html`<bolle-chip
       .variant=${s(state, "variant")}
       ?selected=${b(state, "selected")}
       ?elevated=${b(state, "elevated")}
@@ -1159,7 +1159,7 @@ export const entries: Entry[] = [
       ?removable=${b(state, "removable")}
       .label=${s(state, "label")}
       .removeLabel=${s(state, "removeLabel")}
-    ></bubble-chip>`,
+    ></bolle-chip>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -1173,7 +1173,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-list",
+    tag: "bolle-list",
     title: "List",
     group: "Lists",
     summary: "Righe con icone, testo di supporto, link, espansione e selezione singola o multipla.",
@@ -1183,7 +1183,7 @@ export const entries: Entry[] = [
       fl("interactive", "Interattiva", true),
       tx("label", "Etichetta", "Documenti"),
     ],
-    render: (state) => html`<bubble-list
+    render: (state) => html`<bolle-list
       .variant=${s(state, "variant")}
       .selection=${s(state, "selection")}
       ?interactive=${b(state, "interactive")}
@@ -1191,7 +1191,7 @@ export const entries: Entry[] = [
       .items=${listItems()}
       .value=${s(state, "selection") === "multiple" ? ["inbox"] : "inbox"}
       .expanded=${["folders"]}
-    ></bubble-list>`,
+    ></bolle-list>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -1206,7 +1206,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-segmented-buttons",
+    tag: "bolle-segmented-buttons",
     title: "Segmented buttons",
     group: "Buttons",
     summary: "Da due a cinque segmenti con selezione singola o multipla.",
@@ -1230,7 +1230,7 @@ export const entries: Entry[] = [
         ...item,
         icon: s(state, "content") === "label" ? undefined : ti(item.icon),
       }));
-      return html`<bubble-segmented-buttons
+      return html`<bolle-segmented-buttons
         ?multiple=${b(state, "multiple")}
         ?required=${b(state, "required")}
         ?disabled=${b(state, "disabled")}
@@ -1238,7 +1238,7 @@ export const entries: Entry[] = [
         .items=${items}
         .value=${items[0]?.id}
         .values=${items.slice(0, 2).map((item) => item.id)}
-      ></bubble-segmented-buttons>`;
+      ></bolle-segmented-buttons>`;
     },
     code: (state) => {
       const pool = [
@@ -1272,7 +1272,7 @@ export const entries: Entry[] = [
     },
   },
   {
-    tag: "bubble-slider",
+    tag: "bolle-slider",
     title: "Slider",
     group: "Sliders",
     summary: "Continuo, centrato o intervallo, con dimensioni, indicatori e orientamento.",
@@ -1289,7 +1289,7 @@ export const entries: Entry[] = [
       fl("disabled", "Disabilitato", false),
       tx("label", "Etichetta", "Volume"),
     ],
-    render: (state) => html`<bubble-slider
+    render: (state) => html`<bolle-slider
       .variant=${s(state, "variant")}
       .size=${s(state, "size")}
       .orientation=${s(state, "orientation")}
@@ -1301,7 +1301,7 @@ export const entries: Entry[] = [
       ?stops=${b(state, "stops")}
       ?disabled=${b(state, "disabled")}
       .label=${s(state, "label")}
-    ></bubble-slider>`,
+    ></bolle-slider>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -1319,7 +1319,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-text-field",
+    tag: "bolle-text-field",
     title: "Text field",
     group: "Text fields",
     summary: "Campo a riga singola o multilinea, con affissi, contatore, errore e slot icona.",
@@ -1342,7 +1342,7 @@ export const entries: Entry[] = [
       tx("value", "Valore", ""),
       tx("supportingText", "Testo di supporto", "Useremo questo indirizzo per le notifiche."),
     ],
-    render: (state) => html`<bubble-text-field
+    render: (state) => html`<bolle-text-field
       .variant=${s(state, "variant")}
       .type=${s(state, "type")}
       ?multiline=${b(state, "multiline")}
@@ -1362,7 +1362,7 @@ export const entries: Entry[] = [
         ? html`<span slot="leading" aria-hidden="true">${ti("inbox")}</span>`
         : nothing}${b(state, "trailingIcon")
         ? html`<span slot="trailing" aria-hidden="true">${ti("help")}</span>`
-        : nothing}</bubble-text-field
+        : nothing}</bolle-text-field
     >`,
     code: (state) => ({
       attrs: [
@@ -1392,7 +1392,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-search",
+    tag: "bolle-search",
     title: "Search",
     group: "Search",
     summary: "Ricerca con suggerimenti filtrabili, combobox ARIA e area risultati.",
@@ -1404,7 +1404,7 @@ export const entries: Entry[] = [
       tx("label", "Etichetta", "Cerca città"),
       tx("placeholder", "Placeholder", "Scrivi una città"),
     ],
-    render: (state) => html`<bubble-search
+    render: (state) => html`<bolle-search
       .appearance=${s(state, "appearance")}
       .layout=${s(state, "layout")}
       ?filter=${b(state, "filter")}
@@ -1413,7 +1413,7 @@ export const entries: Entry[] = [
       .placeholder=${s(state, "placeholder")}
       .suggestions=${SUGGESTIONS}
       suggestions-label="Suggerimenti"
-    ></bubble-search>`,
+    ></bolle-search>`,
     code: (state) => ({
       attrs: [
         a("appearance", s(state, "appearance")),
@@ -1429,7 +1429,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-date-picker",
+    tag: "bolle-date-picker",
     title: "Date picker",
     group: "Date & time pickers",
     summary: "Data singola o intervallo, con selettore modale o calendario docked.",
@@ -1444,7 +1444,7 @@ export const entries: Entry[] = [
       fl("required", "Obbligatorio", false),
       fl("disabled", "Disabilitato", false),
     ],
-    render: (state) => html`<bubble-date-picker
+    render: (state) => html`<bolle-date-picker
       .variant=${s(state, "variant")}
       .selectionMode=${s(state, "selectionMode")}
       .weekStartsOn=${Number(s(state, "weekStartsOn"))}
@@ -1454,7 +1454,7 @@ export const entries: Entry[] = [
       .endValue=${s(state, "endValue")}
       ?required=${b(state, "required")}
       ?disabled=${b(state, "disabled")}
-    ></bubble-date-picker>`,
+    ></bolle-date-picker>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -1470,7 +1470,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-time-picker",
+    tag: "bolle-time-picker",
     title: "Time picker",
     group: "Date & time pickers",
     summary: "Ora con quadrante o inserimento numerico, ciclo 12 o 24 ore.",
@@ -1483,7 +1483,7 @@ export const entries: Entry[] = [
       fl("required", "Obbligatorio", false),
       fl("disabled", "Disabilitato", false),
     ],
-    render: (state) => html`<bubble-time-picker
+    render: (state) => html`<bolle-time-picker
       .variant=${s(state, "variant")}
       .hourCycle=${Number(s(state, "hourCycle"))}
       .locale=${s(state, "locale")}
@@ -1491,7 +1491,7 @@ export const entries: Entry[] = [
       .value=${s(state, "value")}
       ?required=${b(state, "required")}
       ?disabled=${b(state, "disabled")}
-    ></bubble-time-picker>`,
+    ></bolle-time-picker>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -1505,7 +1505,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-menu",
+    tag: "bolle-menu",
     title: "Menu",
     group: "Menus",
     summary: "Menu baseline o verticale, con gruppi, sottomenu e selezione.",
@@ -1520,13 +1520,13 @@ export const entries: Entry[] = [
       tx("menuLabel", "Etichetta accessibile", "Azioni documento"),
     ],
     render: (state, ctx) => html`
-      <bubble-button
+      <bolle-button
         variant="tonal"
         haspopup="menu"
         @click=${(event: Event) => ctx.show("pv-menu", event)}
-        >Azioni</bubble-button
+        >Azioni</bolle-button
       >
-      <bubble-menu
+      <bolle-menu
         id="pv-menu"
         .variant=${s(state, "variant")}
         .colorScheme=${s(state, "variant") === "baseline" ? "standard" : s(state, "colorScheme")}
@@ -1536,7 +1536,7 @@ export const entries: Entry[] = [
         ?inactive=${b(state, "inactive")}
         .menuLabel=${s(state, "menuLabel")}
         .items=${menuEntries(s(state, "selectionMode"))}
-      ></bubble-menu>
+      ></bolle-menu>
     `,
     code: (state) => ({
       attrs: [
@@ -1553,7 +1553,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-fab-menu",
+    tag: "bolle-fab-menu",
     title: "FAB menu",
     group: "Buttons",
     summary: "Da due a sei azioni correlate aperte da un FAB.",
@@ -1561,13 +1561,13 @@ export const entries: Entry[] = [
       en("color", "Set colore", ["primary", "secondary", "tertiary"], "primary"),
       tx("label", "Etichetta accessibile", "Crea"),
     ],
-    render: (state) => html`<bubble-fab-menu
+    render: (state) => html`<bolle-fab-menu
       .color=${s(state, "color")}
       .label=${s(state, "label")}
       .items=${ICON_ITEMS.map((item) => ({ ...item, icon: ti(item.icon) }))}
     >
       <span slot="icon" aria-hidden="true">${ti("plus")}</span>
-    </bubble-fab-menu>`,
+    </bolle-fab-menu>`,
     code: (state) => ({
       attrs: [
         a("color", s(state, "color")),
@@ -1579,7 +1579,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-split-button",
+    tag: "bolle-split-button",
     title: "Split button",
     group: "Buttons",
     summary: "Azione principale affiancata da un menu di azioni alternative.",
@@ -1591,7 +1591,7 @@ export const entries: Entry[] = [
       tx("label", "Etichetta", "Invia"),
       tx("menuLabel", "Etichetta menu", "Altre opzioni"),
     ],
-    render: (state) => html`<bubble-split-button
+    render: (state) => html`<bolle-split-button
       .variant=${s(state, "variant")}
       .size=${s(state, "size")}
       ?icon=${b(state, "icon")}
@@ -1601,7 +1601,7 @@ export const entries: Entry[] = [
       .items=${SPLIT_ITEMS}
       >${b(state, "icon")
         ? html`<span slot="icon" aria-hidden="true">${ti("plane")}</span>`
-        : nothing}</bubble-split-button
+        : nothing}</bolle-split-button
     >`,
     code: (state) => ({
       attrs: [
@@ -1620,7 +1620,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-select",
+    tag: "bolle-select",
     title: "Select",
     group: "HTML controls",
     summary:
@@ -1639,7 +1639,7 @@ export const entries: Entry[] = [
         "Determina il fuso orario della spedizione.",
       ),
     ],
-    render: (state) => html`<bubble-select
+    render: (state) => html`<bolle-select
       .variant=${s(state, "variant")}
       ?error=${b(state, "error")}
       ?required=${b(state, "required")}
@@ -1658,7 +1658,7 @@ export const entries: Entry[] = [
         <option value="toscana">Toscana</option>
       </optgroup>
       <option value="sicilia" disabled>Sicilia (non disponibile)</option>
-    </bubble-select>`,
+    </bolle-select>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
@@ -1682,7 +1682,7 @@ export const entries: Entry[] = [
     }),
   },
   {
-    tag: "bubble-autocomplete",
+    tag: "bolle-autocomplete",
     title: "Autocomplete",
     group: "HTML controls",
     summary:
@@ -1702,7 +1702,7 @@ export const entries: Entry[] = [
         "Suggerimenti fra le città servite.",
       ),
     ],
-    render: (state) => html`<bubble-autocomplete
+    render: (state) => html`<bolle-autocomplete
       .variant=${s(state, "variant")}
       ?error=${b(state, "error")}
       ?required=${b(state, "required")}
@@ -1716,7 +1716,7 @@ export const entries: Entry[] = [
       ${CITY_OPTIONS.map(
         (city) => html`<option value=${city}></option>`,
       )}
-    </bubble-autocomplete>`,
+    </bolle-autocomplete>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),

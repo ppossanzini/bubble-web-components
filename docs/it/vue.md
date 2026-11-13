@@ -15,14 +15,14 @@ e i metodi si chiamano tramite un template ref.
 ## Installazione e registrazione
 
 ```sh
-npm install @bubble/web-components
+npm install @bolle/web-components
 ```
 
 ```ts
 // src/main.ts
-import "@bubble/web-components/tokens.css";
-import "@bubble/web-components/typography.css";
-import "@bubble/web-components"; // registra tutti i tag bubble-*
+import "@bolle/web-components/tokens.css";
+import "@bolle/web-components/typography.css";
+import "@bolle/web-components"; // registra tutti i tag bolle-*
 import { createApp } from "vue";
 import App from "./App.vue";
 
@@ -35,7 +35,7 @@ La build della libreria registra già tutti i tag: non servono plugin Vue né
 
 ### Compilatore Vue
 
-Vue deve sapere che i tag `bubble-*` non sono componenti da risolvere.
+Vue deve sapere che i tag `bolle-*` non sono componenti da risolvere.
 
 ```ts
 // vite.config.ts
@@ -47,7 +47,7 @@ export default defineConfig({
     vue({
       template: {
         compilerOptions: {
-          isCustomElement: (tag) => tag.startsWith("bubble-"),
+          isCustomElement: (tag) => tag.startsWith("bolle-"),
         },
       },
     }),
@@ -59,7 +59,7 @@ Se la build di Vue avviene a runtime, imposta la stessa regola sull'app:
 
 ```ts
 app.config.compilerOptions.isCustomElement = (tag) =>
-  tag.startsWith("bubble-");
+  tag.startsWith("bolle-");
 ```
 
 `vue-tsc` non deduce i tipi degli attributi dei Custom Elements. Per una
@@ -68,13 +68,13 @@ verifica statica completa servono componenti wrapper tipizzati, come questo:
 ```vue
 <!-- src/components/AppTextField.vue -->
 <script setup lang="ts">
-import type { BubbleTextField } from "@bubble/web-components";
+import type { BolleTextField } from "@bolle/web-components";
 
 const model = defineModel<string>({ default: "" });
 </script>
 
 <template>
-  <bubble-text-field
+  <bolle-text-field
     :label="label"
     :value="model"
     @value-input="model = ($event as CustomEvent<{ value: string }>).detail.value"
@@ -95,13 +95,13 @@ essere legate con `:` e il nome della proprietà, non come stringa:
 
 | Componente            | Proprietà da legare                              |
 | --------------------- | ------------------------------------------------ |
-| `bubble-segmented-buttons` | `:items`, `:values`                         |
-| `bubble-search`       | `:suggestions`                                   |
-| `bubble-date-picker`  | `:labels`                                        |
-| `bubble-list`         | `:items`, `:value` (anche array), `:expanded`    |
-| `bubble-navigation-*`, `bubble-tabs`, `bubble-fab-menu`, `bubble-split-button`, `bubble-menu` | `:items` |
-| `bubble-slider`       | `:iconStart`, `:iconEnd` (accettano SVG o testo)   |
-| `bubble-switch`       | `:icon`, `:iconSelected`                         |
+| `bolle-segmented-buttons` | `:items`, `:values`                         |
+| `bolle-search`       | `:suggestions`                                   |
+| `bolle-date-picker`  | `:labels`                                        |
+| `bolle-list`         | `:items`, `:value` (anche array), `:expanded`    |
+| `bolle-navigation-*`, `bolle-tabs`, `bolle-fab-menu`, `bolle-split-button`, `bolle-menu` | `:items` |
+| `bolle-slider`       | `:iconStart`, `:iconEnd` (accettano SVG o testo)   |
+| `bolle-switch`       | `:icon`, `:iconSelected`                         |
 
 Tutti gli altri attributi (`variant`, `size`, `label`, `disabled`, `required`,
 `supporting-text`…) funzionano sia come attributi statici sia con `:binding`.
@@ -114,7 +114,7 @@ della list) esistono solo come proprietà: si legano con il nome esatto della
 proprietà (`:iconStart`, `:items`). Con un template in-DOM il browser abbassa i
 nomi degli attributi, quindi in quel caso usa `v-bind="{ iconStart }"`.
 
-I booleani sono attributi riflessi: `<bubble-checkbox checked />` equivale a
+I booleani sono attributi riflessi: `<bolle-checkbox checked />` equivale a
 `:checked="true"`, mentre `:checked="false"` rimuove l'attributo.
 
 ### Eventi
@@ -134,7 +134,7 @@ chiusura del dialog. Gli eventi nativi come `click` e `submit` funzionano
 normalmente.
 
 ```ts
-// src/bubble.ts
+// src/bolle.ts
 export function detail<T>(event: Event): T {
   return (event as CustomEvent<T>).detail;
 }
@@ -150,20 +150,20 @@ nell'handler.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const email = ref("");
 const accepted = ref(false);
 </script>
 
 <template>
-  <bubble-text-field
+  <bolle-text-field
     label="Email"
     type="email"
     :value="email"
     @value-input="email = detail<{ value: string }>($event).value"
   />
-  <bubble-checkbox
+  <bolle-checkbox
     label="Accetto i termini"
     :checked="accepted"
     @change="accepted = detail<{ checked: boolean }>($event).checked"
@@ -184,20 +184,20 @@ componente.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleSnackbar } from "@bubble/web-components";
+import type { BolleSnackbar } from "@bolle/web-components";
 
-const snackbar = ref<BubbleSnackbar | null>(null);
+const snackbar = ref<BolleSnackbar | null>(null);
 </script>
 
 <template>
-  <bubble-snackbar ref="snackbar" message="Documento salvato" />
-  <bubble-button @click="snackbar?.show('Documento salvato')">Salva</bubble-button>
+  <bolle-snackbar ref="snackbar" message="Documento salvato" />
+  <bolle-button @click="snackbar?.show('Documento salvato')">Salva</bolle-button>
 </template>
 ```
 
 ### Form
 
-I componenti di form sono form-associated: `bubble-button` con
+I componenti di form sono form-associated: `bolle-button` con
 `type="submit"`, checkbox, switch, radio, text field, search, slider,
 segmented buttons, date picker, time picker e chip filtro entrano nel
 `FormData` con `name` e `value`. Non servono input nascosti e i nomi non
@@ -205,9 +205,9 @@ vengono duplicati.
 
 ```vue
 <form @submit.prevent="onSubmit">
-  <bubble-text-field name="email" label="Email" required />
-  <bubble-checkbox name="newsletter" value="si" label="Newsletter" />
-  <bubble-button type="submit">Iscriviti</bubble-button>
+  <bolle-text-field name="email" label="Email" required />
+  <bolle-checkbox name="newsletter" value="si" label="Newsletter" />
+  <bolle-button type="submit">Iscriviti</bolle-button>
 </form>
 ```
 
@@ -229,12 +229,30 @@ override con `:labels`. I componenti leggono la direzione dall'antenato tramite
 si cambia con `data-theme="dark"` su `<html>`.
 
 ```vue
-<bubble-date-picker
+<bolle-date-picker
   label="Data"
   locale="it"
   :labels="{ open: 'Apri calendario', confirm: 'Conferma' }"
 />
 ```
+
+### Scorciatoie da tastiera
+
+Ogni elemento `bolle-*` tranne `bolle-menu` accetta `shortcut`, scritto con la
+sintassi di `aria-keyshortcuts` (`Alt+S`, `Control+Shift+F`, alternative separate
+da uno spazio). Il componente scrive `aria-keyshortcuts` sul controllo interno che
+riceve il focus: bottoni, link, checkbox e radio ricevono focus e clic, i campi
+solo il focus. I componenti disabilitati o nascosti ignorano la scorciatoia.
+
+```vue
+<template>
+  <bolle-button shortcut="Alt+S" @click="save">Salva</bolle-button>
+  <bolle-text-field label="Cerca" shortcut="Control+K Meta+K"></bolle-text-field>
+</template>
+```
+
+Con `:shortcut="value"` diventa dinamica; una stringa vuota rimuove la
+scorciatoia e l'attributo ARIA.
 
 ### Icone e slot
 
@@ -249,7 +267,7 @@ di legatura negli item.
 
 ## Azioni
 
-### bubble-button
+### bolle-button
 
 Attributi: `variant` (filled, tonal, filled-tonal, outlined, elevated, text,
 standard), `size` (xs, small, medium, large, xl), `shape` (round, square),
@@ -261,7 +279,7 @@ standard), `size` (xs, small, medium, large, xl), `shape` (round, square),
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const variants = ["filled", "tonal", "filled-tonal", "outlined", "elevated", "text", "standard"] as const;
 const sizes = ["xs", "small", "medium", "large", "xl"] as const;
@@ -279,23 +297,23 @@ function onSubmit(event: Event) {
 </script>
 
 <template>
-  <bubble-button v-for="variant in variants" :key="variant" :variant="variant">
+  <bolle-button v-for="variant in variants" :key="variant" :variant="variant">
     {{ variant }}
-  </bubble-button>
-  <bubble-button v-for="size in sizes" :key="size" :size="size" variant="tonal">
+  </bolle-button>
+  <bolle-button v-for="size in sizes" :key="size" :size="size" variant="tonal">
     {{ size }}
-  </bubble-button>
+  </bolle-button>
 
-  <bubble-button variant="outlined" shape="square">Quadrato</bubble-button>
+  <bolle-button variant="outlined" shape="square">Quadrato</bolle-button>
 
-  <bubble-button variant="filled">
+  <bolle-button variant="filled">
     <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
       <path fill="currentColor" d="M11 5h2v14h-2zM5 11h14v2H5z" />
     </svg>
     Nuovo
-  </bubble-button>
+  </bolle-button>
 
-  <bubble-button
+  <bolle-button
     toggle
     haspopup="menu"
     :selected="expanded"
@@ -304,39 +322,39 @@ function onSubmit(event: Event) {
     @change="onToggle"
   >
     {{ expanded ? "Chiudi" : "Apri" }}
-  </bubble-button>
+  </bolle-button>
 
-  <bubble-button href="https://example.com" target="_blank" variant="text">
+  <bolle-button href="https://example.com" target="_blank" variant="text">
     Documentazione
-  </bubble-button>
+  </bolle-button>
 
   <form @submit.prevent="onSubmit">
-    <bubble-button type="submit" name="azione" value="salva">Salva</bubble-button>
-    <bubble-button type="reset" variant="outlined">Reimposta</bubble-button>
+    <bolle-button type="submit" name="azione" value="salva">Salva</bolle-button>
+    <bolle-button type="reset" variant="outlined">Reimposta</bolle-button>
   </form>
 
-  <bubble-button label="Aggiungi" disabled>Disabilitato</bubble-button>
+  <bolle-button label="Aggiungi" disabled>Disabilitato</bolle-button>
   <output>{{ submitted }}</output>
 </template>
 ```
 
-### bubble-icon-button
+### bolle-icon-button
 
-Eredita tutto da `bubble-button`, aggiunge `icon-only`. L'etichetta accessibile
+Eredita tutto da `bolle-button`, aggiunge `icon-only`. L'etichetta accessibile
 è obbligatoria: usa sempre `label`. `width` (narrow, wide) cambia l'area della
 sola icona.
 
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const pinned = ref(false);
 const menuOpen = ref(false);
 </script>
 
 <template>
-  <bubble-icon-button
+  <bolle-icon-button
     v-for="size in ['xs', 'small', 'medium', 'large', 'xl']"
     :key="size"
     :size="size"
@@ -345,33 +363,33 @@ const menuOpen = ref(false);
     <svg slot="icon" viewBox="0 0 24 24" aria-hidden="true">
       <path fill="currentColor" d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" />
     </svg>
-  </bubble-icon-button>
+  </bolle-icon-button>
 
-  <bubble-icon-button width="narrow" label="Ristretto">★</bubble-icon-button>
-  <bubble-icon-button width="wide" label="Largo">★</bubble-icon-button>
-  <bubble-icon-button variant="tonal" shape="square" label="Quadrato">★</bubble-icon-button>
+  <bolle-icon-button width="narrow" label="Ristretto">★</bolle-icon-button>
+  <bolle-icon-button width="wide" label="Largo">★</bolle-icon-button>
+  <bolle-icon-button variant="tonal" shape="square" label="Quadrato">★</bolle-icon-button>
 
-  <bubble-icon-button
+  <bolle-icon-button
     toggle
     :selected="pinned"
     label="Fissa in alto"
     @change="pinned = detail<{ selected: boolean }>($event).selected"
   >
     📌
-  </bubble-icon-button>
+  </bolle-icon-button>
 
-  <bubble-icon-button
+  <bolle-icon-button
     haspopup="menu"
     :expanded="menuOpen"
     controls="menu-azioni"
     label="Altre azioni"
   >
     ⋯
-  </bubble-icon-button>
+  </bolle-icon-button>
 </template>
 ```
 
-### bubble-floating-action-button
+### bolle-floating-action-button
 
 Attributi: `size` (fab è la taglia base, poi small, medium, large), `color`
 (primary-container, secondary-container, tertiary-container, primary, secondary,
@@ -392,24 +410,24 @@ const colors = [
 </script>
 
 <template>
-  <bubble-floating-action-button
+  <bolle-floating-action-button
     v-for="color in colors"
     :key="color"
     :color="color"
     :label="`Crea (${color})`"
   >
     ＋
-  </bubble-floating-action-button>
+  </bolle-floating-action-button>
 
-  <bubble-floating-action-button size="small" label="Crea piccolo">＋</bubble-floating-action-button>
-  <bubble-floating-action-button size="medium" label="Crea medio" color="tertiary">＋</bubble-floating-action-button>
-  <bubble-floating-action-button size="large" label="Crea grande" color="secondary">＋</bubble-floating-action-button>
-  <bubble-floating-action-button href="https://example.com" label="Apri collegamento">↗</bubble-floating-action-button>
-  <bubble-floating-action-button label="Crea disabilitato" disabled>＋</bubble-floating-action-button>
+  <bolle-floating-action-button size="small" label="Crea piccolo">＋</bolle-floating-action-button>
+  <bolle-floating-action-button size="medium" label="Crea medio" color="tertiary">＋</bolle-floating-action-button>
+  <bolle-floating-action-button size="large" label="Crea grande" color="secondary">＋</bolle-floating-action-button>
+  <bolle-floating-action-button href="https://example.com" label="Apri collegamento">↗</bolle-floating-action-button>
+  <bolle-floating-action-button label="Crea disabilitato" disabled>＋</bolle-floating-action-button>
 </template>
 ```
 
-### bubble-extended-fab
+### bolle-extended-fab
 
 Estende il FAB con testo visibile. Attributi: come il FAB più `size` small,
 medium, large (default small). Il testo visibile è lo slot di default; `label`
@@ -417,38 +435,38 @@ imposta l'etichetta accessibile.
 
 ```vue
 <template>
-  <bubble-extended-fab label="Nuovo documento" size="small" color="primary-container">
+  <bolle-extended-fab label="Nuovo documento" size="small" color="primary-container">
     Nuovo documento
-  </bubble-extended-fab>
-  <bubble-extended-fab label="Condividi" size="medium" color="tertiary">
+  </bolle-extended-fab>
+  <bolle-extended-fab label="Condividi" size="medium" color="tertiary">
     Condividi
-  </bubble-extended-fab>
-  <bubble-extended-fab label="Crea presentazione" size="large" color="secondary">
+  </bolle-extended-fab>
+  <bolle-extended-fab label="Crea presentazione" size="large" color="secondary">
     <span slot="icon" aria-hidden="true">＋</span>
     Crea presentazione
-  </bubble-extended-fab>
+  </bolle-extended-fab>
 </template>
 ```
 
-### bubble-button-group
+### bolle-button-group
 
 Attributi: `label`, `variant` (standard, connected), `selection` (none, single,
-multiple), `required`, `size`, `shape`. Figli: `bubble-button` o
-`bubble-icon-button` con `value`. Evento: `selection-change` con `{ values }`.
+multiple), `required`, `size`, `shape`. Figli: `bolle-button` o
+`bolle-icon-button` con `value`. Evento: `selection-change` con `{ values }`.
 Con `selection` diverso da `none` i figli diventano toggle e la tastiera si
 sposta con le frecce.
 
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const alignment = ref("left");
 const formats = ref<string[]>(["bold"]);
 </script>
 
 <template>
-  <bubble-button-group
+  <bolle-button-group
     label="Allineamento"
     variant="connected"
     selection="single"
@@ -457,33 +475,33 @@ const formats = ref<string[]>(["bold"]);
     shape="round"
     @selection-change="alignment = detail<{ values: string[] }>($event).values[0] ?? alignment"
   >
-    <bubble-button value="left" :selected="alignment === 'left'">Sinistra</bubble-button>
-    <bubble-button value="center" :selected="alignment === 'center'">Centro</bubble-button>
-    <bubble-button value="right" :selected="alignment === 'right'">Destra</bubble-button>
-  </bubble-button-group>
+    <bolle-button value="left" :selected="alignment === 'left'">Sinistra</bolle-button>
+    <bolle-button value="center" :selected="alignment === 'center'">Centro</bolle-button>
+    <bolle-button value="right" :selected="alignment === 'right'">Destra</bolle-button>
+  </bolle-button-group>
 
-  <bubble-button-group
+  <bolle-button-group
     label="Formato"
     variant="connected"
     selection="multiple"
     size="small"
     @selection-change="formats = detail<{ values: string[] }>($event).values"
   >
-    <bubble-button value="bold" :selected="formats.includes('bold')">B</bubble-button>
-    <bubble-button value="italic" :selected="formats.includes('italic')">I</bubble-button>
-    <bubble-button value="underline" :selected="formats.includes('underline')">U</bubble-button>
-  </bubble-button-group>
+    <bolle-button value="bold" :selected="formats.includes('bold')">B</bolle-button>
+    <bolle-button value="italic" :selected="formats.includes('italic')">I</bolle-button>
+    <bolle-button value="underline" :selected="formats.includes('underline')">U</bolle-button>
+  </bolle-button-group>
 
-  <bubble-button-group label="Gruppo semplice" variant="standard" selection="none" size="large">
-    <bubble-button variant="outlined">A</bubble-button>
-    <bubble-button variant="outlined">B</bubble-button>
-  </bubble-button-group>
+  <bolle-button-group label="Gruppo semplice" variant="standard" selection="none" size="large">
+    <bolle-button variant="outlined">A</bolle-button>
+    <bolle-button variant="outlined">B</bolle-button>
+  </bolle-button-group>
 </template>
 ```
 
 ## Comunicazione
 
-### bubble-badge
+### bolle-badge
 
 Attributi: `value`, `label`, `small`, `max`. Senza `label` il badge è
 `aria-hidden`; con `label` diventa `role="status"` e annuncia il valore. Con
@@ -492,18 +510,18 @@ Attributi: `value`, `label`, `small`, `max`. Senza `label` il badge è
 ```vue
 <template>
   <span class="badge-anchor">
-    <bubble-icon-button label="Notifiche">🔔</bubble-icon-button>
-    <bubble-badge value="12" style="position: absolute; inset-block-start: -4px; inset-inline-end: -4px" />
+    <bolle-icon-button label="Notifiche">🔔</bolle-icon-button>
+    <bolle-badge value="12" style="position: absolute; inset-block-start: -4px; inset-inline-end: -4px" />
   </span>
 
-  <bubble-badge :value="1200" :max="999" label="Messaggi non letti" />
-  <bubble-badge value="Nuovo" label="Novità" />
-  <bubble-badge value="" label="Aggiornamento disponibile" small />
-  <bubble-badge value="7" />
+  <bolle-badge :value="1200" :max="999" label="Messaggi non letti" />
+  <bolle-badge value="Nuovo" label="Novità" />
+  <bolle-badge value="" label="Aggiornamento disponibile" small />
+  <bolle-badge value="7" />
 </template>
 ```
 
-### bubble-progress-indicator
+### bolle-progress-indicator
 
 Attributi: `label`, `value`, `max`, `indeterminate`, `variant` (linear,
 circular), `wavy`. `wavy` vale per la variante lineare e si combina con
@@ -511,29 +529,29 @@ determinato e indeterminato.
 
 ```vue
 <template>
-  <bubble-progress-indicator label="Download" :value="65" />
-  <bubble-progress-indicator label="Connessione" indeterminate />
-  <bubble-progress-indicator label="Avanzamento pratica" :value="35" :max="50" />
-  <bubble-progress-indicator wavy label="Avanzamento ondulato" :value="60" />
-  <bubble-progress-indicator wavy indeterminate label="Attesa ondulata" />
-  <bubble-progress-indicator variant="circular" label="Caricamento file" :value="65" />
-  <bubble-progress-indicator variant="circular" indeterminate label="Attesa circolare" />
+  <bolle-progress-indicator label="Download" :value="65" />
+  <bolle-progress-indicator label="Connessione" indeterminate />
+  <bolle-progress-indicator label="Avanzamento pratica" :value="35" :max="50" />
+  <bolle-progress-indicator wavy label="Avanzamento ondulato" :value="60" />
+  <bolle-progress-indicator wavy indeterminate label="Attesa ondulata" />
+  <bolle-progress-indicator variant="circular" label="Caricamento file" :value="65" />
+  <bolle-progress-indicator variant="circular" indeterminate label="Attesa circolare" />
 </template>
 ```
 
-### bubble-loading-indicator
+### bolle-loading-indicator
 
 Attributi: `label`, `variant` (default, contained). Sempre indeterminato, con
 `role="progressbar"`.
 
 ```vue
 <template>
-  <bubble-loading-indicator label="Caricamento" />
-  <bubble-loading-indicator variant="contained" label="Caricamento allegati" />
+  <bolle-loading-indicator label="Caricamento" />
+  <bolle-loading-indicator variant="contained" label="Caricamento allegati" />
 </template>
 ```
 
-### bubble-snackbar
+### bolle-snackbar
 
 Attributi: `open`, `message`, `action-label`, `close-label`, `duration` (ms,
 minimo effettivo 4000; 0 disabilita la chiusura automatica). Metodi:
@@ -544,15 +562,15 @@ accodano i messaggi.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleSnackbar } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleSnackbar } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const snackbar = ref<BubbleSnackbar | null>(null);
+const snackbar = ref<BolleSnackbar | null>(null);
 const log = ref("");
 </script>
 
 <template>
-  <bubble-snackbar
+  <bolle-snackbar
     ref="snackbar"
     message="Documento eliminato"
     action-label="Annulla"
@@ -563,19 +581,19 @@ const log = ref("");
     @queued="log = `in coda: ${detail<{ pending: number }>($event).pending}`"
   />
 
-  <bubble-button variant="tonal" @click="snackbar?.show('Documento salvato')">Mostra</bubble-button>
-  <bubble-button
+  <bolle-button variant="tonal" @click="snackbar?.show('Documento salvato')">Mostra</bolle-button>
+  <bolle-button
     variant="outlined"
     @click="snackbar?.show('Primo'); snackbar?.show('Secondo'); snackbar?.show('Terzo')"
   >
     Accoda tre messaggi
-  </bubble-button>
-  <bubble-button variant="text" @click="snackbar?.close('manuale')">Chiudi</bubble-button>
+  </bolle-button>
+  <bolle-button variant="text" @click="snackbar?.close('manuale')">Chiudi</bolle-button>
   <output>{{ log }}</output>
 </template>
 ```
 
-### bubble-tooltip
+### bolle-tooltip
 
 Attributi: `label`, `variant` (plain, rich), `supporting-text`, `persistent`.
 Slot: default (trigger), `content`, `actions`. Metodi: `show()`, `hide()`. Il
@@ -586,34 +604,34 @@ per contenuti interattivi indispensabili.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleTooltip } from "@bubble/web-components";
+import type { BolleTooltip } from "@bolle/web-components";
 
-const tip = ref<BubbleTooltip | null>(null);
+const tip = ref<BolleTooltip | null>(null);
 </script>
 
 <template>
-  <bubble-tooltip label="Conserva una copia del documento">
-    <bubble-button variant="tonal">Salva una copia</bubble-button>
-  </bubble-tooltip>
+  <bolle-tooltip label="Conserva una copia del documento">
+    <bolle-button variant="tonal">Salva una copia</bolle-button>
+  </bolle-tooltip>
 
-  <bubble-tooltip
+  <bolle-tooltip
     ref="tip"
     variant="rich"
     persistent
     label="Spazio personale"
     supporting-text="La copia resta nel tuo spazio e resta aperta finché non la chiudi."
   >
-    <bubble-button variant="outlined">Dettagli</bubble-button>
+    <bolle-button variant="outlined">Dettagli</bolle-button>
     <p slot="content">Puoi riaprire la copia dalla sezione Documenti.</p>
-    <bubble-button slot="actions" variant="text">Apri Documenti</bubble-button>
-  </bubble-tooltip>
+    <bolle-button slot="actions" variant="text">Apri Documenti</bolle-button>
+  </bolle-tooltip>
 
-  <bubble-button variant="text" @click="tip?.show()">Mostra tooltip ricco</bubble-button>
-  <bubble-button variant="text" @click="tip?.hide()">Nascondi</bubble-button>
+  <bolle-button variant="text" @click="tip?.show()">Mostra tooltip ricco</bolle-button>
+  <bolle-button variant="text" @click="tip?.hide()">Nascondi</bolle-button>
 </template>
 ```
 
-### bubble-carousel
+### bolle-carousel
 
 Attributi: `label`, `variant` (hero, multi-browse, uncontained,
 uncontained-multi-aspect-ratio, center-aligned-hero, full-screen),
@@ -624,10 +642,10 @@ scorre in verticale.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleCarousel } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleCarousel } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const carousel = ref<BubbleCarousel | null>(null);
+const carousel = ref<BolleCarousel | null>(null);
 const current = ref(0);
 const variants = [
   "hero",
@@ -640,7 +658,7 @@ const variants = [
 </script>
 
 <template>
-  <bubble-carousel
+  <bolle-carousel
     ref="carousel"
     variant="hero"
     label="Documenti recenti"
@@ -652,9 +670,9 @@ const variants = [
     <article><h3>Posta</h3><p>Messaggi ricevuti</p></article>
     <article><h3>Archivio</h3><p>Documenti salvati</p></article>
     <article><h3>Impostazioni</h3><p>Preferenze personali</p></article>
-  </bubble-carousel>
+  </bolle-carousel>
 
-  <bubble-carousel
+  <bolle-carousel
     v-for="variant in variants"
     :key="variant"
     :variant="variant"
@@ -665,17 +683,17 @@ const variants = [
     <article>A · {{ variant }}</article>
     <article>B · {{ variant }}</article>
     <article>C · {{ variant }}</article>
-  </bubble-carousel>
+  </bolle-carousel>
 
-  <bubble-button variant="outlined" @click="carousel?.goTo(0)">Prima slide</bubble-button>
-  <bubble-button variant="outlined" @click="carousel?.goTo(2)">Ultima slide</bubble-button>
+  <bolle-button variant="outlined" @click="carousel?.goTo(0)">Prima slide</bolle-button>
+  <bolle-button variant="outlined" @click="carousel?.goTo(2)">Ultima slide</bolle-button>
   <output>{{ current + 1 }}</output>
 </template>
 ```
 
 ## Contenimento
 
-### bubble-card
+### bolle-card
 
 Attributi: `variant` (filled, elevated, outlined), `orientation` (vertical,
 horizontal), `href`, `label`. Slot: `media`, default. Con `href` il contenuto di
@@ -684,7 +702,7 @@ interattivi dentro la scheda.
 
 ```vue
 <template>
-  <bubble-card
+  <bolle-card
     v-for="variant in ['filled', 'elevated', 'outlined']"
     :key="variant"
     :variant="variant"
@@ -692,18 +710,18 @@ interattivi dentro la scheda.
   >
     <h3>Documento</h3>
     <p>Contenuto indipendente con un'azione interna.</p>
-    <bubble-button variant="text">Apri</bubble-button>
-  </bubble-card>
+    <bolle-button variant="text">Apri</bolle-button>
+  </bolle-card>
 
-  <bubble-card orientation="horizontal" href="https://example.com" label="Rapporto annuale">
+  <bolle-card orientation="horizontal" href="https://example.com" label="Rapporto annuale">
     <img slot="media" src="/cover.jpg" alt="Copertina del rapporto" />
     <h3>Rapporto annuale</h3>
     <p>Riepilogo delle attività dell'anno.</p>
-  </bubble-card>
+  </bolle-card>
 </template>
 ```
 
-### bubble-dialog
+### bolle-dialog
 
 Attributi: `open`, `label`, `variant` (basic, full-screen), `modal`,
 `close-label`. Slot: default, `actions`. Metodi: `show(opener?)`,
@@ -713,12 +731,12 @@ con `{ reason }` annullabile.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleDialog } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleDialog } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const confirm = ref<BubbleDialog | null>(null);
-const fullscreen = ref<BubbleDialog | null>(null);
-const nonModal = ref<BubbleDialog | null>(null);
+const confirm = ref<BolleDialog | null>(null);
+const fullscreen = ref<BolleDialog | null>(null);
+const nonModal = ref<BolleDialog | null>(null);
 const proposalOpen = ref(false);
 const dirty = ref(true);
 const result = ref("");
@@ -733,8 +751,8 @@ function onClosed(event: Event) {
 </script>
 
 <template>
-  <bubble-button variant="filled" @click="confirm?.show()">Elimina</bubble-button>
-  <bubble-dialog
+  <bolle-button variant="filled" @click="confirm?.show()">Elimina</bolle-button>
+  <bolle-dialog
     ref="confirm"
     label="Eliminare il documento?"
     variant="basic"
@@ -744,31 +762,31 @@ function onClosed(event: Event) {
     @closed="onClosed"
   >
     <p>L'operazione non può essere annullata.</p>
-    <bubble-button slot="actions" variant="text" @click="confirm?.close('elimina')">
+    <bolle-button slot="actions" variant="text" @click="confirm?.close('elimina')">
       Elimina
-    </bubble-button>
-  </bubble-dialog>
+    </bolle-button>
+  </bolle-dialog>
 
-  <bubble-button variant="outlined" @click="fullscreen?.show()">Apri a schermo intero</bubble-button>
-  <bubble-dialog ref="fullscreen" variant="full-screen" label="Editor" close-label="Chiudi">
+  <bolle-button variant="outlined" @click="fullscreen?.show()">Apri a schermo intero</bolle-button>
+  <bolle-dialog ref="fullscreen" variant="full-screen" label="Editor" close-label="Chiudi">
     <p>Contenuto a schermo intero.</p>
-    <bubble-button slot="actions" @click="fullscreen?.close('salvato')">Salva</bubble-button>
-  </bubble-dialog>
+    <bolle-button slot="actions" @click="fullscreen?.close('salvato')">Salva</bolle-button>
+  </bolle-dialog>
 
-  <bubble-button variant="text" @click="nonModal?.show()">Dialog non modale</bubble-button>
-  <bubble-dialog ref="nonModal" :modal="false" label="Nota" close-label="Chiudi">
+  <bolle-button variant="text" @click="nonModal?.show()">Dialog non modale</bolle-button>
+  <bolle-dialog ref="nonModal" :modal="false" label="Nota" close-label="Chiudi">
     <p>Questo dialog non blocca il resto della pagina.</p>
-  </bubble-dialog>
+  </bolle-dialog>
 
-  <bubble-button variant="tonal" @click="proposalOpen = true">Dialog dichiarativo</bubble-button>
-  <bubble-dialog :open="proposalOpen" label="Proposta" close-label="Chiudi" @closed="onClosed">
+  <bolle-button variant="tonal" @click="proposalOpen = true">Dialog dichiarativo</bolle-button>
+  <bolle-dialog :open="proposalOpen" label="Proposta" close-label="Chiudi" @closed="onClosed">
     <p>Controllato dalla proprietà open.</p>
-  </bubble-dialog>
+  </bolle-dialog>
   <output>{{ result }}</output>
 </template>
 ```
 
-### bubble-bottom-sheet
+### bolle-bottom-sheet
 
 Eredita dialog. Attributi aggiuntivi: `drag-handle`, `variant` (modal,
 standard). La variante standard non usa il dialog nativo: rende una sezione
@@ -777,17 +795,17 @@ inline visibile quando `open` è vero.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleBottomSheet } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleBottomSheet } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const sheet = ref<BubbleBottomSheet | null>(null);
+const sheet = ref<BolleBottomSheet | null>(null);
 const inlineOpen = ref(true);
 const result = ref("");
 </script>
 
 <template>
-  <bubble-button variant="filled" @click="sheet?.show()">Apri foglio modale</bubble-button>
-  <bubble-bottom-sheet
+  <bolle-button variant="filled" @click="sheet?.show()">Apri foglio modale</bolle-button>
+  <bolle-bottom-sheet
     ref="sheet"
     drag-handle
     label="Filtri"
@@ -795,23 +813,23 @@ const result = ref("");
     @closed="result = detail<{ returnValue: string }>($event).returnValue ?? ''"
   >
     <p>Scegli i filtri da applicare.</p>
-    <bubble-button slot="actions" @click="sheet?.close('applica')">Applica</bubble-button>
-  </bubble-bottom-sheet>
+    <bolle-button slot="actions" @click="sheet?.close('applica')">Applica</bolle-button>
+  </bolle-bottom-sheet>
 
-  <bubble-bottom-sheet
+  <bolle-bottom-sheet
     :open="inlineOpen"
     variant="standard"
     drag-handle
     label="Filtri inline"
   >
     <p>Foglio standard ancorato in basso.</p>
-    <bubble-button variant="text" @click="inlineOpen = false">Chiudi</bubble-button>
-  </bubble-bottom-sheet>
+    <bolle-button variant="text" @click="inlineOpen = false">Chiudi</bolle-button>
+  </bolle-bottom-sheet>
   <output>{{ result }}</output>
 </template>
 ```
 
-### bubble-side-sheet
+### bolle-side-sheet
 
 Eredita dialog. Attributi aggiuntivi: `detached`, `variant` (modal, standard).
 Il lato è impostato dal componente: `side`. `detached` aggiunge il margine
@@ -820,27 +838,27 @@ della variante staccata.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleSideSheet } from "@bubble/web-components";
+import type { BolleSideSheet } from "@bolle/web-components";
 
-const side = ref<BubbleSideSheet | null>(null);
+const side = ref<BolleSideSheet | null>(null);
 const standardOpen = ref(true);
 </script>
 
 <template>
-  <bubble-button variant="filled" @click="side?.show()">Apri pannello</bubble-button>
-  <bubble-side-sheet ref="side" label="Dettagli" detached close-label="Chiudi">
+  <bolle-button variant="filled" @click="side?.show()">Apri pannello</bolle-button>
+  <bolle-side-sheet ref="side" label="Dettagli" detached close-label="Chiudi">
     <p>Dettagli del documento selezionato.</p>
-    <bubble-button slot="actions" @click="side?.close('salvato')">Salva</bubble-button>
-  </bubble-side-sheet>
+    <bolle-button slot="actions" @click="side?.close('salvato')">Salva</bolle-button>
+  </bolle-side-sheet>
 
-  <bubble-side-sheet :open="standardOpen" variant="standard" detached label="Dettagli inline">
+  <bolle-side-sheet :open="standardOpen" variant="standard" detached label="Dettagli inline">
     <p>Pannello standard sempre visibile accanto al contenuto.</p>
-    <bubble-button variant="text" @click="standardOpen = false">Chiudi</bubble-button>
-  </bubble-side-sheet>
+    <bolle-button variant="text" @click="standardOpen = false">Chiudi</bolle-button>
+  </bolle-side-sheet>
 </template>
 ```
 
-### bubble-divider
+### bolle-divider
 
 Attributi: `vertical`, `inset`, `variant` (full, inset, inset-start,
 inset-end), `decorative`. Senza `decorative` espone `role="separator"`; con
@@ -848,20 +866,20 @@ inset-end), `decorative`. Senza `decorative` espone `role="separator"`; con
 
 ```vue
 <template>
-  <bubble-divider />
-  <bubble-divider inset />
-  <bubble-divider variant="inset-start" />
-  <bubble-divider variant="inset-end" />
-  <bubble-divider decorative />
+  <bolle-divider />
+  <bolle-divider inset />
+  <bolle-divider variant="inset-start" />
+  <bolle-divider variant="inset-end" />
+  <bolle-divider decorative />
 
   <div style="display: flex; block-size: 120px; align-items: center; gap: 8px">
     <span>Prima</span>
-    <bubble-divider vertical />
+    <bolle-divider vertical />
     <span>Dopo</span>
   </div>
   <div style="display: flex; block-size: 120px; align-items: center; gap: 8px">
     <span>Prima</span>
-    <bubble-divider vertical decorative />
+    <bolle-divider vertical decorative />
     <span>Dopo</span>
   </div>
 </template>
@@ -869,13 +887,13 @@ inset-end), `decorative`. Senza `decorative` espone `role="separator"`; con
 
 ## Navigazione
 
-### bubble-app-bar
+### bolle-app-bar
 
 Attributi: `label`, `variant` (small, center-aligned, medium,
 medium-flexible, large, large-flexible, search), `subtitle`, `alignment`
 (leading, center), `sticky`, `scrolled`, `collapsed`. Slot: `leading`,
 `trailing`, default. Nella variante `search` lo slot default ospita una
-`bubble-search`; nelle altre ospita il titolo al posto di `label`.
+`bolle-search`; nelle altre ospita il titolo al posto di `label`.
 
 ```vue
 <script setup lang="ts">
@@ -887,7 +905,7 @@ const variants = ["small", "center-aligned", "medium", "medium-flexible", "large
 </script>
 
 <template>
-  <bubble-app-bar
+  <bolle-app-bar
     label="Posta"
     variant="small"
     subtitle="12 non letti"
@@ -896,11 +914,11 @@ const variants = ["small", "center-aligned", "medium", "medium-flexible", "large
     :scrolled="scrolled"
     :collapsed="collapsed"
   >
-    <bubble-icon-button slot="leading" label="Menu">☰</bubble-icon-button>
-    <bubble-icon-button slot="trailing" label="Cerca">🔍</bubble-icon-button>
-  </bubble-app-bar>
+    <bolle-icon-button slot="leading" label="Menu">☰</bolle-icon-button>
+    <bolle-icon-button slot="trailing" label="Cerca">🔍</bolle-icon-button>
+  </bolle-app-bar>
 
-  <bubble-app-bar
+  <bolle-app-bar
     v-for="variant in variants"
     :key="variant"
     :variant="variant"
@@ -908,21 +926,21 @@ const variants = ["small", "center-aligned", "medium", "medium-flexible", "large
     subtitle="12 non letti"
     :collapsed="collapsed"
   >
-    <bubble-icon-button slot="leading" label="Menu">☰</bubble-icon-button>
-  </bubble-app-bar>
+    <bolle-icon-button slot="leading" label="Menu">☰</bolle-icon-button>
+  </bolle-app-bar>
 
-  <bubble-app-bar variant="search">
-    <bubble-search label="Cerca" placeholder="Cerca nella posta">
+  <bolle-app-bar variant="search">
+    <bolle-search label="Cerca" placeholder="Cerca nella posta">
       <span slot="leading" aria-hidden="true">🔍</span>
-    </bubble-search>
-  </bubble-app-bar>
+    </bolle-search>
+  </bolle-app-bar>
 
-  <bubble-button variant="outlined" @click="scrolled = !scrolled">Alterna scrolled</bubble-button>
-  <bubble-button variant="outlined" @click="collapsed = !collapsed">Alterna collapsed</bubble-button>
+  <bolle-button variant="outlined" @click="scrolled = !scrolled">Alterna scrolled</bolle-button>
+  <bolle-button variant="outlined" @click="collapsed = !collapsed">Alterna collapsed</bolle-button>
 </template>
 ```
 
-### bubble-toolbar
+### bolle-toolbar
 
 Attributi: `label`, `variant` (docked, floating), `orientation` (horizontal,
 vertical), `color` (standard, vibrant). I controlli figli ricevono un
@@ -930,35 +948,35 @@ vertical), `color` (standard, vibrant). I controlli figli ricevono un
 
 ```vue
 <template>
-  <bubble-toolbar label="Formato" variant="docked" orientation="horizontal" color="standard">
-    <bubble-icon-button label="Grassetto" toggle>B</bubble-icon-button>
-    <bubble-icon-button label="Corsivo" toggle>I</bubble-icon-button>
-    <bubble-icon-button label="Sottolineato" toggle>U</bubble-icon-button>
-    <bubble-divider vertical decorative />
-    <bubble-icon-button label="Allinea a sinistra">≡</bubble-icon-button>
-  </bubble-toolbar>
+  <bolle-toolbar label="Formato" variant="docked" orientation="horizontal" color="standard">
+    <bolle-icon-button label="Grassetto" toggle>B</bolle-icon-button>
+    <bolle-icon-button label="Corsivo" toggle>I</bolle-icon-button>
+    <bolle-icon-button label="Sottolineato" toggle>U</bolle-icon-button>
+    <bolle-divider vertical decorative />
+    <bolle-icon-button label="Allinea a sinistra">≡</bolle-icon-button>
+  </bolle-toolbar>
 
-  <bubble-toolbar label="Modifica" color="vibrant">
-    <bubble-icon-button label="Taglia" variant="standard">✂</bubble-icon-button>
-    <bubble-icon-button label="Copia" variant="standard">⧉</bubble-icon-button>
-    <bubble-icon-button label="Incolla" variant="standard">📋</bubble-icon-button>
-  </bubble-toolbar>
+  <bolle-toolbar label="Modifica" color="vibrant">
+    <bolle-icon-button label="Taglia" variant="standard">✂</bolle-icon-button>
+    <bolle-icon-button label="Copia" variant="standard">⧉</bolle-icon-button>
+    <bolle-icon-button label="Incolla" variant="standard">📋</bolle-icon-button>
+  </bolle-toolbar>
 
-  <bubble-toolbar label="Formato" variant="floating">
-    <bubble-icon-button label="Grassetto" toggle>B</bubble-icon-button>
-    <bubble-icon-button label="Corsivo" toggle>I</bubble-icon-button>
-  </bubble-toolbar>
+  <bolle-toolbar label="Formato" variant="floating">
+    <bolle-icon-button label="Grassetto" toggle>B</bolle-icon-button>
+    <bolle-icon-button label="Corsivo" toggle>I</bolle-icon-button>
+  </bolle-toolbar>
 
-  <bubble-toolbar label="Allineamento" variant="floating" orientation="vertical">
-    <bubble-icon-button label="Su">↑</bubble-icon-button>
-    <bubble-icon-button label="Giù">↓</bubble-icon-button>
-  </bubble-toolbar>
+  <bolle-toolbar label="Allineamento" variant="floating" orientation="vertical">
+    <bolle-icon-button label="Su">↑</bolle-icon-button>
+    <bolle-icon-button label="Giù">↓</bolle-icon-button>
+  </bolle-toolbar>
 </template>
 ```
 
-### bubble-navigation-bar
+### bolle-navigation-bar
 
-Attributi: `label`, `items` (array di `BubbleItem` con `id`, `label`, `icon`,
+Attributi: `label`, `items` (array di `BolleItem` con `id`, `label`, `icon`,
 `href`, `disabled`), `value`, `variant` (standard, flexible), `layout`
 (vertical, horizontal). Evento: `navigate` con `{ id }`. Usa da tre a cinque
 destinazioni.
@@ -966,10 +984,10 @@ destinazioni.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const destinations: BubbleItem[] = [
+const destinations: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox" },
   { id: "archive", label: "Archivio", icon: "archive", href: "/archivio" },
   { id: "settings", label: "Impostazioni", icon: "settings" },
@@ -980,7 +998,7 @@ const current = ref("inbox");
 </script>
 
 <template>
-  <bubble-navigation-bar
+  <bolle-navigation-bar
     label="Navigazione principale"
     :items="destinations"
     :value="current"
@@ -989,7 +1007,7 @@ const current = ref("inbox");
     @navigate="current = detail<{ id: string }>($event).id"
   />
 
-  <bubble-navigation-bar
+  <bolle-navigation-bar
     label="Navigazione flessibile"
     :items="destinations"
     :value="current"
@@ -1001,7 +1019,7 @@ const current = ref("inbox");
 </template>
 ```
 
-### bubble-navigation-rail
+### bolle-navigation-rail
 
 Eredita navigation bar e aggiunge `expanded`. Il rail è sempre compresso per
 default; `expanded` mostra le etichette accanto alle icone. `variant` e
@@ -1010,10 +1028,10 @@ default; `expanded` mostra le etichette accanto alle icone. `variant` e
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const destinations: BubbleItem[] = [
+const destinations: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox" },
   { id: "archive", label: "Archivio", icon: "archive" },
   { id: "settings", label: "Impostazioni", icon: "settings" },
@@ -1022,13 +1040,13 @@ const current = ref("inbox");
 </script>
 
 <template>
-  <bubble-navigation-rail
+  <bolle-navigation-rail
     label="Rail compresso"
     :items="destinations"
     :value="current"
     @navigate="current = detail<{ id: string }>($event).id"
   />
-  <bubble-navigation-rail
+  <bolle-navigation-rail
     expanded
     variant="standard"
     layout="vertical"
@@ -1040,7 +1058,7 @@ const current = ref("inbox");
 </template>
 ```
 
-### bubble-navigation-drawer
+### bolle-navigation-drawer
 
 Eredita side sheet. Attributi: `items`, `value`, `label`, `variant` (modal,
 standard), `detached`, `close-label`; slot default per contenuto aggiuntivo.
@@ -1050,22 +1068,22 @@ variante standard resta inline e si controlla con `open`.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem, BubbleNavigationDrawer } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem, BolleNavigationDrawer } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const destinations: BubbleItem[] = [
+const destinations: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox" },
   { id: "archive", label: "Archivio", icon: "archive", href: "/archivio" },
   { id: "settings", label: "Impostazioni", icon: "settings" },
 ];
 const current = ref("inbox");
 const standardOpen = ref(true);
-const drawer = ref<BubbleNavigationDrawer | null>(null);
+const drawer = ref<BolleNavigationDrawer | null>(null);
 </script>
 
 <template>
-  <bubble-button variant="filled" @click="drawer?.show()">Apri drawer</bubble-button>
-  <bubble-navigation-drawer
+  <bolle-button variant="filled" @click="drawer?.show()">Apri drawer</bolle-button>
+  <bolle-navigation-drawer
     ref="drawer"
     label="Sezioni"
     close-label="Chiudi"
@@ -1074,9 +1092,9 @@ const drawer = ref<BubbleNavigationDrawer | null>(null);
     @navigate="current = detail<{ id: string }>($event).id"
   >
     <p>Contenuto aggiuntivo del drawer.</p>
-  </bubble-navigation-drawer>
+  </bolle-navigation-drawer>
 
-  <bubble-navigation-drawer
+  <bolle-navigation-drawer
     :open="standardOpen"
     variant="standard"
     detached
@@ -1085,12 +1103,12 @@ const drawer = ref<BubbleNavigationDrawer | null>(null);
     :value="current"
     @navigate="current = detail<{ id: string }>($event).id"
   >
-    <bubble-button variant="text" @click="standardOpen = false">Chiudi</bubble-button>
-  </bubble-navigation-drawer>
+    <bolle-button variant="text" @click="standardOpen = false">Chiudi</bolle-button>
+  </bolle-navigation-drawer>
 </template>
 ```
 
-### bubble-tabs
+### bolle-tabs
 
 Attributi: `items` (`id`, `label`, `icon`, `badge`, `disabled`), `value`,
 `label`, `variant` (primary, secondary), `activation` (automatic, manual),
@@ -1100,16 +1118,16 @@ Con `manual` la selezione avviene con Invio o click, non con le sole frecce.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const primary: BubbleItem[] = [
+const primary: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox", badge: "3" },
   { id: "archive", label: "Archivio", icon: "archive" },
   { id: "settings", label: "Preferenze", icon: "settings" },
   { id: "trash", label: "Cestino", icon: "trash", disabled: true },
 ];
-const many: BubbleItem[] = Array.from({ length: 8 }, (_, index) => ({
+const many: BolleItem[] = Array.from({ length: 8 }, (_, index) => ({
   id: `s${index}`,
   label: `Vista ${index + 1}`,
 }));
@@ -1119,7 +1137,7 @@ const manyTab = ref("s0");
 </script>
 
 <template>
-  <bubble-tabs
+  <bolle-tabs
     label="Categorie"
     :items="primary"
     :value="tab"
@@ -1132,9 +1150,9 @@ const manyTab = ref("s0");
     <p slot="archive">Documenti salvati.</p>
     <p slot="settings">Preferenze personali.</p>
     <p slot="trash">Elementi eliminati.</p>
-  </bubble-tabs>
+  </bolle-tabs>
 
-  <bubble-tabs
+  <bolle-tabs
     label="Dettagli"
     :items="primary"
     :value="tab"
@@ -1146,9 +1164,9 @@ const manyTab = ref("s0");
     <p slot="archive">Archivio secondario.</p>
     <p slot="settings">Impostazioni secondarie.</p>
     <p slot="trash">Cestino secondario.</p>
-  </bubble-tabs>
+  </bolle-tabs>
 
-  <bubble-tabs
+  <bolle-tabs
     label="Viste scorrevoli"
     :items="many"
     :value="manyTab"
@@ -1156,13 +1174,13 @@ const manyTab = ref("s0");
     @change="manyTab = detail<{ value: string }>($event).value"
   >
     <p v-for="item in many" :key="item.id" :slot="item.id">{{ item.label }}</p>
-  </bubble-tabs>
+  </bolle-tabs>
 </template>
 ```
 
 ## Selezione
 
-### bubble-checkbox
+### bolle-checkbox
 
 Attributi: `checked`, `indeterminate`, `label`, `value`, `name`, `required`,
 `disabled`, `supporting-text`, `error`. Slot: default (etichetta). Evento:
@@ -1171,7 +1189,7 @@ Attributi: `checked`, `indeterminate`, `label`, `value`, `name`, `required`,
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const terms = ref(false);
 const partial = ref(true);
@@ -1184,7 +1202,7 @@ function onTerms(event: Event) {
 
 <template>
   <form>
-    <bubble-checkbox
+    <bolle-checkbox
       label="Accetto i termini"
       name="terms"
       value="si"
@@ -1193,15 +1211,15 @@ function onTerms(event: Event) {
       supporting-text="Puoi revocare il consenso in qualsiasi momento."
       @change="onTerms"
     />
-    <bubble-checkbox name="newsletter" value="si" :checked="newsletter" label="Newsletter" />
-    <bubble-checkbox :indeterminate="partial" label="Selezione parziale" />
-    <bubble-checkbox checked disabled label="Disabilitata" />
-    <bubble-checkbox checked error required label="Campo con errore" supporting-text="Devi accettare per continuare." />
+    <bolle-checkbox name="newsletter" value="si" :checked="newsletter" label="Newsletter" />
+    <bolle-checkbox :indeterminate="partial" label="Selezione parziale" />
+    <bolle-checkbox checked disabled label="Disabilitata" />
+    <bolle-checkbox checked error required label="Campo con errore" supporting-text="Devi accettare per continuare." />
   </form>
 </template>
 ```
 
-### bubble-switch
+### bolle-switch
 
 Eredita checkbox e aggiunge `icon` e `iconSelected`, disponibili solo come
 proprietà (`:icon`, `:iconSelected`). Il ruolo è `switch`. Stessi attributi,
@@ -1210,14 +1228,14 @@ eventi e comportamento di form della checkbox.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const wifi = ref(true);
 const notifications = ref(false);
 </script>
 
 <template>
-  <bubble-switch
+  <bolle-switch
     label="Wi-Fi"
     name="wifi"
     value="on"
@@ -1226,18 +1244,18 @@ const notifications = ref(false);
     :iconSelected="'🔆'"
     @change="wifi = detail<{ checked: boolean }>($event).checked"
   />
-  <bubble-switch
+  <bolle-switch
     label="Notifiche"
     :checked="notifications"
     supporting-text="Ricevi un avviso per ogni aggiornamento."
     @change="notifications = detail<{ checked: boolean }>($event).checked"
   />
-  <bubble-switch checked disabled label="Bluetooth disabilitato" />
-  <bubble-switch checked error required label="Con errore" supporting-text="Azione richiesta." />
+  <bolle-switch checked disabled label="Bluetooth disabilitato" />
+  <bolle-switch checked error required label="Con errore" supporting-text="Azione richiesta." />
 </template>
 ```
 
-### bubble-radio-button
+### bolle-radio-button
 
 Attributi: `name`, `value`, `checked`, `label`, `required`, `disabled`. La
 selezione è di gruppo tramite `name`; le frecce spostano il focus e
@@ -1247,14 +1265,14 @@ selezionano, Home/End vanno al primo e all'ultimo. Evento: `change` con
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const plan = ref("standard");
 </script>
 
 <template>
   <form>
-    <bubble-radio-button
+    <bolle-radio-button
       v-for="option in ['standard', 'plus', 'enterprise']"
       :key="option"
       name="plan"
@@ -1264,14 +1282,14 @@ const plan = ref("standard");
       required
       @change="plan = detail<{ value: string }>($event).value"
     />
-    <bubble-radio-button name="plan" value="legacy" label="Legacy" disabled />
-    <bubble-radio-button name="locale" value="it" label="Italiano" checked />
-    <bubble-radio-button name="locale" value="en" label="Inglese" />
+    <bolle-radio-button name="plan" value="legacy" label="Legacy" disabled />
+    <bolle-radio-button name="locale" value="it" label="Italiano" checked />
+    <bolle-radio-button name="locale" value="en" label="Inglese" />
   </form>
 </template>
 ```
 
-### bubble-chip
+### bolle-chip
 
 Attributi: `variant` (assist, filter, input, suggestion), `label`, `selected`,
 `elevated`, `disabled`, `removable`, `remove-label`, `href`, `name`, `value`,
@@ -1281,7 +1299,7 @@ Attributi: `variant` (assist, filter, input, suggestion), `label`, `selected`,
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const favorite = ref(false);
 const city = ref(["Roma"]);
@@ -1289,8 +1307,8 @@ const log = ref("");
 </script>
 
 <template>
-  <bubble-chip variant="assist" label="Aggiungi al calendario" @action="log = 'assist'" />
-  <bubble-chip
+  <bolle-chip variant="assist" label="Aggiungi al calendario" @action="log = 'assist'" />
+  <bolle-chip
     variant="filter"
     name="filters"
     value="favorite"
@@ -1298,10 +1316,10 @@ const log = ref("");
     :selected="favorite"
     @change="favorite = detail<{ selected: boolean }>($event).selected"
   />
-  <bubble-chip variant="filter" name="filters" value="unread" label="Solo non letti" />
-  <bubble-chip variant="filter" elevated label="Elevata" />
+  <bolle-chip variant="filter" name="filters" value="unread" label="Solo non letti" />
+  <bolle-chip variant="filter" elevated label="Elevata" />
 
-  <bubble-chip
+  <bolle-chip
     v-for="name in city"
     :key="name"
     variant="input"
@@ -1311,20 +1329,20 @@ const log = ref("");
     @remove="city = city.filter((value) => value !== name)"
   >
     <span slot="avatar" aria-hidden="true">{{ name.slice(0, 2) }}</span>
-  </bubble-chip>
+  </bolle-chip>
 
-  <bubble-chip variant="suggestion" label="Grazie!">
+  <bolle-chip variant="suggestion" label="Grazie!">
     <span slot="icon" aria-hidden="true">✓</span>
-  </bubble-chip>
-  <bubble-chip variant="assist" href="https://example.com" label="Apri collegamento">
+  </bolle-chip>
+  <bolle-chip variant="assist" href="https://example.com" label="Apri collegamento">
     <span slot="icon" aria-hidden="true">↗</span>
-  </bubble-chip>
-  <bubble-chip variant="assist" label="Disabilitata" disabled />
+  </bolle-chip>
+  <bolle-chip variant="assist" label="Disabilitata" disabled />
   <output>{{ log }}</output>
 </template>
 ```
 
-### bubble-list
+### bolle-list
 
 Attributi: `items` (con `id`, `label`, `icon`, `supportingText`, `badge`,
 `href`, `selected`, `disabled`, `items`, `expanded`), `label`, `variant`
@@ -1336,10 +1354,10 @@ aggiuntive. Eventi: `action` con `{ id }`, `change` con
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const items: BubbleItem[] = [
+const items: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox", supportingText: "Messaggi ricevuti" },
   { id: "archive", label: "Archivio", icon: "archive", href: "/archivio" },
   {
@@ -1369,7 +1387,7 @@ function onExpand(event: Event) {
 </script>
 
 <template>
-  <bubble-list
+  <bolle-list
     label="Selezione singola"
     variant="standard"
     interactive
@@ -1381,7 +1399,7 @@ function onExpand(event: Event) {
     @expand="onExpand"
   />
 
-  <bubble-list
+  <bolle-list
     label="Selezione multipla"
     variant="segmented"
     selection="multiple"
@@ -1390,7 +1408,7 @@ function onExpand(event: Event) {
     @change="multiple = detail<{ value: string[] }>($event).value"
   />
 
-  <bubble-list
+  <bolle-list
     label="Azioni"
     interactive
     selection="none"
@@ -1398,14 +1416,14 @@ function onExpand(event: Event) {
     @action="log = `azione ${detail<{ id: string }>($event).id}`"
   />
 
-  <bubble-list label="Statico con link" selection="none" :items="items">
+  <bolle-list label="Statico con link" selection="none" :items="items">
     <li><div class="list-item">Riga personalizzata</div></li>
-  </bubble-list>
+  </bolle-list>
   <output>{{ log }}</output>
 </template>
 ```
 
-### bubble-segmented-buttons
+### bolle-segmented-buttons
 
 Attributi: `items` (con `id`, `label`, `icon`, `disabled`), `multiple`,
 `values` (array, solo multipla), `value` (singola), `label`, `name`,
@@ -1415,10 +1433,10 @@ cinque segmenti.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const segments: BubbleItem[] = [
+const segments: BolleItem[] = [
   { id: "inbox", label: "Posta", icon: "inbox" },
   { id: "archive", label: "Archivio", icon: "archive" },
   { id: "settings", label: "Impostazioni", icon: "settings" },
@@ -1431,7 +1449,7 @@ const filters = ref<string[]>(["inbox", "archive"]);
 
 <template>
   <form>
-    <bubble-segmented-buttons
+    <bolle-segmented-buttons
       label="Vista"
       name="view"
       :items="segments"
@@ -1439,7 +1457,7 @@ const filters = ref<string[]>(["inbox", "archive"]);
       required
       @change="view = detail<{ value: string }>($event).value"
     />
-    <bubble-segmented-buttons
+    <bolle-segmented-buttons
       label="Filtri"
       name="filters"
       multiple
@@ -1447,12 +1465,12 @@ const filters = ref<string[]>(["inbox", "archive"]);
       :values="filters"
       @change="filters = detail<{ values: string[] }>($event).values"
     />
-    <bubble-segmented-buttons label="Disabilitati" name="disabled" :items="segments" value="inbox" disabled />
+    <bolle-segmented-buttons label="Disabilitati" name="disabled" :items="segments" value="inbox" disabled />
   </form>
 </template>
 ```
 
-### bubble-slider
+### bolle-slider
 
 Attributi: `value`, `min`, `max`, `step`, `variant` (continuous, centered,
 range), `size` (xs, small, medium, large, xl), `upper-value`, `upper-label`,
@@ -1464,7 +1482,7 @@ solo proprietà e si legano come `:iconStart` e `:iconEnd`.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const volume = ref("40");
 const balance = ref("60");
@@ -1480,7 +1498,7 @@ function onPrice(event: Event) {
 </script>
 
 <template>
-  <bubble-slider
+  <bolle-slider
     name="volume"
     label="Volume"
     :value="volume"
@@ -1494,7 +1512,7 @@ function onPrice(event: Event) {
     @value-input="volume = detail<{ value: string }>($event).value"
   />
 
-  <bubble-slider
+  <bolle-slider
     label="Bilanciamento"
     variant="centered"
     :value="balance"
@@ -1502,7 +1520,7 @@ function onPrice(event: Event) {
     @value-input="balance = detail<{ value: string }>($event).value"
   />
 
-  <bubble-slider
+  <bolle-slider
     label="Prezzo"
     name="price"
     variant="range"
@@ -1515,7 +1533,7 @@ function onPrice(event: Event) {
     @change="onPrice"
   />
 
-  <bubble-slider
+  <bolle-slider
     label="Luminosità"
     :value="brightness"
     show-value
@@ -1524,17 +1542,17 @@ function onPrice(event: Event) {
     @value-input="brightness = detail<{ value: string }>($event).value"
   />
 
-  <bubble-slider label="Passo 10 con indicatori" :step="10" value="40" show-value stops />
-  <bubble-slider label="Small" size="small" value="30" />
-  <bubble-slider label="Large" size="large" value="70" />
-  <bubble-slider label="Verticale" orientation="vertical" value="50" />
-  <bubble-slider label="Disabilitato" value="20" disabled />
+  <bolle-slider label="Passo 10 con indicatori" :step="10" value="40" show-value stops />
+  <bolle-slider label="Small" size="small" value="30" />
+  <bolle-slider label="Large" size="large" value="70" />
+  <bolle-slider label="Verticale" orientation="vertical" value="50" />
+  <bolle-slider label="Disabilitato" value="20" disabled />
 </template>
 ```
 
 ## Testo e input
 
-### bubble-text-field
+### bolle-text-field
 
 Attributi: `variant` (filled, outlined), `type` (text, email, password, number,
 date, time, url, tel, search), `label`, `value`, `placeholder`,
@@ -1548,7 +1566,7 @@ conferma. `pattern` e `autocomplete` valgono per il campo a riga singola;
 ```vue
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const email = ref("");
 const message = ref("");
@@ -1566,7 +1584,7 @@ function onMessage(event: Event) {
 
 <template>
   <form>
-    <bubble-text-field
+    <bolle-text-field
       name="email"
       label="Email"
       type="email"
@@ -1584,11 +1602,11 @@ function onMessage(event: Event) {
     >
       <span slot="leading" aria-hidden="true">✉</span>
       <span slot="trailing" aria-hidden="true">?</span>
-    </bubble-text-field>
+    </bolle-text-field>
 
-    <bubble-text-field label="Nome utente" variant="filled" prefix="@" :maxlength="30" counter />
-    <bubble-text-field label="Prezzo" type="number" min="0" max="9999" step="0.01" prefix="€" suffix="EUR" value="12.50" />
-    <bubble-text-field
+    <bolle-text-field label="Nome utente" variant="filled" prefix="@" :maxlength="30" counter />
+    <bolle-text-field label="Prezzo" type="number" min="0" max="9999" step="0.01" prefix="€" suffix="EUR" value="12.50" />
+    <bolle-text-field
       label="Messaggio"
       multiline
       :rows="4"
@@ -1597,17 +1615,17 @@ function onMessage(event: Event) {
       :value="message"
       @value-input="onMessage"
     />
-    <bubble-text-field label="Solo lettura" readonly value="Valore bloccato" />
-    <bubble-text-field label="Quantità" type="number" min="1" max="10" step="1" value="2" />
-    <bubble-text-field label="Codice" pattern="[A-Z]{3}[0-9]{3}" value="ABC123" supporting-text="Tre lettere e tre cifre." />
-    <bubble-text-field label="Data" type="date" min="2026-01-01" max="2026-12-31" />
-    <bubble-text-field label="Ricerca" type="search" placeholder="Cerca" />
-    <bubble-text-field label="Disabilitato" disabled value="Non modificabile" />
+    <bolle-text-field label="Solo lettura" readonly value="Valore bloccato" />
+    <bolle-text-field label="Quantità" type="number" min="1" max="10" step="1" value="2" />
+    <bolle-text-field label="Codice" pattern="[A-Z]{3}[0-9]{3}" value="ABC123" supporting-text="Tre lettere e tre cifre." />
+    <bolle-text-field label="Data" type="date" min="2026-01-01" max="2026-12-31" />
+    <bolle-text-field label="Ricerca" type="search" placeholder="Cerca" />
+    <bolle-text-field label="Disabilitato" disabled value="Non modificabile" />
   </form>
 </template>
 ```
 
-### bubble-search
+### bolle-search
 
 Eredita text field. Attributi aggiuntivi: `appearance` (contained, divided),
 `layout` (docked, full-screen), `suggestions` (array), `suggestions-label`,
@@ -1619,15 +1637,15 @@ conferma, `suggest` con `{ value }` a ogni input (ritardato se
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem } from "@bolle/web-components";
+import { detail } from "./bolle";
 
 const cities = ["Bologna", "Bolzano", "Firenze", "Genova", "Milano", "Napoli", "Roma", "Torino"];
 const suggestions = ref<string[]>(cities);
 const query = ref("");
 const lastSearch = ref("");
 
-const results: BubbleItem[] = [
+const results: BolleItem[] = [
   { id: "r1", label: "Roma", supportingText: "Capitale d'Italia" },
   { id: "r2", label: "Torino", supportingText: "Capoluogo piemontese" },
 ];
@@ -1639,7 +1657,7 @@ function onSuggest(event: Event) {
 </script>
 
 <template>
-  <bubble-search
+  <bolle-search
     label="Cerca documenti"
     placeholder="Titolo o autore"
     appearance="contained"
@@ -1652,14 +1670,14 @@ function onSuggest(event: Event) {
   >
     <span slot="leading" aria-hidden="true">🔍</span>
     <span slot="trailing" aria-hidden="true">⌘K</span>
-    <bubble-list slot="results" label="Risultati" selection="none" :items="results" />
-  </bubble-search>
+    <bolle-list slot="results" label="Risultati" selection="none" :items="results" />
+  </bolle-search>
 
-  <bubble-search appearance="divided" label="Cerca nel testo" placeholder="Parola chiave" />
+  <bolle-search appearance="divided" label="Cerca nel testo" placeholder="Parola chiave" />
 
-  <bubble-search layout="full-screen" label="Cerca ovunque" placeholder="Cerca ovunque" />
+  <bolle-search layout="full-screen" label="Cerca ovunque" placeholder="Cerca ovunque" />
 
-  <bubble-search
+  <bolle-search
     filter
     label="Cerca città"
     placeholder="Scrivi una città"
@@ -1673,7 +1691,7 @@ function onSuggest(event: Event) {
 </template>
 ```
 
-### bubble-date-picker
+### bolle-date-picker
 
 Attributi: `variant` (modal, docked), `selection-mode` (single, range),
 `value` (formato `AAAA-MM-GG`), `end-value`, `locale`, `labels`, `min`, `max`,
@@ -1685,7 +1703,7 @@ e non apre il dialog.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const appointment = ref("2026-11-11");
 const rangeStart = ref("2026-11-01");
@@ -1703,7 +1721,7 @@ function onRange(event: Event) {
 
 <template>
   <form>
-    <bubble-date-picker
+    <bolle-date-picker
       label="Data appuntamento"
       name="appointment"
       locale="it"
@@ -1717,7 +1735,7 @@ function onRange(event: Event) {
       @change="onAppointment"
     />
 
-    <bubble-date-picker
+    <bolle-date-picker
       label="Periodo"
       name="period"
       locale="it"
@@ -1727,7 +1745,7 @@ function onRange(event: Event) {
       @change="onRange"
     />
 
-    <bubble-date-picker
+    <bolle-date-picker
       variant="docked"
       label="Calendario sempre visibile"
       locale="it"
@@ -1738,7 +1756,7 @@ function onRange(event: Event) {
       @change="onAppointment"
     />
 
-    <bubble-date-picker label="Disabilitato" disabled value="2026-11-11" />
+    <bolle-date-picker label="Disabilitato" disabled value="2026-11-11" />
   </form>
 </template>
 ```
@@ -1749,7 +1767,7 @@ In un form, il picker range invia due valori con lo stesso `name`:
 new FormData(form).getAll("period"); // ["2026-11-01", "2026-11-20"]
 ```
 
-### bubble-time-picker
+### bolle-time-picker
 
 Attributi: `variant` (dial, input), `hour-cycle` (12, 24), `value` (`HH:mm`),
 `locale`, `labels`, `label`, `name`, `required`, `disabled`. Evento: `change`
@@ -1758,7 +1776,7 @@ con `{ value }`. Con `hour-cycle="12"` compare il selettore AM/PM.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import { detail } from "./bubble";
+import { detail } from "./bolle";
 
 const time = ref("09:30");
 const evening = ref("18:45");
@@ -1773,7 +1791,7 @@ function onEvening(event: Event) {
 
 <template>
   <form>
-    <bubble-time-picker
+    <bolle-time-picker
       label="Ora promemoria"
       name="time"
       variant="dial"
@@ -1783,7 +1801,7 @@ function onEvening(event: Event) {
       :value="time"
       @change="onTime"
     />
-    <bubble-time-picker
+    <bolle-time-picker
       label="Ora in formato 12"
       variant="dial"
       :hour-cycle="12"
@@ -1792,21 +1810,21 @@ function onEvening(event: Event) {
       :labels="{ period: 'AM o PM', hour: 'Ora', minute: 'Minuti' }"
       @change="onEvening"
     />
-    <bubble-time-picker
+    <bolle-time-picker
       label="Inserimento da tastiera"
       variant="input"
       :hour-cycle="24"
       value="08:15"
       @change="onTime"
     />
-    <bubble-time-picker label="Disabilitato" disabled value="07:00" />
+    <bolle-time-picker label="Disabilitato" disabled value="07:00" />
   </form>
 </template>
 ```
 
 ## Menu
 
-### bubble-menu
+### bolle-menu
 
 Attributi: `items` (`MenuEntry[]`), `menu-label` (obbligatorio), `variant`
 (vertical, baseline), `color-scheme` (standard, vibrant; solo vertical),
@@ -1818,12 +1836,12 @@ negativi più compatti), `inactive`. Metodi: `show(anchor, { last?, x?, y? })`,
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleMenu, MenuEntry } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleMenu, MenuEntry } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const actions = ref<BubbleMenu | null>(null);
-const filters = ref<BubbleMenu | null>(null);
-const baseline = ref<BubbleMenu | null>(null);
+const actions = ref<BolleMenu | null>(null);
+const filters = ref<BolleMenu | null>(null);
+const baseline = ref<BolleMenu | null>(null);
 const last = ref("");
 
 const documentItems: MenuEntry[] = [
@@ -1861,7 +1879,7 @@ const baselineItems: MenuEntry[] = [
 ];
 
 function open(
-  menu: BubbleMenu | null,
+  menu: BolleMenu | null,
   event: Event,
   options: { last?: boolean; x?: number; y?: number } = {},
 ) {
@@ -1874,8 +1892,8 @@ function onSelect(event: Event) {
 </script>
 
 <template>
-  <bubble-button haspopup="menu" @click="open(actions, $event)">Azioni</bubble-button>
-  <bubble-menu
+  <bolle-button haspopup="menu" @click="open(actions, $event)">Azioni</bolle-button>
+  <bolle-menu
     ref="actions"
     menu-label="Azioni documento"
     variant="vertical"
@@ -1890,10 +1908,10 @@ function onSelect(event: Event) {
     @menu-select="onSelect"
   />
 
-  <bubble-button variant="tonal" haspopup="menu" @click="open(filters, $event, { last: true })">
+  <bolle-button variant="tonal" haspopup="menu" @click="open(filters, $event, { last: true })">
     Filtri
-  </bubble-button>
-  <bubble-menu
+  </bolle-button>
+  <bolle-menu
     ref="filters"
     menu-label="Filtri contenuti"
     color-scheme="vibrant"
@@ -1903,11 +1921,11 @@ function onSelect(event: Event) {
     @menu-select="onSelect"
   />
 
-  <bubble-button variant="outlined" haspopup="menu" @click="open(baseline, $event, { x: 120, y: 160 })">
+  <bolle-button variant="outlined" haspopup="menu" @click="open(baseline, $event, { x: 120, y: 160 })">
     Menu baseline a coordinate
-  </bubble-button>
-  <bubble-button variant="text" @click="actions?.close()">Chiudi menu azioni</bubble-button>
-  <bubble-menu
+  </bolle-button>
+  <bolle-button variant="text" @click="actions?.close()">Chiudi menu azioni</bolle-button>
+  <bolle-menu
     ref="baseline"
     menu-label="Azioni rapide"
     variant="baseline"
@@ -1923,7 +1941,7 @@ la variante baseline non ammette `color-scheme="vibrant"`, gli id devono essere
 unici, i gruppi non possono annidarsi oltre quattro livelli, e una voce con
 `href` non può avere `children` né essere usata in un menu con selezione.
 
-### bubble-fab-menu
+### bolle-fab-menu
 
 Attributi: `label`, `items` (da due a sei azioni), `open`. Slot: `icon`.
 Evento: `action` con `{ id }`. Il `label` è il nome accessibile del pulsante e
@@ -1933,10 +1951,10 @@ non va usato come binding controllato.
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { BubbleItem } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { BolleItem } from "@bolle/web-components";
+import { detail } from "./bolle";
 
-const fabItems: BubbleItem[] = [
+const fabItems: BolleItem[] = [
   { id: "note", label: "Nota", icon: "note" },
   { id: "folder", label: "Cartella", icon: "folder" },
   { id: "upload", label: "Carica file", icon: "upload" },
@@ -1946,18 +1964,18 @@ const log = ref("");
 </script>
 
 <template>
-  <bubble-fab-menu
+  <bolle-fab-menu
     label="Crea"
     :items="fabItems"
     @action="log = `crea ${detail<{ id?: string }>($event).id}`"
   >
     <span slot="icon" aria-hidden="true">＋</span>
-  </bubble-fab-menu>
+  </bolle-fab-menu>
   <output>{{ log }}</output>
 </template>
 ```
 
-### bubble-split-button
+### bolle-split-button
 
 Attributi: `label`, `menu-label`, `items` (`MenuEntry[]`), `disabled`,
 `variant` (filled, tonal, outlined, elevated), `size` (xs, small, medium,
@@ -1968,8 +1986,8 @@ large, xl). Eventi: `action` per il pulsante principale, `menu-select` con
 ```vue
 <script setup lang="ts">
 import { ref } from "vue";
-import type { MenuEntry } from "@bubble/web-components";
-import { detail } from "./bubble";
+import type { MenuEntry } from "@bolle/web-components";
+import { detail } from "./bolle";
 
 const variants = ["filled", "tonal", "outlined", "elevated"] as const;
 const sizes = ["xs", "small", "medium", "large", "xl"] as const;
@@ -1988,7 +2006,7 @@ function onSelect(event: Event) {
 </script>
 
 <template>
-  <bubble-split-button
+  <bolle-split-button
     v-for="variant in variants"
     :key="variant"
     :variant="variant"
@@ -2001,7 +2019,7 @@ function onSelect(event: Event) {
     @menu-close="log = 'menu chiuso'"
   />
 
-  <bubble-split-button
+  <bolle-split-button
     v-for="size in sizes"
     :key="size"
     :size="size"
@@ -2011,7 +2029,7 @@ function onSelect(event: Event) {
     @menu-select="onSelect"
   />
 
-  <bubble-split-button
+  <bolle-split-button
     label="Invia"
     menu-label="Altre opzioni"
     disabled

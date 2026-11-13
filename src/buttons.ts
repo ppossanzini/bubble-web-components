@@ -1,5 +1,5 @@
 import { html, nothing } from "lit";
-import { BubbleElement, moveFocus } from "./shared.js";
+import { BolleElement, moveFocus } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
 import { buttonStyles, groupStyles } from "./buttons.styles.js";
 import type {
@@ -9,7 +9,7 @@ import type {
   FabColor,
 } from "./catalogue.types.js";
 
-export class BubbleButton extends BubbleElement {
+export class BolleButton extends BolleElement {
   static formAssociated = true;
   static properties = {
     variant: { reflect: true },
@@ -109,20 +109,20 @@ export class BubbleButton extends BubbleElement {
   }
 }
 
-export class BubbleIconButton extends BubbleButton {
+export class BolleIconButton extends BolleButton {
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute("icon-only", "");
   }
 }
-export class BubbleFloatingActionButton extends BubbleButton {
+export class BolleFloatingActionButton extends BolleButton {
   size: ActionSize = "fab";
   connectedCallback() {
     super.connectedCallback();
     this.setAttribute("fab", "");
   }
 }
-export class BubbleExtendedFab extends BubbleFloatingActionButton {
+export class BolleExtendedFab extends BolleFloatingActionButton {
   size: ActionSize = "small";
   connectedCallback() {
     super.connectedCallback();
@@ -130,7 +130,7 @@ export class BubbleExtendedFab extends BubbleFloatingActionButton {
   }
 }
 
-export class BubbleButtonGroup extends BubbleElement {
+export class BolleButtonGroup extends BolleElement {
   static properties = {
     label: {},
     variant: { reflect: true },
@@ -173,8 +173,8 @@ export class BubbleButtonGroup extends BubbleElement {
         if (this.selection === "none") return;
         const button = event
           .composedPath()
-          .find((node) => this.hosts().includes(node as BubbleButton)) as
-          BubbleButton | undefined;
+          .find((node) => this.hosts().includes(node as BolleButton)) as
+          BolleButton | undefined;
         if (!button || button.disabled) return;
         if (this.selection === "single")
           this.hosts().forEach((other) => {
@@ -194,7 +194,7 @@ export class BubbleButtonGroup extends BubbleElement {
   }
   private hosts() {
     return Array.from(
-      this.querySelectorAll<BubbleButton>("bubble-button,bubble-icon-button"),
+      this.querySelectorAll<BolleButton>("bolle-button,bolle-icon-button"),
     );
   }
   private buttons() {

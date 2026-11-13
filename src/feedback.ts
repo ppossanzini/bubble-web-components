@@ -1,9 +1,9 @@
 import { html, nothing } from "lit";
-import { BubbleElement } from "./shared.js";
+import { BolleElement } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
 import { feedbackStyles } from "./feedback.styles.js";
 
-export class BubbleProgressIndicator extends BubbleElement {
+export class BolleProgressIndicator extends BolleElement {
   static properties = {
     label: {},
     value: { type: Number },
@@ -20,7 +20,7 @@ export class BubbleProgressIndicator extends BubbleElement {
   variant = "linear";
   wavy = false;
   private static wavyId = 0;
-  private readonly clipId = `bubble-wavy-${++BubbleProgressIndicator.wavyId}`;
+  private readonly clipId = `bolle-wavy-${++BolleProgressIndicator.wavyId}`;
   private wavyPath(length: number) {
     const amplitude = 3;
     const period = 16;
@@ -109,7 +109,7 @@ export class BubbleProgressIndicator extends BubbleElement {
     </div>`;
   }
 }
-export class BubbleLoadingIndicator extends BubbleElement {
+export class BolleLoadingIndicator extends BolleElement {
   static properties = { label: {}, variant: { reflect: true } };
   static styles = [commonStyles, feedbackStyles];
   label = "";
@@ -119,11 +119,19 @@ export class BubbleLoadingIndicator extends BubbleElement {
       class="loading"
       role="progressbar"
       aria-label=${this.label}
-    ></div>`;
+    >
+      <span class="bubbles"><span></span><span></span><span></span></span>
+      <svg class="goo" aria-hidden="true" width="0" height="0">
+        <filter id="bb-goo">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+          <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8" />
+        </filter>
+      </svg>
+    </div>`;
   }
 }
 
-export class BubbleCarousel extends BubbleElement {
+export class BolleCarousel extends BolleElement {
   static properties = {
     label: {},
     variant: { reflect: true },

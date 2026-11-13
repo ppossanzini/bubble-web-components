@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Bolle — Logo</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Figtree:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B4CF0}a:hover{color:#3F31C9}
+</style>
+</helmet>
+<div style="width: 1440px; height: 900px; box-sizing: border-box; background: #FFFFFF; font-family: Figtree, system-ui, sans-serif; color: #16142B; padding: 64px 80px; display: flex; flex-direction: column; gap: 36px">
+  <div style="display: flex; justify-content: space-between; align-items: baseline">
+    <h2 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 44px">Il marchio</h2>
+    <p style="margin: 0; max-width: 620px; font-size: 17px; line-height: 1.5; color: #4A4766">Il simbolo è una bolla con la coda: la stessa forma dei componenti. Bordo di pellicola, cuore pieno nel colore primario, un riflesso e una bolla satellite.</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; flex-grow: 1">
+    <div style="grid-row: span 2; background: #F7F5FF; border-radius: 28px 28px 28px 8px; padding: 36px; display: flex; flex-direction: column; gap: 24px">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4766">Costruzione</p>
+      <div style="position: relative; width: 300px; height: 300px; align-self: center; margin-top: 20px; background-image: linear-gradient(#D9D4F5 1px, transparent 1px), linear-gradient(90deg, #D9D4F5 1px, transparent 1px); background-size: 30px 30px">
+        <div style="position: absolute; inset: 30px; border-radius: 50% 50% 50% 14%; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"></div>
+        <div style="position: absolute; inset: 50px; border-radius: 50% 50% 50% 12%; background: #5B4CF0"></div>
+        <div style="position: absolute; top: 84px; right: 90px; width: 52px; height: 30px; border-radius: 50%; background: #FFFFFF; opacity: 0.9; transform: rotate(35deg)"></div>
+        <div style="position: absolute; top: 6px; right: 0px; width: 54px; height: 54px; border-radius: 50%; background: conic-gradient(from 120deg, #FF9ECF, #FFD68A, #7FD6FF, #B79CFF, #FF9ECF)"></div>
+        <div style="position: absolute; left: 30px; bottom: 30px; width: 34px; height: 34px; border-left: 2px dashed #16142B; border-bottom: 2px dashed #16142B"></div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px; font-size: 15px; line-height: 1.45; color: #4A4766; margin-top: 12px">
+        <p style="margin: 0"><strong style="color: #16142B">Raggi</strong> 50% su tre angoli, 14% sulla coda (in basso a sinistra).</p>
+        <p style="margin: 0"><strong style="color: #16142B">Pellicola</strong> spessa 1/14 del lato; gradiente conico che parte da 200°.</p>
+        <p style="margin: 0"><strong style="color: #16142B">Satellite</strong> 1/5 del simbolo, tangente all'angolo in alto a destra.</p>
+        <p style="margin: 0"><strong style="color: #16142B">Area di rispetto</strong> pari al diametro del satellite su ogni lato.</p>
+      </div>
+    </div>
+
+    <div style="background: #F7F5FF; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4766">Su chiaro</p>
+      <div style="display: flex; align-items: center; gap: 18px">
+        <div style="position: relative; width: 72px; height: 72px; flex: none">
+          <div style="position: absolute; inset: 0; border-radius: 50% 50% 50% 14%; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"></div>
+          <div style="position: absolute; inset: 5px; border-radius: 50% 50% 50% 12%; background: #5B4CF0"></div>
+          <div style="position: absolute; top: 15px; right: 16px; width: 15px; height: 9px; border-radius: 50%; background: #FFFFFF; opacity: 0.9; transform: rotate(35deg)"></div>
+        </div>
+        <span style="font-family: Fredoka, sans-serif; font-weight: 600; font-size: 72px; letter-spacing: -0.03em; line-height: 1">bolle</span>
+      </div>
+    </div>
+
+    <div style="background: #16142B; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #B9B5D6">Su scuro</p>
+      <div style="display: flex; align-items: center; gap: 18px">
+        <div style="position: relative; width: 72px; height: 72px; flex: none">
+          <div style="position: absolute; inset: 0; border-radius: 50% 50% 50% 14%; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"></div>
+          <div style="position: absolute; inset: 5px; border-radius: 50% 50% 50% 12%; background: #8F84FF"></div>
+          <div style="position: absolute; top: 15px; right: 16px; width: 15px; height: 9px; border-radius: 50%; background: #FFFFFF; opacity: 0.9; transform: rotate(35deg)"></div>
+        </div>
+        <span style="font-family: Fredoka, sans-serif; font-weight: 600; font-size: 72px; letter-spacing: -0.03em; line-height: 1; color: #F7F5FF">bolle</span>
+      </div>
+    </div>
+
+    <div style="background: #5B4CF0; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #E9E6FF">Monocromo</p>
+      <div style="display: flex; align-items: center; gap: 18px">
+        <div style="position: relative; width: 72px; height: 72px; flex: none">
+          <div style="position: absolute; inset: 0; border-radius: 50% 50% 50% 14%; border: 5px solid #FFFFFF; box-sizing: border-box"></div>
+          <div style="position: absolute; top: 15px; right: 16px; width: 15px; height: 9px; border-radius: 50%; background: #FFFFFF; transform: rotate(35deg)"></div>
+        </div>
+        <span style="font-family: Fredoka, sans-serif; font-weight: 600; font-size: 72px; letter-spacing: -0.03em; line-height: 1; color: #FFFFFF">bolle</span>
+      </div>
+    </div>
+
+    <div style="background: #F7F5FF; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; justify-content: space-between">
+      <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; color: #4A4766">Icona app · favicon</p>
+      <div style="display: flex; align-items: flex-end; gap: 28px">
+        <div style="position: relative; width: 120px; height: 120px; border-radius: 30px; background: #16142B; flex: none">
+          <div style="position: absolute; inset: 22px; border-radius: 50% 50% 50% 14%; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"></div>
+          <div style="position: absolute; inset: 28px; border-radius: 50% 50% 50% 12%; background: #5B4CF0"></div>
+          <div style="position: absolute; top: 38px; right: 38px; width: 16px; height: 9px; border-radius: 50%; background: #FFFFFF; transform: rotate(35deg)"></div>
+        </div>
+        <div style="position: relative; width: 48px; height: 48px; border-radius: 12px; background: #16142B; flex: none">
+          <div style="position: absolute; inset: 9px; border-radius: 50% 50% 50% 14%; background: #8F84FF"></div>
+        </div>
+        <div style="position: relative; width: 20px; height: 20px; flex: none">
+          <div style="position: absolute; inset: 0; border-radius: 50% 50% 50% 14%; background: #5B4CF0"></div>
+        </div>
+        <p style="margin: 0; font-size: 14px; line-height: 1.4; color: #4A4766">Sotto 24 px la pellicola sparisce: resta la sola forma a coda.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

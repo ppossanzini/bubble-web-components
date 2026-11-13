@@ -1,11 +1,11 @@
 import { html, nothing, type PropertyValues } from "lit";
-import { BubbleElement, moveFocus, type BubbleItem } from "./shared.js";
+import { BolleElement, moveFocus, placeTail, type BolleItem } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
 import { overlayStyles } from "./overlays.styles.js";
-import type { BubbleMenu } from "./menu.js";
+import type { BolleMenu } from "./menu.js";
 import type { MenuEntry } from "./menu.types.js";
 
-export class BubbleDialog extends BubbleElement {
+export class BolleDialog extends BolleElement {
   static properties = {
     open: { type: Boolean, reflect: true },
     label: {},
@@ -46,7 +46,7 @@ export class BubbleDialog extends BubbleElement {
   private async focusInside() {
     await this.updateComplete;
     const candidates = this.querySelectorAll<HTMLElement>(
-      "[autofocus], bubble-button, bubble-icon-button, button, a, input, textarea, select",
+      "[autofocus], bolle-button, bolle-icon-button, button, a, input, textarea, select",
     );
     for (const candidate of candidates) {
       const target =
@@ -77,7 +77,7 @@ export class BubbleDialog extends BubbleElement {
     return html`<header>${this.label}</header>
       <div><slot></slot></div>
       <footer>
-        ${this.closeLabel ? html`<bubble-button variant="text" @click=${() => this.close()}>${this.closeLabel}</bubble-button>` : nothing}<slot
+        ${this.closeLabel ? html`<bolle-button variant="text" @click=${() => this.close()}>${this.closeLabel}</bolle-button>` : nothing}<slot
           name="actions"
         ></slot>
       </footer>`;
@@ -102,9 +102,9 @@ export class BubbleDialog extends BubbleElement {
     </dialog>`;
   }
 }
-export class BubbleBottomSheet extends BubbleDialog {
+export class BolleBottomSheet extends BolleDialog {
   static properties = {
-    ...BubbleDialog.properties,
+    ...BolleDialog.properties,
     dragHandle: { type: Boolean, attribute: "drag-handle" },
   };
   variant = "modal";
@@ -131,9 +131,9 @@ export class BubbleBottomSheet extends BubbleDialog {
     if (this.variant !== "standard") super.updated(changed);
   }
 }
-export class BubbleSideSheet extends BubbleDialog {
+export class BolleSideSheet extends BolleDialog {
   static properties = {
-    ...BubbleDialog.properties,
+    ...BolleDialog.properties,
     detached: { type: Boolean, reflect: true },
   };
   variant = "modal";
@@ -146,14 +146,14 @@ export class BubbleSideSheet extends BubbleDialog {
     return html`<header class="sheet-header">
         <span>${this.label}</span>
         ${this.closeLabel
-          ? html`<bubble-icon-button
+          ? html`<bolle-icon-button
               variant="standard"
               size="small"
               label=${this.closeLabel}
               @click=${() => this.close()}
               ><span aria-hidden="true" style="font-size:24px;line-height:1"
                 >✕</span
-              ></bubble-icon-button
+              ></bolle-icon-button
             >`
           : nothing}
       </header>
@@ -175,13 +175,13 @@ export class BubbleSideSheet extends BubbleDialog {
     if (this.variant !== "standard") super.updated(changed);
   }
 }
-export class BubbleNavigationDrawer extends BubbleSideSheet {
+export class BolleNavigationDrawer extends BolleSideSheet {
   static properties = {
-    ...BubbleSideSheet.properties,
+    ...BolleSideSheet.properties,
     items: { attribute: false },
     value: {},
   };
-  items: BubbleItem[] = [];
+  items: BolleItem[] = [];
   value = "";
   connectedCallback() {
     super.connectedCallback();
@@ -225,12 +225,12 @@ export class BubbleNavigationDrawer extends BubbleSideSheet {
       </nav>
       <slot></slot>
       <footer>
-        ${this.closeLabel ? html`<bubble-button variant="text" @click=${() => this.close()}>${this.closeLabel}</bubble-button>` : nothing}
+        ${this.closeLabel ? html`<bolle-button variant="text" @click=${() => this.close()}>${this.closeLabel}</bolle-button>` : nothing}
       </footer>`;
   }
 }
 
-export class BubbleSnackbar extends BubbleElement {
+export class BolleSnackbar extends BolleElement {
   static properties = {
     open: { type: Boolean, reflect: true },
     message: {},
@@ -317,7 +317,7 @@ export class BubbleSnackbar extends BubbleElement {
   }
 }
 
-export class BubbleTooltip extends BubbleElement {
+export class BolleTooltip extends BolleElement {
   static properties = {
     label: {},
     variant: { reflect: true },
@@ -357,10 +357,10 @@ export class BubbleTooltip extends BubbleElement {
     this.cleanup();
     const host =
       this.querySelector<HTMLElement>(
-        "button,a,input,[tabindex],bubble-button,bubble-icon-button",
+        "button,a,input,[tabindex],bolle-button,bolle-icon-button",
       ) ?? undefined;
     if (host && "updateComplete" in host)
-      await (host as BubbleElement).updateComplete;
+      await (host as BolleElement).updateComplete;
     this.trigger =
       host?.shadowRoot?.querySelector<HTMLElement>("button,a,input") ?? host;
     if (!this.trigger) return;
@@ -396,6 +396,7 @@ export class BubbleTooltip extends BubbleElement {
     const rect = tip.getBoundingClientRect();
     tip.style.left = `${Math.max(4, Math.min(innerWidth - rect.width - 4, anchor.left + (anchor.width - rect.width) / 2))}px`;
     tip.style.top = `${Math.max(4, anchor.bottom + rect.height + gap < innerHeight ? anchor.bottom + gap : anchor.top - rect.height - gap)}px`;
+    placeTail(tip, anchor);
     if (this.variant === "rich") {
       this.dismissController?.abort();
       this.dismissController = new AbortController();
@@ -459,7 +460,7 @@ export class BubbleTooltip extends BubbleElement {
   }
 }
 
-export class BubbleFabMenu extends BubbleElement {
+export class BolleFabMenu extends BolleElement {
   static properties = {
     label: {},
     items: { attribute: false },
@@ -468,7 +469,7 @@ export class BubbleFabMenu extends BubbleElement {
   };
   static styles = [commonStyles, overlayStyles];
   label = "";
-  items: BubbleItem[] = [];
+  items: BolleItem[] = [];
   color: "primary" | "secondary" | "tertiary" = "primary";
   open = false;
   private get trigger() {
@@ -488,6 +489,7 @@ export class BubbleFabMenu extends BubbleElement {
       const menu = this.surface.getBoundingClientRect();
       this.surface.style.left = `${Math.max(16, Math.min(innerWidth - menu.width - 16, rect.right - menu.width))}px`;
       this.surface.style.top = `${placeAbove ? Math.max(16, rect.top - menu.height - 4) : rect.bottom + 4}px`;
+      placeTail(this.surface, rect);
     } else if (!this.open && this.surface.matches(":popover-open"))
       this.surface.hidePopover();
   }
@@ -585,7 +587,7 @@ export class BubbleFabMenu extends BubbleElement {
   }
 }
 
-export class BubbleSplitButton extends BubbleElement {
+export class BolleSplitButton extends BolleElement {
   static properties = {
     label: {},
     menuLabel: { attribute: "menu-label" },
@@ -608,31 +610,31 @@ export class BubbleSplitButton extends BubbleElement {
     this.setAttribute("split", "");
   }
   protected render() {
-    return html`<bubble-button
+    return html`<bolle-button
         variant=${this.variant}
         size=${this.size}
         ?disabled=${this.disabled}
         @click=${() => this.emit("action", {})}
         >${this.icon
           ? html`<slot name="icon" slot="icon" aria-hidden="true"></slot>`
-          : nothing}${this.label}</bubble-button
-      ><bubble-icon-button
+          : nothing}${this.label}</bolle-button
+      ><bolle-icon-button
         variant=${this.variant}
         size=${this.size}
         label=${this.menuLabel}
         ?disabled=${this.disabled}
         @click=${(event: Event) => {
           const menu =
-            this.renderRoot.querySelector<BubbleMenu>("bubble-menu")!;
+            this.renderRoot.querySelector<BolleMenu>("bolle-menu")!;
           const host = event.currentTarget as HTMLElement;
           menu.show(
             host.shadowRoot?.querySelector<HTMLElement>("button") ?? host,
           );
         }}
-        >▾</bubble-icon-button
-      ><bubble-menu
+        >▾</bolle-icon-button
+      ><bolle-menu
         .items=${this.items}
         menu-label=${this.menuLabel}
-      ></bubble-menu>`;
+      ></bolle-menu>`;
   }
 }

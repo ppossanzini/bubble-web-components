@@ -9,6 +9,8 @@ import clipboard from "@tabler/icons/outline/clipboard.svg?raw";
 import copy from "@tabler/icons/outline/copy.svg?raw";
 import folder from "@tabler/icons/outline/folder.svg?raw";
 import help from "@tabler/icons/outline/help.svg?raw";
+import heart from "@tabler/icons/outline/heart.svg?raw";
+import home from "@tabler/icons/outline/home.svg?raw";
 import inbox from "@tabler/icons/outline/inbox.svg?raw";
 import italic from "@tabler/icons/outline/italic.svg?raw";
 import menu from "@tabler/icons/outline/menu-2.svg?raw";
@@ -38,6 +40,8 @@ const icons: Record<string, string> = {
   copy,
   folder,
   help,
+  heart,
+  home,
   inbox,
   italic,
   "menu-2": menu,

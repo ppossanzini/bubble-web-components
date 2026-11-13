@@ -5,7 +5,8 @@ export type ActionVariant =
   | "outlined"
   | "elevated"
   | "text"
-  | "standard";
+  | "standard"
+  | "accent";
 export type ActionSize = "xs" | "small" | "medium" | "large" | "xl" | "fab";
 export type ActionShape = "round" | "square";
 export type FabColor =
@@ -16,26 +17,26 @@ export type FabColor =
   | "secondary"
   | "tertiary"
   | "surface";
-export interface BubbleValueChangeDetail {
+export interface BolleValueChangeDetail {
   value: string;
   upperValue?: number;
   endValue?: string;
   values?: string[];
 }
-export interface BubbleCheckedChangeDetail {
+export interface BolleCheckedChangeDetail {
   checked: boolean;
   value: string;
 }
-export interface BubbleToggleChangeDetail {
+export interface BolleToggleChangeDetail {
   selected: boolean;
 }
-export interface BubbleActionDetail {
+export interface BolleActionDetail {
   id?: string;
 }
-export interface BubbleCarouselChangeDetail {
+export interface BolleCarouselChangeDetail {
   index: number;
 }
-export interface BubbleClosedDetail {
+export interface BolleClosedDetail {
   returnValue?: string;
   reason?: string;
 }

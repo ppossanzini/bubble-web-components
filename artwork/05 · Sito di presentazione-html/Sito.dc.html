@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Bolle — Sito di presentazione</title>
+<script src="./vendor/react.js"></script>
+<script src="./vendor/react-dom.js"></script>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Figtree:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#5B4CF0}a:hover{color:#3F31C9}
+@keyframes bbSquish{0%{transform:scale(1,1)}35%{transform:scale(1.08,.88)}65%{transform:scale(.97,1.04)}100%{transform:scale(1,1)}}
+@keyframes bbFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+.bb-press:active{animation:bbSquish .38s cubic-bezier(.3,1.6,.5,1)}
+.bb-float{animation:bbFloat 6s ease-in-out infinite}
+.bb-float-2{animation:bbFloat 8s ease-in-out infinite}
+@media (prefers-reduced-motion: reduce){.bb-press:active,.bb-float,.bb-float-2{animation:none}}
+</style>
+</helmet>
+<div style="box-sizing: border-box; background: #F7F5FF; font-family: Figtree, system-ui, sans-serif; color: #16142B; overflow: hidden">
+
+  <header style="max-width: 1200px; margin: 0 auto; padding: 22px 24px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+    <a href="#top" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #16142B">
+      <span style="position: relative; width: 34px; height: 34px; display: block">
+        <span style="position: absolute; inset: 0; border-radius: 50% 50% 50% 14%; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"></span>
+        <span style="position: absolute; inset: 3px; border-radius: 50% 50% 50% 12%; background: #5B4CF0"></span>
+        <span style="position: absolute; top: 7px; right: 8px; width: 8px; height: 5px; border-radius: 50%; background: #FFFFFF; transform: rotate(35deg)"></span>
+      </span>
+      <span style="font-family: Fredoka, sans-serif; font-weight: 600; font-size: 28px; letter-spacing: -0.02em">bolle</span>
+    </a>
+    <nav aria-label="Principale" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+      <a href="#componenti" style="padding: 10px 14px; border-radius: 999px; color: #16142B; text-decoration: none; font-weight: 500">Componenti</a>
+      <a href="#temi" style="padding: 10px 14px; border-radius: 999px; color: #16142B; text-decoration: none; font-weight: 500">Temi</a>
+      <a href="#codice" style="padding: 10px 14px; border-radius: 999px; color: #16142B; text-decoration: none; font-weight: 500">Docs</a>
+      <a href="#codice" style="padding: 10px 14px; border-radius: 999px; color: #16142B; text-decoration: none; font-weight: 500">GitHub</a>
+      <a href="#codice" class="bb-press" style="padding: 12px 22px; border-radius: 999px; background: #16142B; color: #FFFFFF; text-decoration: none; font-weight: 600">Inizia</a>
+    </nav>
+  </header>
+
+  <section id="top" style="max-width: 1200px; margin: 0 auto; padding: 56px 24px 96px; display: flex; flex-wrap: wrap; align-items: center; gap: 56px">
+    <div style="flex: 1 1 480px; display: flex; flex-direction: column; gap: 26px; min-width: 0">
+      <p style="margin: 0; align-self: flex-start; padding: 3px; border-radius: 999px; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"><span style="display: block; padding: 7px 16px; border-radius: 999px; background: #FFFFFF; font-size: 14px; font-weight: 600">Ispirata a Material 3 · open source</span></p>
+      <h1 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: clamp(48px, 7vw, 92px); line-height: 0.98; letter-spacing: -0.03em">Interfacce con tensione superficiale.</h1>
+      <p style="margin: 0; max-width: 560px; font-size: 20px; line-height: 1.55; color: #4A4766">Bolle è una libreria di componenti che prende i token, la struttura e l'accessibilità di Material 3 e li avvolge in una pelle nuova: forme a fumetto, una pellicola iridescente e un movimento che si schiaccia e scoppia.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px">
+        <a href="#codice" class="bb-press" style="padding: 16px 28px; border-radius: 999px; background: #5B4CF0; color: #FFFFFF; text-decoration: none; font-weight: 600; font-size: 17px; box-shadow: 0 10px 24px rgba(91,76,240,0.32)">Inizia ora</a>
+        <a href="#componenti" class="bb-press" style="padding: 16px 28px; border-radius: 999px; background: #FFFFFF; color: #16142B; text-decoration: none; font-weight: 600; font-size: 17px; border: 2px solid #16142B">Guarda i componenti</a>
+      </div>
+      <p style="margin: 0; align-self: flex-start; font-family: 'JetBrains Mono', monospace; font-size: 15px; background: #16142B; color: #E9E6FF; padding: 12px 18px; border-radius: 16px 16px 16px 5px">$ npm install bolle-ui</p>
+    </div>
+
+    <div style="flex: 1 1 440px; min-width: 0; position: relative; height: 520px">
+      <div aria-hidden="true" class="bb-float-2" style="position: absolute; right: 0; top: 10px; width: 420px; height: 420px; border-radius: 50%; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF); opacity: 0.35"></div>
+      <div aria-hidden="true" style="position: absolute; left: 10px; bottom: 30px; width: 70px; height: 70px; border-radius: 50%; border: 3px solid #B79CFF"></div>
+
+      <div class="bb-float" style="position: absolute; left: 6%; top: 40px; width: 300px; background: #FFFFFF; border-radius: 28px 28px 28px 8px; padding: 22px; box-shadow: 0 18px 40px rgba(22,20,43,0.14); display: flex; flex-direction: column; gap: 14px">
+        <div style="display: flex; align-items: center; justify-content: space-between">
+          <span style="font-weight: 700; font-size: 17px">Notifiche</span>
+          <span style="width: 52px; height: 32px; border-radius: 999px; background: #5B4CF0; position: relative; display: block"><span style="position: absolute; right: 4px; top: 4px; width: 24px; height: 24px; border-radius: 50%; background: #FFFFFF; display: block"></span></span>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px">
+          <span style="padding: 7px 14px; border-radius: 999px; background: #E9E6FF; font-size: 14px; font-weight: 600">✓ Email</span>
+          <span style="padding: 7px 14px; border-radius: 999px; border: 1.5px solid #B9B5D6; font-size: 14px">Push</span>
+          <span style="padding: 7px 14px; border-radius: 999px; border: 1.5px solid #B9B5D6; font-size: 14px">SMS</span>
+        </div>
+        <div style="height: 8px; border-radius: 999px; background: #E9E6FF; position: relative"><div style="position: absolute; left: 0; top: 0; bottom: 0; width: 62%; border-radius: 999px; background: #5B4CF0"></div><div style="position: absolute; left: 62%; top: -8px; width: 24px; height: 24px; margin-left: -12px; border-radius: 50%; background: #5B4CF0; border: 3px solid #FFFFFF; box-sizing: border-box"></div></div>
+      </div>
+
+      <div style="position: absolute; right: 4%; top: 230px; width: 240px; background: #FFFFFF; border-radius: 6px 24px 24px 24px; padding: 8px; box-shadow: 0 18px 40px rgba(22,20,43,0.16); display: flex; flex-direction: column">
+        <span style="padding: 11px 14px; border-radius: 14px; background: #E9E6FF; font-size: 15px; font-weight: 600">Duplica</span>
+        <span style="padding: 11px 14px; font-size: 15px">Rinomina</span>
+        <span style="padding: 11px 14px; font-size: 15px">Sposta in…</span>
+      </div>
+
+      <div style="position: absolute; left: 14%; bottom: 40px; background: #16142B; color: #FFFFFF; padding: 14px 20px; border-radius: 22px 22px 22px 6px; display: flex; align-items: center; gap: 18px; box-shadow: 0 14px 30px rgba(22,20,43,0.25)">
+        <span style="font-size: 15px">Salvato.</span>
+        <span style="font-weight: 700; color: #B9E9FF; font-size: 15px">Annulla</span>
+      </div>
+
+      <div class="bb-press" style="position: absolute; right: 12%; bottom: 60px; width: 76px; height: 76px; border-radius: 26px 26px 26px 8px; background: #5B4CF0; box-shadow: 0 14px 30px rgba(91,76,240,0.38); display: flex; align-items: center; justify-content: center">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"></path></svg>
+      </div>
+    </div>
+  </section>
+
+  <section style="background: #FFFFFF; padding: 96px 24px">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+        <h2 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05; max-width: 640px">Tre gesti che rendono una bolla una bolla.</h2>
+        <p style="margin: 0; max-width: 420px; font-size: 18px; line-height: 1.55; color: #4A4766">Sotto c'è Material 3, al completo. Sopra, tre regole applicate con coerenza a ogni componente.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px">
+        <div style="background: #F7F5FF; border-radius: 32px 32px 32px 8px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+          <div style="width: 64px; height: 64px; border-radius: 50% 50% 50% 14%; background: #5B4CF0"></div>
+          <h3 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 28px">La coda</h3>
+          <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #4A4766">Ogni superficie sospesa ha un angolo stretto che indica da dove è nata. Menu, tooltip e snackbar ti dicono sempre a chi appartengono.</p>
+        </div>
+        <div style="background: #F7F5FF; border-radius: 32px 32px 32px 8px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+          <div style="width: 64px; height: 64px; border-radius: 50%; padding: 5px; box-sizing: border-box; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF)"><div style="width: 100%; height: 100%; border-radius: 50%; background: #F7F5FF"></div></div>
+          <h3 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 28px">La pellicola</h3>
+          <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #4A4766">Un'iridescenza che deriva dal tuo colore seed e compare solo dove conta: focus, selezione, l'azione principale.</p>
+        </div>
+        <div style="background: #F7F5FF; border-radius: 32px 32px 32px 8px; padding: 32px; display: flex; flex-direction: column; gap: 16px">
+          <div style="display: flex; align-items: flex-end; gap: 8px; height: 64px"><div style="width: 34px; height: 64px; border-radius: 999px; background: #5B4CF0"></div><div style="width: 40px; height: 52px; border-radius: 999px; background: #8F84FF"></div><div style="width: 32px; height: 60px; border-radius: 999px; background: #B79CFF"></div></div>
+          <h3 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 28px">Lo schiocco</h3>
+          <p style="margin: 0; font-size: 17px; line-height: 1.55; color: #4A4766">Molle con tensione superficiale: si schiaccia, oscilla, si gonfia, scoppia. E si ferma del tutto se l'utente preferisce meno movimento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="componenti" style="padding: 96px 24px">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px">
+      <h2 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05">Tutti i componenti di M3. Con più aria dentro.</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
+        <div style="background: #FFFFFF; border-radius: 28px 28px 28px 8px; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+          <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">Button</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 10px">
+            <button class="bb-press" style="font: inherit; font-weight: 600; font-size: 15px; padding: 12px 22px; border-radius: 999px; border: none; background: #5B4CF0; color: #FFFFFF; cursor: pointer">Filled</button>
+            <button class="bb-press" style="font: inherit; font-weight: 600; font-size: 15px; padding: 12px 22px; border-radius: 999px; border: none; background: #E9E6FF; color: #16142B; cursor: pointer">Tonal</button>
+            <button class="bb-press" style="font: inherit; font-weight: 600; font-size: 15px; padding: 10px 20px; border-radius: 999px; border: 2px solid #B9B5D6; background: transparent; color: #16142B; cursor: pointer">Outlined</button>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 28px 28px 28px 8px; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+          <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">Text field</p>
+          <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; color: #4A4766">Email
+            <input type="email" placeholder="tu@esempio.it" style="font: inherit; font-size: 16px; font-weight: 400; padding: 14px 18px; border-radius: 18px 18px 18px 6px; border: 2px solid #5B4CF0; outline: none; color: #16142B; background: #FFFFFF">
+          </label>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 28px 28px 28px 8px; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+          <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">Navigation bar</p>
+          <div style="display: flex; justify-content: space-around; background: #F7F5FF; border-radius: 22px; padding: 10px 6px">
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; font-weight: 700"><span style="padding: 4px 18px; border-radius: 999px; background: #E9E6FF; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="#5B4CF0" stroke="#5B4CF0" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"></path></svg></span>Home</div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; color: #4A4766"><span style="padding: 4px 18px; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg></span>Cerca</div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; color: #4A4766"><span style="padding: 4px 18px; display: flex"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.5-7 10-7 10z"></path></svg></span>Preferiti</div>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 28px 28px 28px 8px; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+          <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">Segmented button</p>
+          <div style="display: flex; background: #F7F5FF; border-radius: 999px; padding: 4px">
+            <span style="flex: 1; text-align: center; padding: 10px; border-radius: 999px; background: #5B4CF0; color: #FFFFFF; font-weight: 600; font-size: 14px">Giorno</span>
+            <span style="flex: 1; text-align: center; padding: 10px; font-size: 14px">Settimana</span>
+            <span style="flex: 1; text-align: center; padding: 10px; font-size: 14px">Mese</span>
+          </div>
+          <p style="margin: 0; font-size: 14px; color: #4A4766">L'indicatore scorre come una goccia.</p>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 28px 28px 28px 8px; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+          <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">Dialog</p>
+          <div style="background: #F7F5FF; border-radius: 26px; padding: 20px; display: flex; flex-direction: column; gap: 10px">
+            <p style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: 20px">Eliminare la bozza?</p>
+            <p style="margin: 0; font-size: 14px; color: #4A4766">Non potrai recuperarla.</p>
+            <div style="display: flex; justify-content: flex-end; gap: 6px"><span style="padding: 8px 14px; font-weight: 600; font-size: 14px; color: #5B4CF0">Annulla</span><span style="padding: 8px 16px; border-radius: 999px; background: #5B4CF0; color: #FFFFFF; font-weight: 600; font-size: 14px">Elimina</span></div>
+          </div>
+        </div>
+        <div style="background: #FFFFFF; border-radius: 28px 28px 28px 8px; padding: 26px; display: flex; flex-direction: column; gap: 18px">
+          <p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">Progress</p>
+          <div style="display: flex; align-items: flex-end; gap: 10px; height: 64px">
+            <span style="width: 14px; height: 14px; border-radius: 50%; background: #B79CFF; display: block; margin-bottom: 6px"></span>
+            <span style="width: 22px; height: 22px; border-radius: 50%; background: #8F84FF; display: block; margin-bottom: 22px"></span>
+            <span style="width: 30px; height: 30px; border-radius: 50%; background: #5B4CF0; display: block; margin-bottom: 34px"></span>
+            <span style="width: 18px; height: 18px; border-radius: 50%; border: 2px solid #B79CFF; display: block; margin-bottom: 10px"></span>
+          </div>
+          <p style="margin: 0; font-size: 14px; color: #4A4766">Bolle che salgono e si fondono.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="temi" style="background: #16142B; color: #F7F5FF; padding: 96px 24px">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 56px; align-items: center">
+      <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+        <h2 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05">Gonfia un tema da un solo colore.</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.55; color: #CFCBE8">Il colore dinamico di Material 3 genera i ruoli tonali; Bolle ne ricava anche la pellicola. Scegli un seed e guarda cosa cambia.</p>
+        <div role="radiogroup" aria-label="Colore seed" style="display: flex; flex-wrap: wrap; gap: 12px">
+          <sc-for list="{{seeds}}" as="s" hint-placeholder-count="4">
+            <button role="radio" aria-checked="{{s.checked}}" onClick="{{s.pick}}" class="bb-press" style="{{s.style}}">{{s.name}}</button>
+          </sc-for>
+        </div>
+      </div>
+      <div style="flex: 1 1 420px; min-width: 0; display: flex; justify-content: center">
+        <div style="width: 100%; max-width: 420px; background: #FFFFFF; color: #16142B; border-radius: 32px 32px 32px 8px; padding: 28px; display: flex; flex-direction: column; gap: 18px">
+          <div style="display: flex; align-items: center; gap: 14px">
+            <div style="{{t.film}}"><div style="{{t.core}}"></div></div>
+            <div><p style="margin: 0; font-weight: 700; font-size: 18px">Tema {{t.name}}</p><p style="margin: 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #4A4766">seed {{t.hex}}</p></div>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px">
+            <span style="{{t.chipOn}}">✓ Attivo</span>
+            <span style="padding: 8px 14px; border-radius: 999px; border: 1.5px solid #B9B5D6; font-size: 14px">In pausa</span>
+          </div>
+          <div style="{{t.track}}"><div style="{{t.fill}}"></div></div>
+          <div style="display: flex; gap: 10px"><span style="{{t.btn}}">Conferma</span><span style="{{t.btnTonal}}">Più tardi</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="codice" style="padding: 96px 24px">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 48px; align-items: center">
+      <div style="flex: 1 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 20px">
+        <h2 style="margin: 0; font-family: Fredoka, sans-serif; font-weight: 600; font-size: clamp(36px, 4.5vw, 56px); line-height: 1.05">Se conosci M3, conosci già Bolle.</h2>
+        <p style="margin: 0; font-size: 18px; line-height: 1.55; color: #4A4766">Stessi nomi dei componenti, stessi token di colore e tipografia. Il carattere passa da pochi token in più, che puoi regolare o spegnere.</p>
+        <div style="display: flex; flex-direction: column; gap: 10px; font-size: 16px">
+          <p style="margin: 0"><strong>Accessibile per costruzione</strong> · contrasti dei ruoli tonali M3, focus sempre visibile.</p>
+          <p style="margin: 0"><strong>Movimento rispettoso</strong> · prefers-reduced-motion spegne dondolio e scoppio.</p>
+          <p style="margin: 0"><strong>Leggera quando serve</strong> · sfocature ed effetto goccia si disattivano su dispositivi lenti.</p>
+        </div>
+      </div>
+      <div style="flex: 1 1 480px; min-width: 0; background: #16142B; color: #E9E6FF; border-radius: 28px 28px 28px 8px; padding: 28px; font-family: 'JetBrains Mono', monospace; font-size: 15px; line-height: 1.7; overflow-x: auto">
+        <p style="margin: 0; color: #9C97C4">/* tema.css */</p>
+        <p style="margin: 0">:root {</p>
+        <p style="margin: 0; padding-left: 20px">--md-sys-color-primary: <span style="color: #B9E9FF">#5B4CF0</span>;</p>
+        <p style="margin: 0; padding-left: 20px">--bb-film: <span style="color: #FFC1DE">conic-gradient(…)</span>;</p>
+        <p style="margin: 0; padding-left: 20px">--bb-tail: <span style="color: #FFE3A8">6px</span>;</p>
+        <p style="margin: 0; padding-left: 20px">--bb-tension: <span style="color: #FFE3A8">0.62</span>;</p>
+        <p style="margin: 0; padding-left: 20px">--bb-pop-duration: <span style="color: #FFE3A8">180ms</span>;</p>
+        <p style="margin: 0">}</p>
+        <p style="margin: 12px 0 0">&lt;<span style="color: #B9E9FF">bb-menu</span> anchor="ordina"&gt;…&lt;/<span style="color: #B9E9FF">bb-menu</span>&gt;</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 0 24px 96px">
+    <div style="max-width: 1200px; margin: 0 auto; position: relative; background: #5B4CF0; color: #FFFFFF; border-radius: 48px 48px 48px 12px; padding: 72px 48px; display: flex; flex-direction: column; align-items: flex-start; gap: 22px; overflow: hidden">
+      <div aria-hidden="true" style="position: absolute; right: -80px; top: -80px; width: 340px; height: 340px; border-radius: 50%; background: conic-gradient(from 200deg, #7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF); opacity: 0.45"></div>
+      <h2 style="margin: 0; position: relative; font-family: Fredoka, sans-serif; font-weight: 600; font-size: clamp(36px, 5vw, 64px); line-height: 1.02; max-width: 720px">Soffia la tua prima interfaccia.</h2>
+      <p style="margin: 0; position: relative; font-size: 18px; color: #E9E6FF; max-width: 520px">Installa il pacchetto, scegli un seed, e i tuoi componenti M3 prendono forma.</p>
+      <a href="#top" class="bb-press" style="position: relative; padding: 16px 28px; border-radius: 999px; background: #FFFFFF; color: #16142B; text-decoration: none; font-weight: 700; font-size: 17px">Inizia ora</a>
+    </div>
+  </section>
+
+  <footer style="max-width: 1200px; margin: 0 auto; padding: 0 24px 48px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; color: #4A4766; font-size: 15px">
+    <span><strong style="font-family: Fredoka, sans-serif; color: #16142B">bolle</strong> · ispirata a Material 3, non affiliata a Google.</span>
+    <span>[Licenza] · [Link GitHub] · [Autore]</span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4200}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { seed: 0 }; }
+  renderVals() {
+    const list = [
+      { name: 'Viola', hex: '#5B4CF0', soft: '#E9E6FF', ring: '#7FD6FF, #B79CFF, #FF9ECF, #FFD68A, #7FD6FF' },
+      { name: 'Laguna', hex: '#0E7C86', soft: '#D6F3F2', ring: '#B6F0C8, #7FD6FF, #9FB4FF, #B6F0C8' },
+      { name: 'Corallo', hex: '#C2410C', soft: '#FFE6DA', ring: '#FFD68A, #FF9ECF, #FF8A65, #FFD68A' },
+      { name: 'Bosco', hex: '#2F7D32', soft: '#DDF2DA', ring: '#FFE58A, #B6F0C8, #7FD6FF, #FFE58A' }
+    ];
+    const cur = list[this.state.seed] || list[0];
+    const seeds = list.map((s, i) => {
+      const on = i === this.state.seed;
+      return {
+        name: s.name,
+        checked: on ? 'true' : 'false',
+        pick: () => this.setState({ seed: i }),
+        style: 'font: inherit; font-weight: 600; font-size: 15px; padding: 12px 20px 12px 16px; border-radius: 999px; cursor: pointer; display: flex; align-items: center; gap: 10px; color: #FFFFFF; background: ' + (on ? s.hex : 'transparent') + '; border: 2px solid ' + (on ? '#FFFFFF' : '#4A4766') + '; min-height: 44px'
+      };
+    });
+    const t = {
+      name: cur.name,
+      hex: cur.hex,
+      film: 'width: 52px; height: 52px; border-radius: 50% 50% 50% 14%; padding: 4px; box-sizing: border-box; background: conic-gradient(from 200deg, ' + cur.ring + ')',
+      core: 'width: 100%; height: 100%; border-radius: 50% 50% 50% 12%; background: ' + cur.hex,
+      chipOn: 'padding: 8px 14px; border-radius: 999px; font-size: 14px; font-weight: 600; background: ' + cur.soft,
+      track: 'height: 8px; border-radius: 999px; position: relative; background: ' + cur.soft,
+      fill: 'position: absolute; left: 0; top: 0; bottom: 0; width: 58%; border-radius: 999px; background: ' + cur.hex,
+      btn: 'padding: 12px 20px; border-radius: 999px; color: #FFFFFF; font-weight: 600; font-size: 15px; background: ' + cur.hex,
+      btnTonal: 'padding: 12px 20px; border-radius: 999px; color: #16142B; font-weight: 600; font-size: 15px; background: ' + cur.soft
+    };
+    return { seeds, t };
+  }
+}
+</script>
+</body>
+</html>

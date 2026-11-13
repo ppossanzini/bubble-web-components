@@ -1,9 +1,9 @@
 import { html, nothing } from "lit";
-import { BubbleElement, moveFocus, type BubbleItem } from "./shared.js";
+import { BolleElement, moveFocus, type BolleItem } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
 import { navigationStyles } from "./navigation.styles.js";
 
-export class BubbleNavigationBar extends BubbleElement {
+export class BolleNavigationBar extends BolleElement {
   static properties = {
     items: { attribute: false },
     value: {},
@@ -12,17 +12,17 @@ export class BubbleNavigationBar extends BubbleElement {
     layout: { reflect: true },
   };
   static styles = [commonStyles, navigationStyles];
-  items: BubbleItem[] = [];
+  items: BolleItem[] = [];
   value = "";
   label = "";
   variant = "standard";
   layout = "vertical";
-  protected content(item: BubbleItem) {
+  protected content(item: BolleItem) {
     return html`<span class="indicator"
         >${item.icon ? html`<span class="icon" aria-hidden="true">${item.icon}</span>` : nothing}</span
       ><span>${item.label}</span>`;
   }
-  protected select(item: BubbleItem) {
+  protected select(item: BolleItem) {
     this.value = item.id;
     this.emit("navigate", { id: item.id });
   }
@@ -34,9 +34,9 @@ export class BubbleNavigationBar extends BubbleElement {
     </nav>`;
   }
 }
-export class BubbleNavigationRail extends BubbleNavigationBar {
+export class BolleNavigationRail extends BolleNavigationBar {
   static properties = {
-    ...BubbleNavigationBar.properties,
+    ...BolleNavigationBar.properties,
     expanded: { type: Boolean, reflect: true },
   };
   expanded = false;
@@ -46,7 +46,7 @@ export class BubbleNavigationRail extends BubbleNavigationBar {
   }
 }
 
-export class BubbleTabs extends BubbleElement {
+export class BolleTabs extends BolleElement {
   static properties = {
     items: { attribute: false },
     value: {},
@@ -56,7 +56,7 @@ export class BubbleTabs extends BubbleElement {
     scrollable: { type: Boolean, reflect: true },
   };
   static styles = [commonStyles, navigationStyles];
-  items: BubbleItem[] = [];
+  items: BolleItem[] = [];
   value = "";
   label = "";
   variant = "primary";

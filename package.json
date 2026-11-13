@@ -1,5 +1,5 @@
 {
-  "name": "@bubble/web-components",
+  "name": "@bolle/web-components",
   "version": "0.2.0",
   "description": "A material based web component library",
   "private": true,
@@ -10,7 +10,7 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/bubble.js"
+      "import": "./dist/bolle.js"
     },
     "./tokens.css": "./dist/tokens.css",
     "./typography.css": "./dist/typography.css",
@@ -23,9 +23,13 @@
     "build": "npm run typography && npm run typecheck && vite build && tsc --emitDeclarationOnly && cp src/tokens.css src/design-system.json dist/",
     "build:site": "npm run typography && vite build --config vite.site.config.ts",
     "typography": "node scripts/typography.mjs",
+    "colors": "rolldown scripts/colors.mjs --platform node --format esm -o node_modules/.cache/colors.mjs && node node_modules/.cache/colors.mjs",
     "format": "prettier --write src demo index.html package.json tsconfig.json vite.config.ts"
   },
   "dependencies": {
+    "@fontsource/figtree": "5.3.0",
+    "@fontsource/fredoka": "5.3.0",
+    "@fontsource/jetbrains-mono": "5.3.0",
     "@fontsource/roboto": "5.3.0",
     "@material/material-color-utilities": "^0.4.0",
     "@tabler/icons": "^3.51.0",

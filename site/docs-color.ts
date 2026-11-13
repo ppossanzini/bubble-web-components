@@ -1,6 +1,6 @@
 import { LitElement, html } from "lit";
 import { createRef, ref } from "lit/directives/ref.js";
-import type { BubbleDialog } from "../src/index.js";
+import type { BolleDialog } from "../src/index.js";
 import {
   BLACK,
   MATERIAL_FAMILIES,
@@ -28,7 +28,7 @@ export class DocsColor extends LitElement {
   declare label: string;
   declare value: string;
   declare family: string;
-  private dialog = createRef<BubbleDialog>();
+  private dialog = createRef<BolleDialog>();
 
   constructor() {
     super();
@@ -89,7 +89,7 @@ export class DocsColor extends LitElement {
         <span class="color-value">${this.value}</span>
       </button>
 
-      <bubble-dialog
+      <bolle-dialog
         ${ref(this.dialog)}
         class="palette-dialog"
         label=${`Colore · ${this.label}`}
@@ -140,7 +140,7 @@ export class DocsColor extends LitElement {
             ${this.swatch(BLACK, "Nero", BLACK === current)}
           </div>
         </div>
-      </bubble-dialog>
+      </bolle-dialog>
     `;
   }
 }

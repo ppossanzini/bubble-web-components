@@ -40,22 +40,32 @@ export const menuStyles = css`
     overflow-y: auto;
     border: 0;
     padding: var(--md-comp-menu-container-padding);
-    background: var(--menu-container);
+    background: color-mix(
+      in srgb,
+      var(--menu-container) var(--bb-glass-opacity, 100%),
+      transparent
+    );
+    backdrop-filter: blur(var(--bb-glass-blur, 0px));
     color: var(--menu-content);
-    border-radius: var(--md-comp-menus-standard-menu-container-shape);
-    box-shadow: var(--md-sys-elevation-level2);
+    --bb-corner: var(--bb-radius);
+    border-radius: var(
+      --bb-shape,
+      var(--md-comp-menus-standard-menu-container-shape)
+    );
+    box-shadow: var(--bb-float-2, var(--md-sys-elevation-level2));
     font: var(--md-sys-typescale-label-large-font);
     letter-spacing: var(--md-sys-typescale-label-large-tracking);
+  }
+  @supports not (backdrop-filter: blur(1px)) {
+    [popover] {
+      background: var(--menu-container);
+    }
   }
   :host([variant="baseline"]) [popover] {
     border-radius: var(--md-comp-menu-container-shape);
   }
   :host([inactive]) [popover] {
     border-radius: var(--md-comp-menus-standard-menu-inactive-container-shape);
-  }
-  [popover]:popover-open {
-    animation: menu-enter var(--md-sys-motion-duration-short2)
-      var(--md-sys-motion-easing-standard);
   }
   :host([quick]) [popover] {
     animation: none;
@@ -202,20 +212,7 @@ export const menuStyles = css`
     margin-block: var(--md-comp-menu-divider-space);
     background: var(--md-sys-color-outline-variant);
   }
-  @keyframes menu-enter {
-    from {
-      opacity: 0;
-      transform: translateY(-4px) scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
   @media (prefers-reduced-motion: reduce) {
-    [popover]:popover-open {
-      animation: none;
-    }
     button,
     a {
       transition: none;

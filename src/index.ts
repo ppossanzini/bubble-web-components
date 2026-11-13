@@ -1,9 +1,9 @@
-import { BubbleMenu } from "./menu.js";
+import { BolleMenu } from "./menu.js";
 export * from "./catalogue.js";
 
-if (!customElements.get("bubble-menu"))
-  customElements.define("bubble-menu", BubbleMenu);
-export { BubbleMenu };
+if (!customElements.get("bolle-menu"))
+  customElements.define("bolle-menu", BolleMenu);
+export { BolleMenu };
 export type {
   MenuAction,
   MenuDivider,
@@ -14,6 +14,6 @@ export type {
 
 declare global {
   interface HTMLElementTagNameMap {
-    "bubble-menu": BubbleMenu;
+    "bolle-menu": BolleMenu;
   }
 }

@@ -1,6 +1,9 @@
 import { css } from "lit";
 export const surfaceStyles = css`
   :host {
+    --bb-glint-color: color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+  }
+  :host {
     display: block;
   }
   .bar {
@@ -91,7 +94,7 @@ export const surfaceStyles = css`
   :host([variant="large-flexible"]) .title {
     font: var(--md-sys-typescale-headline-medium-font);
   }
-  :host([variant="search"]) ::slotted(bubble-search) {
+  :host([variant="search"]) ::slotted(bolle-search) {
     inline-size: 100%;
   }
   :host([variant="medium"]) .bar {
@@ -135,7 +138,8 @@ export const surfaceStyles = css`
     padding: var(--md-comp-card-padding);
     font: var(--md-sys-typescale-body-medium-font);
     letter-spacing: var(--md-sys-typescale-body-medium-tracking);
-    border-radius: var(--md-sys-shape-corner-medium);
+    border-radius: var(--bb-radius, var(--md-sys-shape-corner-medium));
+    border-end-start-radius: var(--bb-card-tail, var(--md-sys-shape-corner-medium));
     background: var(--md-sys-color-surface-container-highest);
     overflow: clip;
   }
@@ -145,7 +149,7 @@ export const surfaceStyles = css`
   }
   :host([variant="elevated"]) .card {
     background: var(--md-sys-color-surface-container-low);
-    box-shadow: var(--md-sys-elevation-level1);
+    box-shadow: var(--bb-float-2, var(--md-sys-elevation-level1));
   }
   :host([orientation="horizontal"]) .card {
     display: flex;
@@ -294,12 +298,9 @@ export const surfaceStyles = css`
   button.list-item,
   a.list-item {
     cursor: pointer;
+    border-radius: var(--bb-list-item-shape, var(--md-sys-shape-corner-full));
     transition: background-color var(--md-sys-motion-duration-short2)
       var(--md-sys-motion-easing-standard);
-  }
-  button.list-item:hover,
-  a.list-item:hover {
-    background: var(--md-sys-color-surface-container-high);
   }
   button.list-item:focus-visible,
   a.list-item:focus-visible,
@@ -381,10 +382,6 @@ export const surfaceStyles = css`
     position: relative;
     cursor: pointer;
   }
-  .chip label:has(input:focus-visible) {
-    outline: 3px solid var(--md-sys-color-secondary);
-    outline-offset: -3px;
-  }
   .chip input {
     position: absolute;
     inline-size: 1px;
@@ -407,5 +404,8 @@ export const surfaceStyles = css`
     background: var(--md-sys-color-secondary-container);
     color: var(--md-sys-color-on-secondary-container);
     border-color: transparent;
+  }
+  :host([selected]) .chip::before {
+    opacity: 1;
   }
 `;

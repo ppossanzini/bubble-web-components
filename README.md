@@ -1,6 +1,32 @@
-# Bubble Material Web Components
+# Bolle Material Web Components
 
-A material based web component library, published as `@bubble/web-components`.
+A material based web component library, published as `@bolle/web-components`.
+
+## Bolle layer
+
+Material 3 is the structure; Bolle is the skin. Component names, colour roles
+and the type scale stay M3. The character comes from `--bb-*` tokens in
+`tokens.css`, which can be tuned or switched off.
+
+| Sign        | Where                                                                                     | Tokens                                                      |
+| ----------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| Tail        | Menus, tooltips and FAB menu point their narrow corner at the opener; snackbar and cards keep it bottom-start | `--bb-radius`, `--bb-tail`, `--bb-card-tail`               |
+| Film        | Ring around the focus outline and selected chips; FAB wash. Decorative only: the solid outline and container colour carry the state | `--bb-film`, `--bb-film-1…4`, `--bb-ring-width`, `--bb-ring-gap` |
+| Squish/pop  | Buttons squish (1.1 × 0.86) and wobble back; floating surfaces inflate from the tail and pop on close; basic dialogs keep a near-imperceptible bob (2px, ±0.15°) after opening | `--bb-squish`, `--bb-tension`, `--bb-inflate-duration`, `--bb-pop-duration`, `--bb-bob-distance`, `--bb-bob-duration` |
+| Float       | Soft ink shadows that turn violet at higher levels; the top-right highlight sits on the button colour on hover and press, and on the FAB at rest | `--bb-float-1…5`, `--bb-highlight`                          |
+| Liquid      | Segmented buttons move one indicator between segments with the spring curve; the loading indicator is rising, merging bubbles | —                                                           |
+| Glass       | Menus and FAB actions are translucent with blur; opaque without `backdrop-filter`, on slow devices and with reduced transparency | `--bb-glass-opacity`, `--bb-glass-blur`                     |
+
+Colour roles are generated from the seed `#5B4CF0` by `npm run colors`
+(tonal spot, with the primary palette at full seed chroma). Selected icons fill
+(`--md-icon-fill: 1`). `variant="accent"` on `bolle-button` uses the rare
+"Scoppio" accent `--bb-accent`. Typefaces: Fredoka 600 for display and
+headline-large, Figtree for text and UI, JetBrains Mono for code. With
+`prefers-reduced-motion` only fades remain: no wobble, pop or dialog bob.
+
+Text inside `bolle-*` components cannot be selected with the pointer
+(`user-select: none` on the host); `input`, `textarea` and editable content stay
+selectable. This also applies to content slotted into cards and dialogs.
 
 ## Foundations
 
@@ -40,12 +66,17 @@ Project projections and open items:
 Run `npm run typography` to generate the 30 Material type styles from
 `scripts/typography.mjs`. Build and development commands also generate them.
 Load `tokens.css` before `typography.css`. Keep the adjacent `fonts/` directory:
-Roboto 400, 500 and 700 is served locally, with its licence. All subsets supplied
-by the pinned Fontsource package are copied with their original Unicode ranges:
-Latin, extended Latin, Greek, extended Greek, Cyrillic, extended Cyrillic,
-Vietnamese, math and symbols. The browser requests only matching subsets.
-Roboto does not cover every script. Other scripts use the operating system
-fallback fonts; no bundled Arabic, Indic or East Asian font coverage is claimed.
+Figtree 400–700, Fredoka 500–700 and JetBrains Mono 400–500 are served locally,
+with their licences in `fonts/LICENSE`. All subsets supplied by the pinned
+Fontsource packages are copied with their original Unicode ranges, and the
+browser requests only matching subsets. Scripts outside these fonts use the
+operating system fallback fonts; no bundled Arabic, Indic or East Asian font
+coverage is claimed.
+
+Families map to four reference tokens: `--md-ref-typeface-display` (Fredoka,
+weight 600, used by display and headline-large), `--md-ref-typeface-brand` and
+`--md-ref-typeface-plain` (Figtree), and `--md-ref-typeface-code`
+(JetBrains Mono). Sizes, line heights and tracking stay those of the M3 scale.
 
 Use classes such as `md-type-body-large` and
 `md-type-emphasized-body-large`, or the per-style CSS custom properties.
@@ -92,7 +123,7 @@ Browser zoom, screen readers and real-device/script shaping remain manual checks
 Do not treat fallback availability or this automated sample as full multilingual
 or WCAG conformance.
 
-First implementation: `bubble-menu`, built with Lit 3.3.3 and TypeScript.
+First implementation: `bolle-menu`, built with Lit 3.3.3 and TypeScript.
 The library has no Material component dependency. The ES module bundles Lit and
 works in HTML without an application build step.
 
@@ -109,7 +140,23 @@ languages:
 
 Index: [docs/README.md](docs/README.md).
 
-The live documentation site is in `site/`. It lists every component, shows a
+The live documentation site is in `site/`. It opens on a presentation page
+(`#/`) built from the identity boards in `artwork/`: the bolle mark and
+`bolle` wordmark, hero, the three signs (tail, film, squish), a showcase of real
+components, a seed picker that re-themes the whole site, a CSS example and the
+install command. The mark is drawn in CSS (`bolleMark` in `site/landing.ts`):
+film ring 1/14 of the side, primary core and highlight; below 24px only the
+tailed shape remains, which is also the favicon.
+
+The **Foundations** page (`#/foundations`) explains the Bolle layer section by
+section (tail, film, highlight and float, motion, glass, colour, typography,
+rules). Each section has live components to try (menu and tooltip tails, focus
+and selection rings, hover highlight, squish, a floating dialog, the liquid
+segmented indicator, the bolle loader), the spring curve drawn from
+`--bb-tension`, and a table of its `--bb-*` tokens with values read from the
+page.
+
+The component catalogue is at `#/overview`. It lists every component, shows a
 preview, and generates the matching Vue and React snippet for the current state.
 The component configuration is split in two places. The size tokens sit next to
 the preview in a **Dimensioni** panel that stays visible while scrolling, so an
@@ -158,10 +205,11 @@ and at the top of the **Design tokens** page.
 
 The **Design tokens** page edits the graphic foundation: all M3 semantic colour
 roles (47, grouped by family) chosen from the Material palette published on
-materialui.co/colors, seven HCT theme presets (Oceano is the site default,
-followed by Foresta, Teal, Ambra, Terracotta, Grafite and the original Viola
-M3), the full HCT generation of the colour scheme from the current primary with
-standard/medium/high contrast, corner radii, title and body font families, and
+materialui.co/colors, seven HCT theme presets (Viola `#5B4CF0` is the site
+default, followed by Laguna, Corallo and Bosco from the identity, then Oceano,
+Ambra and Grafite), the full HCT generation of the colour scheme from the current
+primary with standard/medium/high contrast, corner radii, title and body font
+families (Figtree by default), and
 the base text size. A preset regenerates both the light and the dark palette;
 the selector is available on the tokens page and at the top of the component
 configuration drawer. Values are kept separately for light and dark themes,
@@ -174,13 +222,13 @@ Colours and corner radii map to the global theme values; the `--md-comp-*` detai
 tokens are listed with their declared value from `tokens.css` and edited with an
 exact text field. An override is emitted as a rule
 scoped to the component tag, for example
-`bubble-menu { --md-comp-menu-item-vertical-padding: 20px; }`, so it applies to
+`bolle-menu { --md-comp-menu-item-vertical-padding: 20px; }`, so it applies to
 every instance of that component without creating a per-instance token copy.
 Typography scale names are listed for reference because only the two font
 families and the base size are editable.
 
 The dropdown used by long configuration lists (`site/docs-select.ts`) is a site
-pattern composed from `bubble-button` and `bubble-menu`, not an entry in the
+pattern composed from `bolle-button` and `bolle-menu`, not an entry in the
 library catalogue.
 
 ```sh
@@ -190,7 +238,7 @@ npm run build:site   # static site in dist-site/
 
 Each guide states the platform rules that matter: property versus attribute
 binding, `addEventListener` for custom events, typed template refs in Vue and
-`useBubbleEvent`/`useBubbleProps` in React, and the JSX type declarations.
+`useBolleEvent`/`useBolleProps` in React, and the JSX type declarations.
 Code excerpts are identical across the three editions; only the prose is
 translated.
 
@@ -226,7 +274,7 @@ named. Corrections applied in this review:
 - Text fields: leading/trailing icon slots, prefix, suffix, counter and required
   marker; input text uses the body-large role in every field.
 - Sliders: one track with native inputs overlaid, so the range variant has two
-  handles on the same track; label body-medium, value bubble label-medium above
+  handles on the same track; label body-medium, value bolle label-medium above
   the handle, stop markers layered under the active fill; vertical orientation
   uses a native vertical fallback.
 - Navigation bar and rail: 80px bar, 64x32 and 56x32 active indicators, 24px
@@ -304,9 +352,9 @@ inline Tabler SVG).
 ```html
 <link rel="stylesheet" href="./dist/tokens.css" />
 <button id="trigger" aria-haspopup="menu">Actions</button>
-<bubble-menu id="menu" menu-label="Document actions"></bubble-menu>
+<bolle-menu id="menu" menu-label="Document actions"></bolle-menu>
 <script type="module">
-  import "./dist/bubble.js";
+  import "./dist/bolle.js";
   const trigger = document.querySelector("#trigger");
   const menu = document.querySelector("#menu");
   menu.items = [
@@ -355,14 +403,38 @@ Action fields: `id`, `label`, `supportingText`, `trailingText`, `badge`, `icon`,
 `{ separator: true }`. Disabled actions remain focusable but cannot activate.
 
 `menu-select` bubbles across Shadow DOM with `{ item, selectedIds }`.
-`menu-open` and `menu-close` also bubble. Events from descendants bubble through
+`menu-open` and `menu-close` also bolle. Events from descendants bolle through
 their ancestors; consumers that need only root events check `event.target`.
 
 Angular consumers need `CUSTOM_ELEMENTS_SCHEMA`; Vue consumers configure
-`compilerOptions.isCustomElement` for every `bubble-*` tag; React consumers use
+`compilerOptions.isCustomElement` for every `bolle-*` tag; React consumers use
 `addEventListener` for custom events. The exhaustively documented examples are in
 [Vue 3](docs/it/vue.md) and [React](docs/it/react.md); their runtime verification
 is still open. The English and French editions live in `docs/en` and `docs/fr`.
+
+### Keyboard shortcuts
+
+Every `bolle-*` element except `bolle-menu` accepts `shortcut` (property and
+reflected attribute). The value uses the `aria-keyshortcuts` syntax: modifiers
+`Alt`, `Control`, `Meta`, `Shift` joined to the key with `+`, alternatives
+separated by a space.
+
+```html
+<bolle-button shortcut="Alt+S">Save</bolle-button>
+<bolle-text-field label="Search" shortcut="Control+K Meta+K"></bolle-text-field>
+```
+
+| Behaviour        | Rule                                                                                                       |
+| ---------------- | ---------------------------------------------------------------------------------------------------------- |
+| ARIA             | `aria-keyshortcuts` is set on the first focusable inner control and removed when `shortcut` is empty      |
+| Activation       | Buttons, links, checkboxes and radios receive focus and a click; text fields and selects receive focus    |
+| Skipped          | Disabled or hidden host, `defaultPrevented` event, key repeat, unmodified keys while typing in a field    |
+| Composite widgets | Tabs, navigation bar and lists focus their first item                                                     |
+| Conflicts        | When two hosts declare the same combination, the first registered wins                                     |
+
+One shared `keydown` listener on `document` serves every instance. Matching also
+checks `event.code`, so Alt/Option combinations work on macOS layouts. Choose
+combinations that do not override browser or assistive-technology shortcuts.
 
 ## Material scope and source gaps
 
@@ -423,48 +495,48 @@ column states missing variants or behaviour.
 
 `demo/showcase.ts` renders every catalogue entry through the public package entry.
 `src/catalogue.ts` exports the classes, the `catalogue` registration map,
-`BubbleItem`, picker labels and event detail types. Every tag has a
+`BolleItem`, picker labels and event detail types. Every tag has a
 `HTMLElementTagNameMap` declaration. Importing the package registers the tags.
 
 | Catalogue entry        | Public element                  | Support                                                                                                                                                                                                                                                                     | Open limits                                                                                                                                                                                    |
 | ---------------------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| App bars               | `bubble-app-bar`                | Semantic header and heading; small, centered, medium, large, medium-flexible, large-flexible and search layouts; subtitle; leading/trailing slots; sticky, controlled scrolled/collapsed state                                                                              | No automatic scroll tracking, adaptive action overflow or spring collapse; search content uses the default slot                                                                                |
-| Autocomplete           | `bubble-autocomplete`           | Filled/outlined text field with a suggestion listbox built from `<option>` children or an `options` array; case-insensitive substring filter while typing; ArrowDown/ArrowUp, Enter, Escape and Tab; top-layer popup that escapes container clipping and flips above the field when space is missing; combobox ARIA with `aria-activedescendant`; inherited validation, readonly, disabled and form submission | No asynchronous fetching or debounce hook; single value only; suggestion matching is a substring, not fuzzy |
-| Badges                 | `bubble-badge`                  | Small dot or numeric text; count cap; caller-supplied accessible status label                                                                                                                                                                                               | Caller positions badge and updates the complete label when the count changes                                                                                                                   |
-| Bottom sheets          | `bubble-bottom-sheet`           | Native modal dialog at the bottom; optional drag handle; standard variant fixed at the bottom without scrim; actions and close control                                                                                                                                      | No swipe/drag gesture, detents or content-driven expansion; the handle is visual only                                                                                                          |
-| Button groups          | `bubble-button-group`           | Standard and connected groups; single/multiple selection; required selection after activation; filled, tonal, outlined or elevated buttons; label-only or icon+label contents; size and shape propagation; connected inner corners at the M3 per-size values (XS 4, S/M 8, L 16, XL 20dp) that grow on hover (XS 8, S/M 12, L/XL 20dp); arrow/Home/End focus                                                                                                              | No neighbouring-width animation or spring motion; group itself submits no value; initial required selection belongs to the caller                                                              |
-| Buttons                | `bubble-button`                 | Filled, tonal, outlined, elevated, text; toggles with M3 unselected/selected colour mapping; round/square with size-aware radii (12/12/16/28/28dp) and pressed morph (8/8/12/16/16dp); five sizes with a 40px small container; native links; disabled; form submit/reset                                                                                                                                                       | No origin-aware ripple; no toggle-text combination; no full native form override attribute set                                                                                                 |
-| Cards                  | `bubble-card`                   | Semantic article; filled, outlined, elevated; vertical and horizontal orientation with media slot; optional whole-card link                                                                                                                                                 | Whole-card links must not contain other interactive controls; no dragged state                                                                                                                 |
-| Carousel               | `bubble-carousel`               | Native scroll/snap; previous/next and keyboard navigation; hero, center-aligned-hero, multi-browse, uncontained, uncontained-multi-aspect-ratio and vertical full-screen layout hooks                                                                                       | Hero/multi-browse use project flex widths, not dynamic M3 keyline masking; no item morph; caller controls aspect ratios and full-screen breakpoint restrictions                                |
-| Checkbox               | `bubble-checkbox`               | Custom 18dp checkbox with rounded square, check path and indeterminate dash, focus ring, error border, supporting text; required, disabled; form association and reset                                                                                                      | No exact M3 check path timing or error icon in the supporting text                                                                                                                             |
-| Chips                  | `bubble-chip`                   | Assist, suggestion, input and filter; flat and elevated styles; leading icon and avatar slots; filter checkmark replaces the native mark; optional removal; links                                                                                                           | No single-select radio filter group or drag/reorder; removal emits an event and does not delete consumer data                                                                                  |
-| Date pickers           | `bubble-date-picker`            | Formatted readonly field; modal calendar grid and inline docked calendar; single/range; month/year selection; locale month/day names; min/max; keyboard navigation; confirm/cancel                                                                                          | No numeric input view; editable typing replaced by the formatted field; Shift+M/Y shortcuts missing                                                                                            |
-| Dialogs                | `bubble-dialog`                 | Native dialog; basic/fullscreen; modal or nonmodal; close value; Escape; platform focus containment and return; entry motion per placement with reduced-motion opt-out                                                                                                      | No container transform from the invoking element or exit animation                                                                                                                             |
-| Divider                | `bubble-divider`                | Native horizontal rule; full, inset, inset-start, inset-end and vertical modes; decorative mode                                                                                                                                                                             | Vertical form needs a parent height or uses the action-target minimum                                                                                                                          |
-| Extended FAB           | `bubble-extended-fab`           | Label/icon button; small (56), medium (80) and large (96) sizes; six accent/container colours and surface; submit/reset                                                                                                                                                     | No scroll-driven collapse, branded variant or container transform; unverified Expressive radii remain project adaptations                                                                      |
-| FAB menu               | `bubble-fab-menu`               | Native FAB trigger; primary, secondary and tertiary colour sets; top-layer light-dismiss menu; item actions; arrows/Home/End; first-letter navigation; Escape and focus return                                                                                                    | No alternate FAB sizes; item count of 2–6 belongs to the caller; `href` is not used in this action-only menu                                                                                   |
-| Floating action button | `bubble-floating-action-button` | FAB, medium, large and legacy small; height 56/80/96px; elevation level 3 at rest and level 4 on hover; six accent/container colours and surface                                                                                                                                                                                               | No container transform, spring motion or automatic tooltip                                                                                                                                     |
-| Icon buttons           | `bubble-icon-button`            | Native button/link; default/toggle; filled, tonal, outlined, standard; sizes, shapes and width hooks                                                                                                                                                                        | Narrow/wide geometry uses project minimum targets rather than the complete per-size token matrix; icon shape/weight belongs to caller content                                                  |
-| Lists                  | `bubble-list`                   | Native list with standard and segmented styles; one- and two-line rows; icons, supporting text, links and interactive buttons; trailing count badge from the item `badge`; single and multiple selection with listbox/option semantics; expandable rows with nested lists and disclosure state                          | No draggable/reorderable rows or nested checkboxes/radios; segmented gaps use a 2px project value                                                                                              |
-| Loading indicator      | `bubble-loading-indicator`      | Named indeterminate progressbar; default/contained; morph-style keyframes with reduced-motion fallback                                                                                                                                                                      | Approximated morph, not the exact seven M3 shape paths; the reference does not supply the paths or morph timing                                                                                |
-| Navigation bar         | `bubble-navigation-bar`         | 80px bar, 3-slot destinations, 64x32 active indicator, 24px icons, 12px labels; links or actions; disabled destinations                                                                                                                                                     | No automatic breakpoint swap or flexible-bar width animation                                                                                                                                   |
-| Navigation drawer      | `bubble-navigation-drawer`      | Standard or modal start-side navigation; destinations; current link; navigation event; close on modal action                                                                                                                                                                | No grouped destination sections, automatic responsive switching or persistent layout resizing                                                                                                  |
-| Navigation rail        | `bubble-navigation-rail`        | 96px collapsed and 220px expanded widths, 56px items, 56x32 indicator; current destination                                                                                                                                                                                  | No modal expanded rail, expansion toggle, embedded FAB or sections                                                                                                                             |
-| Progress indicators    | `bubble-progress-indicator`     | Determinate linear track with 4dp stop indicator, indeterminate slide, circular SVG variants and an Expressive wavy track with determinate clip or indeterminate phase motion; bounded values                                                                               | No spring transitions or exact Expressive wave amplitude                                                                                                                                       |
-| Radio button           | `bubble-radio-button`           | Native radio; form/name-scoped exclusive selection; arrows/Home/End; required and disabled; form reset                                                                                                                                                                      | A consumer fieldset/legend supplies the group label; native glyph rather than exact M3 artwork                                                                                                 |
-| Search                 | `bubble-search`                 | Semantic search region; contained and divided appearances; docked results and full-screen layout shells; query events; Enter search event; results slot; suggestion combobox with filtered options, arrow keys, Enter acceptance, Escape and optional debounce on `suggest`; the field fills the bar, the label and supporting text stay in the accessibility tree and the bar carries the focus indicator | No expanded full-screen takeover or loading state; suggestion data and fetching belong to the caller                                                                                           |
-| Segmented buttons      | `bubble-segmented-buttons`      | Native fieldset/radio or checkbox group; two to five segments; label-only or icon+label contents; connected segment geometry with a 40px container inside a 48px target and a retained 1px outline; checkmark on selected segments; single/multiple values; required, disabled; form reset/restore                                                     | Inner selected corners follow a project rule, not a full token matrix; density steps are not implemented                                                                                       |
-| Select                 | `bubble-select`                 | Single choice over native `<option>` and `<optgroup>` children; Material vertical menu with group labels, checkmark and 12dp selected shape; filled/outlined field with label, placeholder, supporting text and error; menu width follows the field up to 280px; Enter/Space/Arrow keys open, Escape closes; required validation, disabled state and form submission | No multiple selection or type-ahead in the closed field; the popup uses menu semantics (`menuitemradio`) instead of a listbox; option changes need a DOM mutation to refresh |
-| Side sheets            | `bubble-side-sheet`             | Modal dialog or fixed standard aside at the end edge; detached frame with 16px margin and rounded corners                                                                                                                                                                   | Caller owns persistent page layout; no swipe/drag or automatic content resizing                                                                                                                |
-| Sliders                | `bubble-slider`                 | Single custom track with native inputs overlaid: continuous, centered and range with two handles; stop markers at 4px with the M3 roles; five track sizes; value bubble on hover/focus with 48px minimum width; inset start/end icons flanking the track; rotated custom vertical track; capped width token                                 | Firefox track parity unverified; inset icons align at the track ends instead of the thicker M3 inset track; the pressed handle does not grow to the 28dp pressed state |
-| Snackbar               | `bubble-snackbar`               | Persistent polite live region; top-layer surface; message/action/dismiss; timer pause on hover/focus; queued messages shown one after another; entry motion with reduced-motion opt-out                                                                                     | No exit or container-transform motion; application must choose an adequate timeout, or `duration=0`                                                                                            |
-| Split button           | `bubble-split-button`           | Primary action plus menu action joined at a 2px seam, outer full corners and inner 4px corners mirrored in RTL; optional leading icon; four colour styles; five sizes matching the button scale; disabled                                                                  | No spring shape motion or named form submit on the primary action                                                                                                                              |
-| Switch                 | `bubble-switch`                 | Switch role over a native checkbox; state-dependent 16/24dp handle with transition, optional off/on handle icons, error border, disabled state, supporting text; form association and reset                                                                                 | No pressed-state 28dp handle or state-layer ripple                                                                                                                                             |
-| Tabs                   | `bubble-tabs`                   | Tablist and named slotted panels; primary and secondary styles; icon and badge per tab; automatic/manual activation; arrows/Home/End; disabled tabs; scrollable strip with previous/next controls and edge states                                                           | No movable Expressive indicator or scroll-to-active animation; scroll buttons are project controls around the tablist                                                                          |
-| Text fields            | `bubble-text-field`             | Filled/outlined; input/textarea; labels, helper text, required marker and counter; leading/trailing icon slots; prefix and suffix; native validation; readonly and bounds                                                                                                   | No select mode, minlength, password visibility control or floating-label animation                                                                                                             |
-| Time pickers           | `bubble-time-picker`            | Formatted readonly field; modal dial and input modes; 12/24-hour; AM/PM; keyboard dial navigation; pointer-angle drag across outer and inner 24-hour rings; min/max/step validation                                                                                         | No continuous minute dial or exact M3 dial geometry                                                                                                                                            |
-| Toolbars               | `bubble-toolbar`                | Docked/floating; standard/vibrant; horizontal/vertical; native control arrow/Home/End focus                                                                                                                                                                                 | No adaptive overflow menu, expansion, docking transition or FAB morph                                                                                                                          |
-| Tooltips               | `bubble-tooltip`                | Top-layer plain or rich content; hover, focus and Escape; plain tooltip offset 4 and rich offset 8; rich tooltip stays open until dismissed by outside press, Escape or its dismiss control; rich content/action slots; accessible trigger description                      | Uses `aria-description` on the real trigger, not cross-shadow `aria-describedby`; native/Bubble button, link or input trigger required; touch behaviour depends on the platform                |
+| App bars               | `bolle-app-bar`                | Semantic header and heading; small, centered, medium, large, medium-flexible, large-flexible and search layouts; subtitle; leading/trailing slots; sticky, controlled scrolled/collapsed state                                                                              | No automatic scroll tracking, adaptive action overflow or spring collapse; search content uses the default slot                                                                                |
+| Autocomplete           | `bolle-autocomplete`           | Filled/outlined text field with a suggestion listbox built from `<option>` children or an `options` array; case-insensitive substring filter while typing; ArrowDown/ArrowUp, Enter, Escape and Tab; top-layer popup that escapes container clipping and flips above the field when space is missing; combobox ARIA with `aria-activedescendant`; inherited validation, readonly, disabled and form submission | No asynchronous fetching or debounce hook; single value only; suggestion matching is a substring, not fuzzy |
+| Badges                 | `bolle-badge`                  | Small dot or numeric text; count cap; caller-supplied accessible status label                                                                                                                                                                                               | Caller positions badge and updates the complete label when the count changes                                                                                                                   |
+| Bottom sheets          | `bolle-bottom-sheet`           | Native modal dialog at the bottom; optional drag handle; standard variant fixed at the bottom without scrim; actions and close control                                                                                                                                      | No swipe/drag gesture, detents or content-driven expansion; the handle is visual only                                                                                                          |
+| Button groups          | `bolle-button-group`           | Standard and connected groups; single/multiple selection; required selection after activation; filled, tonal, outlined or elevated buttons; label-only or icon+label contents; size and shape propagation; connected inner corners at the M3 per-size values (XS 4, S/M 8, L 16, XL 20dp) that grow on hover (XS 8, S/M 12, L/XL 20dp); arrow/Home/End focus                                                                                                              | No neighbouring-width animation or spring motion; group itself submits no value; initial required selection belongs to the caller                                                              |
+| Buttons                | `bolle-button`                 | Filled, tonal, outlined, elevated, text; toggles with M3 unselected/selected colour mapping; round/square with size-aware radii (12/12/16/28/28dp) and pressed morph (8/8/12/16/16dp); five sizes with a 40px small container; native links; disabled; form submit/reset                                                                                                                                                       | No origin-aware ripple; no toggle-text combination; no full native form override attribute set                                                                                                 |
+| Cards                  | `bolle-card`                   | Semantic article; filled, outlined, elevated; vertical and horizontal orientation with media slot; optional whole-card link                                                                                                                                                 | Whole-card links must not contain other interactive controls; no dragged state                                                                                                                 |
+| Carousel               | `bolle-carousel`               | Native scroll/snap; previous/next and keyboard navigation; hero, center-aligned-hero, multi-browse, uncontained, uncontained-multi-aspect-ratio and vertical full-screen layout hooks                                                                                       | Hero/multi-browse use project flex widths, not dynamic M3 keyline masking; no item morph; caller controls aspect ratios and full-screen breakpoint restrictions                                |
+| Checkbox               | `bolle-checkbox`               | Custom 18dp checkbox with rounded square, check path and indeterminate dash, focus ring, error border, supporting text; required, disabled; form association and reset                                                                                                      | No exact M3 check path timing or error icon in the supporting text                                                                                                                             |
+| Chips                  | `bolle-chip`                   | Assist, suggestion, input and filter; flat and elevated styles; leading icon and avatar slots; filter checkmark replaces the native mark; optional removal; links                                                                                                           | No single-select radio filter group or drag/reorder; removal emits an event and does not delete consumer data                                                                                  |
+| Date pickers           | `bolle-date-picker`            | Formatted readonly field; modal calendar grid and inline docked calendar; single/range; month/year selection; locale month/day names; min/max; keyboard navigation; confirm/cancel                                                                                          | No numeric input view; editable typing replaced by the formatted field; Shift+M/Y shortcuts missing                                                                                            |
+| Dialogs                | `bolle-dialog`                 | Native dialog; basic/fullscreen; modal or nonmodal; close value; Escape; platform focus containment and return; entry motion per placement with reduced-motion opt-out                                                                                                      | No container transform from the invoking element or exit animation                                                                                                                             |
+| Divider                | `bolle-divider`                | Native horizontal rule; full, inset, inset-start, inset-end and vertical modes; decorative mode                                                                                                                                                                             | Vertical form needs a parent height or uses the action-target minimum                                                                                                                          |
+| Extended FAB           | `bolle-extended-fab`           | Label/icon button; small (56), medium (80) and large (96) sizes; six accent/container colours and surface; submit/reset                                                                                                                                                     | No scroll-driven collapse, branded variant or container transform; unverified Expressive radii remain project adaptations                                                                      |
+| FAB menu               | `bolle-fab-menu`               | Native FAB trigger; primary, secondary and tertiary colour sets; top-layer light-dismiss menu; item actions; arrows/Home/End; first-letter navigation; Escape and focus return                                                                                                    | No alternate FAB sizes; item count of 2–6 belongs to the caller; `href` is not used in this action-only menu                                                                                   |
+| Floating action button | `bolle-floating-action-button` | FAB, medium, large and legacy small; height 56/80/96px; elevation level 3 at rest and level 4 on hover; six accent/container colours and surface                                                                                                                                                                                               | No container transform, spring motion or automatic tooltip                                                                                                                                     |
+| Icon buttons           | `bolle-icon-button`            | Native button/link; default/toggle; filled, tonal, outlined, standard; sizes, shapes and width hooks                                                                                                                                                                        | Narrow/wide geometry uses project minimum targets rather than the complete per-size token matrix; icon shape/weight belongs to caller content                                                  |
+| Lists                  | `bolle-list`                   | Native list with standard and segmented styles; one- and two-line rows; icons, supporting text, links and interactive buttons; trailing count badge from the item `badge`; single and multiple selection with listbox/option semantics; expandable rows with nested lists and disclosure state                          | No draggable/reorderable rows or nested checkboxes/radios; segmented gaps use a 2px project value                                                                                              |
+| Loading indicator      | `bolle-loading-indicator`      | Named indeterminate progressbar; default/contained; morph-style keyframes with reduced-motion fallback                                                                                                                                                                      | Approximated morph, not the exact seven M3 shape paths; the reference does not supply the paths or morph timing                                                                                |
+| Navigation bar         | `bolle-navigation-bar`         | 80px bar, 3-slot destinations, 64x32 active indicator, 24px icons, 12px labels; links or actions; disabled destinations                                                                                                                                                     | No automatic breakpoint swap or flexible-bar width animation                                                                                                                                   |
+| Navigation drawer      | `bolle-navigation-drawer`      | Standard or modal start-side navigation; destinations; current link; navigation event; close on modal action                                                                                                                                                                | No grouped destination sections, automatic responsive switching or persistent layout resizing                                                                                                  |
+| Navigation rail        | `bolle-navigation-rail`        | 96px collapsed and 220px expanded widths, 56px items, 56x32 indicator; current destination                                                                                                                                                                                  | No modal expanded rail, expansion toggle, embedded FAB or sections                                                                                                                             |
+| Progress indicators    | `bolle-progress-indicator`     | Determinate linear track with 4dp stop indicator, indeterminate slide, circular SVG variants and an Expressive wavy track with determinate clip or indeterminate phase motion; bounded values                                                                               | No spring transitions or exact Expressive wave amplitude                                                                                                                                       |
+| Radio button           | `bolle-radio-button`           | Native radio; form/name-scoped exclusive selection; arrows/Home/End; required and disabled; form reset                                                                                                                                                                      | A consumer fieldset/legend supplies the group label; native glyph rather than exact M3 artwork                                                                                                 |
+| Search                 | `bolle-search`                 | Semantic search region; contained and divided appearances; docked results and full-screen layout shells; query events; Enter search event; results slot; suggestion combobox with filtered options, arrow keys, Enter acceptance, Escape and optional debounce on `suggest`; the field fills the bar, the label and supporting text stay in the accessibility tree and the bar carries the focus indicator | No expanded full-screen takeover or loading state; suggestion data and fetching belong to the caller                                                                                           |
+| Segmented buttons      | `bolle-segmented-buttons`      | Native fieldset/radio or checkbox group; two to five segments; label-only or icon+label contents; connected segment geometry with a 40px container inside a 48px target and a retained 1px outline; checkmark on selected segments; single/multiple values; required, disabled; form reset/restore                                                     | Inner selected corners follow a project rule, not a full token matrix; density steps are not implemented                                                                                       |
+| Select                 | `bolle-select`                 | Single choice over native `<option>` and `<optgroup>` children; Material vertical menu with group labels, checkmark and 12dp selected shape; filled/outlined field with label, placeholder, supporting text and error; menu width follows the field up to 280px; Enter/Space/Arrow keys open, Escape closes; required validation, disabled state and form submission | No multiple selection or type-ahead in the closed field; the popup uses menu semantics (`menuitemradio`) instead of a listbox; option changes need a DOM mutation to refresh |
+| Side sheets            | `bolle-side-sheet`             | Modal dialog or fixed standard aside at the end edge; detached frame with 16px margin and rounded corners                                                                                                                                                                   | Caller owns persistent page layout; no swipe/drag or automatic content resizing                                                                                                                |
+| Sliders                | `bolle-slider`                 | Single custom track with native inputs overlaid: continuous, centered and range with two handles; stop markers at 4px with the M3 roles; five track sizes; value bolle on hover/focus with 48px minimum width; inset start/end icons flanking the track; rotated custom vertical track; capped width token                                 | Firefox track parity unverified; inset icons align at the track ends instead of the thicker M3 inset track; the pressed handle does not grow to the 28dp pressed state |
+| Snackbar               | `bolle-snackbar`               | Persistent polite live region; top-layer surface; message/action/dismiss; timer pause on hover/focus; queued messages shown one after another; entry motion with reduced-motion opt-out                                                                                     | No exit or container-transform motion; application must choose an adequate timeout, or `duration=0`                                                                                            |
+| Split button           | `bolle-split-button`           | Primary action plus menu action joined at a 2px seam, outer full corners and inner 4px corners mirrored in RTL; optional leading icon; four colour styles; five sizes matching the button scale; disabled                                                                  | No spring shape motion or named form submit on the primary action                                                                                                                              |
+| Switch                 | `bolle-switch`                 | Switch role over a native checkbox; state-dependent 16/24dp handle with transition, optional off/on handle icons, error border, disabled state, supporting text; form association and reset                                                                                 | No pressed-state 28dp handle or state-layer ripple                                                                                                                                             |
+| Tabs                   | `bolle-tabs`                   | Tablist and named slotted panels; primary and secondary styles; icon and badge per tab; automatic/manual activation; arrows/Home/End; disabled tabs; scrollable strip with previous/next controls and edge states                                                           | No movable Expressive indicator or scroll-to-active animation; scroll buttons are project controls around the tablist                                                                          |
+| Text fields            | `bolle-text-field`             | Filled/outlined; input/textarea; labels, helper text, required marker and counter; leading/trailing icon slots; prefix and suffix; native validation; readonly and bounds                                                                                                   | No select mode, minlength, password visibility control or floating-label animation                                                                                                             |
+| Time pickers           | `bolle-time-picker`            | Formatted readonly field; modal dial and input modes; 12/24-hour; AM/PM; keyboard dial navigation; pointer-angle drag across outer and inner 24-hour rings; min/max/step validation                                                                                         | No continuous minute dial or exact M3 dial geometry                                                                                                                                            |
+| Toolbars               | `bolle-toolbar`                | Docked/floating; standard/vibrant; horizontal/vertical; native control arrow/Home/End focus                                                                                                                                                                                 | No adaptive overflow menu, expansion, docking transition or FAB morph                                                                                                                          |
+| Tooltips               | `bolle-tooltip`                | Top-layer plain or rich content; hover, focus and Escape; plain tooltip offset 4 and rich offset 8; rich tooltip stays open until dismissed by outside press, Escape or its dismiss control; rich content/action slots; accessible trigger description                      | Uses `aria-description` on the real trigger, not cross-shadow `aria-describedby`; native/Bolle button, link or input trigger required; touch behaviour depends on the platform                |
 
 ### Public values and events
 
@@ -479,33 +551,33 @@ the `labels` override object. Date formatting uses `Intl.DateTimeFormat`.
 
 ```ts
 import {
-  BubbleCheckbox,
-  type BubbleItem,
-  type BubbleValueChangeDetail,
-} from "@bubble/web-components";
-import "@bubble/web-components/tokens.css";
-import "@bubble/web-components/typography.css";
+  BolleCheckbox,
+  type BolleItem,
+  type BolleValueChangeDetail,
+} from "@bolle/web-components";
+import "@bolle/web-components/tokens.css";
+import "@bolle/web-components/typography.css";
 
-const destinations: BubbleItem[] = [
+const destinations: BolleItem[] = [
   { id: "inbox", label: "Inbox", icon: "✉", href: "/inbox" },
   { id: "archive", label: "Archive", href: "/archive" },
 ];
-document.querySelector("bubble-navigation-bar")!.items = destinations;
+document.querySelector("bolle-navigation-bar")!.items = destinations;
 
-const field = document.querySelector("bubble-text-field")!;
+const field = document.querySelector("bolle-text-field")!;
 field.addEventListener("change", (event) => {
-  const { value } = (event as CustomEvent<BubbleValueChangeDetail>).detail;
+  const { value } = (event as CustomEvent<BolleValueChangeDetail>).detail;
   console.log(value);
 });
 
-const checkbox = new BubbleCheckbox();
+const checkbox = new BolleCheckbox();
 checkbox.name = "consent";
 checkbox.value = "yes";
 checkbox.label = "Consent";
 document.querySelector("form")!.append(checkbox);
 ```
 
-- `BubbleItem`: unique `id`, visible `label`, optional text `icon`,
+- `BolleItem`: unique `id`, visible `label`, optional text `icon`,
   `supportingText`, `href`, `disabled`. Item strings render as text, never HTML.
 - Button `variant`: `filled`, `tonal`/`filled-tonal`, `outlined`, `elevated`,
   `text`; icon buttons also accept `standard`. `toggle` enables `selected`.
@@ -530,7 +602,7 @@ document.querySelector("form")!.append(checkbox);
 - Snackbar: `show(message?)`, `close(reason?)`, `duration` in milliseconds;
   zero disables the timer. Positive durations have a 4000 ms minimum.
 - Carousel: `goTo(index)`, `index`, `previous-label`, `next-label`.
-- Tabs: `value` selects the `BubbleItem.id`; a panel uses `slot="<id>"`.
+- Tabs: `value` selects the `BolleItem.id`; a panel uses `slot="<id>"`.
   `activation="manual"` moves focus without selection until Enter or Space.
 
 ### Forms and focus
