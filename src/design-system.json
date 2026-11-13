@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "specification": "Material Design 3",
+  "sourceDate": "2026-11-10",
+  "tokenSnapshot": "34.0.21",
+  "framework": "Lit 3.3.3",
+  "realization": "Project-owned native browser components",
+  "colorUtilitiesVersion": null,
+  "contexts": ["standard-contrast-light", "standard-contrast-dark"],
+  "fullConformanceVerified": false,
+  "componentEntries": 38,
+  "geometryPolicy": "48 CSS pixel minimum action targets; project adaptations and unsupported variants documented in README",
+  "changes": [
+    {
+      "date": "2026-11-13",
+      "classification": "additive",
+      "description": "List rows render the trailing count badge declared by the item `badge`, on the top-level rows and on the nested ones, with the badge tokens already used by tabs and the drawer."
+    },
+    {
+      "date": "2026-11-12",
+      "classification": "corrective",
+      "description": "Search bar geometry: the field wrapper grows with the bar, the input fills it, the label and supporting text stay only in the accessibility tree and the focus indicator is drawn on the bar instead of a smaller box inside it."
+    },
+    {
+      "date": "2026-11-12",
+      "classification": "corrective",
+      "description": "Connected button group inner corners follow the M3 per-size values (XS 4dp, S/M 8dp, L 16dp, XL 20dp) with the hovered growth specified for each size, instead of reusing the shape scale."
+    },
+    {
+      "date": "2026-11-12",
+      "classification": "additive",
+      "description": "Select and autocomplete components over native options; per-component spacing tokens with Material names for navigation rail, list, carousel and search bar; field height and vertical padding tokens."
+    },
+    {
+      "date": "2026-11-10",
+      "classification": "additive",
+      "description": "35 component entries, public types, shared action/form/surface tokens and catalogue examples; existing menu and generated typography retained."
+    }
+  ]
+}

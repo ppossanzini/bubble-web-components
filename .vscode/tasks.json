@@ -1,0 +1,42 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Demo menu Material",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev",
+				"--",
+				"--port",
+				"5173"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Typecheck library",
+			"type": "shell",
+			"command": "npm run typecheck",
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Build library",
+			"type": "shell",
+			"command": "npm run build",
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Build site",
+			"type": "shell",
+			"command": "npm run build:site",
+			"problemMatcher": [],
+			"group": "build"
+		}
+	]
+}

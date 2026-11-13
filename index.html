@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Material 3 Web Components · Bubble</title>
+    <link rel="stylesheet" href="/src/tokens.css" />
+    <link rel="stylesheet" href="/typography.css" />
+    <link rel="stylesheet" href="/demo/demo.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="page-header">
+        <p class="eyebrow">BUBBLE / MATERIAL 3 WEB COMPONENTS / 0.2.0</p>
+        <h1>Componenti Material 3</h1>
+        <p class="lead">
+          Libreria Lit senza dipendenze di componenti. Ogni controllo usa
+          l'elemento nativo, il pattern ARIA e i token Material. Le varianti non
+          verificate sono dichiarate accanto a ciascun componente.
+        </p>
+        <div class="controls">
+          <bubble-button id="theme" variant="tonal">Tema scuro</bubble-button>
+          <bubble-button id="direction" variant="outlined"
+            >Direzione RTL</bubble-button
+          >
+        </div>
+      </header>
+
+      <nav class="toc" aria-label="Indice della pagina">
+        <a href="#fondamenta">Fondamenta</a>
+        <a href="#azioni">Azioni</a>
+        <a href="#comunicazione">Comunicazione</a>
+        <a href="#contenimento">Contenimento</a>
+        <a href="#navigazione">Navigazione</a>
+        <a href="#selezione">Selezione</a>
+        <a href="#testo">Testo e input</a>
+        <a href="#menu">Menu</a>
+        <a href="#verifica">Verifica</a>
+      </nav>
+
+      <main>
+        <section class="foundations" id="fondamenta">
+          <div class="group-header">
+            <h2>Fondamenta</h2>
+            <p>
+              Scala tipografica Material 3 completa: 15 stili base e 15
+              emphasized, con Roboto distribuito localmente. I ruoli si
+              applicano con classi o con le custom properties.
+            </p>
+          </div>
+          <div id="foundations-extra"></div>
+          <article class="foundation-block">
+            <h3>Tipografia</h3>
+            <p class="note">
+              15 stili base e 15 emphasized, con i token di font, corpo,
+              interlinea e spaziatura. Le classi si applicano ai ruoli semantici
+              senza dimensioni locali.
+            </p>
+            <div id="typography"></div>
+          </article>
+        </section>
+
+        <div id="components"></div>
+
+        <section class="verification" id="verifica">
+          <div class="group-header">
+            <h2>Verifica</h2>
+            <p>
+              La pagina elenca le varianti esposte dai componenti e segnala le
+              configurazioni Material non implementate. Non è una certificazione
+              di conformità.
+            </p>
+          </div>
+          <ul class="status-list">
+            <li>
+              Build e typecheck superati; nessun errore JavaScript a runtime.
+            </li>
+            <li>
+              Verifiche Chromium automatiche su varianti, tastiera, focus e
+              assenza di overflow.
+            </li>
+            <li>
+              Non implementati: forma ondulata dei progress indicator, icone
+              nello switch, selettore data docked e input numerico, tab
+              scrollable con misure dedicate.
+            </li>
+            <li>
+              Fondamenta coperte da token e pagina: colore, forma, elevazione,
+              stati, movimento, layout e icone. Restano aperti i livelli di
+              contrasto medium e high, il font Material Symbols e la conversione
+              delle molle in curve CSS.
+            </li>
+            <li>
+              Verifiche manuali ancora da assegnare: screen reader, Firefox,
+              WebKit, dispositivi reali, integrazioni Angular, Vue e React.
+            </li>
+          </ul>
+        </section>
+      </main>
+
+      <footer class="page-footer">
+        <p>
+          Material Design 3 è una specifica di Google. Questa libreria
+          reimplementa la specifica con elementi del browser e Lit.
+        </p>
+      </footer>
+    </div>
+    <script type="module" src="/demo/demo.ts"></script>
+  </body>
+</html>
