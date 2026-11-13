@@ -1,7 +1,7 @@
 import { css } from "lit";
 export const surfaceStyles = css`
   :host {
-    --bb-glint-color: color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
+    --bb-glint-color: rgb(from color-mix(in srgb, var(--md-sys-color-primary) 12%, white) r g b / 0.35);
   }
   :host {
     display: block;

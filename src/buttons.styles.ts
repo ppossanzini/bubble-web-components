@@ -74,7 +74,7 @@ export const buttonStyles = css`
   :host([variant="outlined"]),
   :host([variant="elevated"]) {
     /* No coloured fill to reflect on: the glint takes the label colour. */
-    --bb-glint-color: color-mix(in srgb, currentColor 35%, transparent);
+    --bb-glint-color: rgb(from color-mix(in srgb, var(--md-sys-color-primary) 12%, white) r g b / 0.35);
   }
   :host([variant="tonal"]) .button,
   :host([variant="filled-tonal"]) .button {
@@ -209,6 +209,10 @@ export const buttonStyles = css`
     background-image:
       linear-gradient(var(--bolle-state-hover), var(--bolle-state-hover)),
       var(--bb-hover-glint), var(--bb-highlight), var(--bb-film-wash);
+    background-size:
+      100% 100%, var(--bb-glint-box) var(--bb-glint-box), 100% 100%, 100% 100%;
+    background-position: 0 0, var(--bb-glint-position), 0 0, 0 0;
+    background-repeat: no-repeat;
     box-shadow: var(--bb-float-4, var(--md-sys-elevation-level4));
   }
   :host([fab]) .button:active {

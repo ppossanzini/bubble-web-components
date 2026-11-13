@@ -194,6 +194,9 @@ export const commonStyles = css`
     background-image:
       linear-gradient(var(--bolle-state-hover), var(--bolle-state-hover)),
       var(--bb-hover-glint);
+    background-size: 100% 100%, var(--bb-glint-box) var(--bb-glint-box);
+    background-position: 0 0, var(--bb-glint-position);
+    background-repeat: no-repeat;
   }
   button:not(:disabled):active,
   a:active,
@@ -201,16 +204,21 @@ export const commonStyles = css`
     background-image:
       linear-gradient(var(--bolle-state-pressed), var(--bolle-state-pressed)),
       var(--bb-hover-glint);
+    background-size: 100% 100%, var(--bb-glint-box) var(--bb-glint-box);
+    background-position: 0 0, var(--bb-glint-position);
+    background-repeat: no-repeat;
   }
   :host {
     --bolle-state-hover: color-mix(in srgb, currentColor 8%, transparent);
     --bolle-state-pressed: color-mix(in srgb, currentColor 10%, transparent);
-    /* Fixed-size glint, so it stays a droplet on wide controls; declared on the host to read its --bb-glint-color. */
+    /* Hard-edged quarter arc in a corner box, curving with the rounded corner; declared on the host to read its --bb-glint-color. */
+    --bb-glint-box: 14px;
+    --bb-glint-position: right 0 top 0;
     --bb-hover-glint: radial-gradient(
-      ellipse var(--bb-glint-width, 9px) var(--bb-glint-height, 5px) at
-        calc(100% - var(--bb-glint-inset, 18px)) var(--bb-glint-top, 10px),
-      var(--bb-glint-color, rgb(255 255 255 / 0.8)) 0 60%,
-      transparent 100%
+      circle at 0 100%,
+      transparent 0 7px,
+      var(--bb-glint-color, rgb(255 255 255 / 0.1)) 7.5px 10.5px,
+      transparent 11px
     );
   }
   .support {
