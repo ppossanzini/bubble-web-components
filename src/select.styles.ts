@@ -72,7 +72,8 @@ export const selectStyles = css`
     block-size: var(--md-comp-icon-size);
     color: var(--md-sys-color-on-surface-variant);
     transition: rotate var(--md-sys-motion-duration-short2)
-      var(--md-sys-motion-easing-standard);
+      var(--md-sys-motion-easing-standard),
+      var(--bb-shape-motion);
   }
   .chevron svg {
     inline-size: 100%;

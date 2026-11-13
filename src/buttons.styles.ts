@@ -35,13 +35,15 @@ export const buttonStyles = css`
     letter-spacing: var(--md-sys-typescale-label-large-tracking);
     transition:
       border-radius var(--md-sys-motion-duration-short2),
-      scale var(--bb-tension-duration) var(--bb-tension);
+      scale var(--bb-tension-duration) var(--bb-tension),
+      var(--bb-shape-motion);
   }
   .button:active {
     scale: var(--bb-squish);
     transition:
       border-radius var(--md-sys-motion-duration-short2),
-      scale var(--bb-squish-duration) ease-out;
+      scale var(--bb-squish-duration) ease-out,
+      var(--bb-shape-motion);
   }
   :host([shape="square"]) .button {
     border-radius: var(--md-sys-shape-corner-medium);

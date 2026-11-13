@@ -32,12 +32,16 @@ export const bolleStyles = css`
     --bb-shape: var(--bb-r) var(--bb-r) var(--bb-r) var(--bb-tail);
     transform-origin: bottom left;
   }
+  :where(*) {
+    transition: var(--bb-shape-motion);
+  }
   [popover][data-tail] {
     transition:
       opacity var(--bb-pop-duration) ease-in,
       scale var(--bb-pop-duration) ease-in,
       overlay var(--bb-pop-duration) allow-discrete,
-      display var(--bb-pop-duration) allow-discrete;
+      display var(--bb-pop-duration) allow-discrete,
+      var(--bb-shape-motion);
   }
   [popover][data-tail]:popover-open {
     animation: bb-inflate var(--bb-inflate-duration) ease-out;
@@ -93,7 +97,8 @@ export const commonStyles = css`
       linear-gradient(#000 0 0);
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--md-sys-motion-duration-short3);
+    transition: opacity var(--md-sys-motion-duration-short3),
+      var(--bb-shape-motion);
   }
   .button:focus-visible::before,
   .chip:has(:focus-visible)::before {
@@ -132,7 +137,8 @@ export const commonStyles = css`
     line-height: 1;
     direction: ltr;
     text-transform: none;
-    transition: font-variation-settings var(--md-sys-motion-duration-short4);
+    transition: font-variation-settings var(--md-sys-motion-duration-short4),
+      var(--bb-shape-motion);
     display: inline-flex;
     align-items: center;
     justify-content: center;

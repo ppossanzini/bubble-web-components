@@ -1275,44 +1275,65 @@ export const entries: Entry[] = [
     tag: "bolle-slider",
     title: "Slider",
     group: "Sliders",
-    summary: "Continuo, centrato o intervallo, con dimensioni, indicatori e orientamento.",
+    summary: "Bolla-valore, livello liquido, membrana o intervallo a gocce che si fondono.",
     controls: [
-      en("variant", "Variante", ["continuous", "centered", "range"], "continuous"),
-      en("size", "Dimensione", ["xs", "small", "medium", "large", "xl"], "xs"),
-      en("orientation", "Orientamento", ["horizontal", "vertical"], "horizontal"),
+      en("variant", "Variante", ["bubble", "liquid", "membrane", "range"], "bubble"),
       rg("min", "Minimo", 0, 100, 0),
       rg("max", "Massimo", 0, 100, 100),
       rg("step", "Passo", 1, 10, 1),
       rg("value", "Valore", 0, 100, 40),
-      fl("showValue", "Mostra valore", true),
-      fl("stops", "Indicatori", false),
+      rg("upperValue", "Valore massimo (range)", 0, 100, 70),
+      tx("suffix", "Suffisso", ""),
       fl("disabled", "Disabilitato", false),
       tx("label", "Etichetta", "Volume"),
     ],
     render: (state) => html`<bolle-slider
       .variant=${s(state, "variant")}
-      .size=${s(state, "size")}
-      .orientation=${s(state, "orientation")}
       .min=${n(state, "min")}
       .max=${n(state, "max")}
       .step=${n(state, "step")}
       .value=${String(n(state, "value"))}
-      ?showValue=${b(state, "showValue")}
-      ?stops=${b(state, "stops")}
+      .upperValue=${n(state, "upperValue")}
+      .suffix=${s(state, "suffix")}
+      .icon=${s(state, "variant") === "liquid" ? ti("volume") : undefined}
       ?disabled=${b(state, "disabled")}
       .label=${s(state, "label")}
     ></bolle-slider>`,
     code: (state) => ({
       attrs: [
         a("variant", s(state, "variant")),
-        a("size", s(state, "size")),
-        a("orientation", s(state, "orientation")),
         a("min", n(state, "min")),
         a("max", n(state, "max")),
         a("step", n(state, "step")),
         a("value", String(n(state, "value"))),
-        a("showValue", b(state, "showValue")),
-        a("stops", b(state, "stops")),
+        a("upper-value", s(state, "variant") === "range" ? n(state, "upperValue") : undefined),
+        a("suffix", s(state, "suffix")),
+        a("disabled", b(state, "disabled")),
+        a("label", s(state, "label")),
+      ],
+    }),
+  },
+  {
+    tag: "bolle-steps",
+    title: "Steps",
+    group: "Sliders",
+    summary: "Da tre a sette livelli con nome, disegnati come bolle che crescono.",
+    controls: [
+      tx("options", "Opzioni", "Leggera,Morbida,Media,Forte,Intensa"),
+      rg("value", "Indice", 0, 6, 2),
+      fl("disabled", "Disabilitato", false),
+      tx("label", "Etichetta", "Intensità"),
+    ],
+    render: (state) => html`<bolle-steps
+      options=${s(state, "options")}
+      .value=${String(n(state, "value"))}
+      ?disabled=${b(state, "disabled")}
+      .label=${s(state, "label")}
+    ></bolle-steps>`,
+    code: (state) => ({
+      attrs: [
+        a("options", s(state, "options")),
+        a("value", String(n(state, "value"))),
         a("disabled", b(state, "disabled")),
         a("label", s(state, "label")),
       ],

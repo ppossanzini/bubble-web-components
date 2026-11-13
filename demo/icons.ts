@@ -27,6 +27,7 @@ import sun from "@tabler/icons/outline/sun.svg?raw";
 import sunHigh from "@tabler/icons/outline/sun-high.svg?raw";
 import trash from "@tabler/icons/outline/trash.svg?raw";
 import underline from "@tabler/icons/outline/underline.svg?raw";
+import volume from "@tabler/icons/outline/volume.svg?raw";
 import wifi from "@tabler/icons/outline/wifi.svg?raw";
 import wifiOff from "@tabler/icons/outline/wifi-off.svg?raw";
 
@@ -58,6 +59,7 @@ const icons: Record<string, string> = {
   "sun-high": sunHigh,
   trash,
   underline,
+  volume,
   wifi,
   "wifi-off": wifiOff,
 };

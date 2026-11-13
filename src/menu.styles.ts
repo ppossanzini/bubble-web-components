@@ -92,7 +92,8 @@ export const menuStyles = css`
     cursor: pointer;
     isolation: isolate;
     transition: border-radius var(--md-sys-motion-duration-short2)
-      var(--md-sys-motion-easing-standard);
+      var(--md-sys-motion-easing-standard),
+      var(--bb-shape-motion);
   }
   button::after,
   a::after {

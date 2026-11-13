@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { checkMaskStyles } from "./icons.js";
 export const formStyles = css`
   :host {
     --bb-glint-color: rgb(from color-mix(in srgb, var(--md-sys-color-primary) 12%, white) r g b / 0.35);
@@ -33,7 +34,8 @@ export const formStyles = css`
       background-color var(--md-sys-motion-duration-short2)
         var(--md-sys-motion-easing-standard),
       border-color var(--md-sys-motion-duration-short2)
-        var(--md-sys-motion-easing-standard);
+        var(--md-sys-motion-easing-standard),
+      var(--bb-shape-motion);
   }
   input[type="radio"] {
     border-radius: var(--md-sys-shape-corner-full);
@@ -46,7 +48,8 @@ export const formStyles = css`
     border-block-end: 2px solid var(--md-sys-color-on-primary);
     transform: translateY(-1px) rotate(-45deg) scale(0);
     transition: transform var(--md-sys-motion-duration-short2)
-      var(--md-sys-motion-easing-emphasized-decelerate);
+      var(--md-sys-motion-easing-emphasized-decelerate),
+      var(--bb-shape-motion);
   }
   input[type="checkbox"]:checked,
   input[type="checkbox"]:indeterminate {
@@ -71,7 +74,8 @@ export const formStyles = css`
     background: var(--md-sys-color-on-primary);
     transform: scale(0);
     transition: transform var(--md-sys-motion-duration-short2)
-      var(--md-sys-motion-easing-emphasized-decelerate);
+      var(--md-sys-motion-easing-emphasized-decelerate),
+      var(--bb-shape-motion);
   }
   input[type="radio"]:checked {
     border: 5px solid var(--md-sys-color-primary);
@@ -114,7 +118,8 @@ export const formStyles = css`
       background-color var(--md-sys-motion-duration-short2)
         var(--md-sys-motion-easing-emphasized),
       border-color var(--md-sys-motion-duration-short2)
-        var(--md-sys-motion-easing-emphasized);
+        var(--md-sys-motion-easing-emphasized),
+      var(--bb-shape-motion);
   }
   :host([switch]) .switch-handle {
     position: absolute;
@@ -135,7 +140,8 @@ export const formStyles = css`
       block-size var(--md-sys-motion-duration-short2)
         var(--md-sys-motion-easing-emphasized),
       background-color var(--md-sys-motion-duration-short2)
-        var(--md-sys-motion-easing-emphasized);
+        var(--md-sys-motion-easing-emphasized),
+      var(--bb-shape-motion);
   }
   :host([switch]) .switch-icon {
     display: grid;
@@ -475,7 +481,7 @@ export const formStyles = css`
     display: none;
   }
   fieldset label:has(input:checked)::before {
-    content: "✓";
+    ${checkMaskStyles}
   }
   fieldset {
     position: relative;
@@ -497,7 +503,8 @@ export const formStyles = css`
   }
   fieldset label {
     z-index: 1;
-    transition: color var(--md-sys-motion-duration-short4);
+    transition: color var(--md-sys-motion-duration-short4),
+      var(--bb-shape-motion);
   }
   .drop {
     position: absolute;
@@ -512,7 +519,8 @@ export const formStyles = css`
     background: var(--md-sys-color-secondary-container);
     transition:
       translate var(--bb-tension-duration) var(--bb-tension),
-      inline-size var(--bb-tension-duration) var(--bb-tension);
+      inline-size var(--bb-tension-duration) var(--bb-tension),
+      var(--bb-shape-motion);
   }
   fieldset[data-drop] .drop {
     display: block;
@@ -524,215 +532,6 @@ export const formStyles = css`
     .drop {
       transition: none;
     }
-  }
-  .range {
-    display: grid;
-    gap: var(--md-comp-field-gap);
-    inline-size: 100%;
-    max-inline-size: var(--md-comp-slider-max-width);
-    --bolle-track: var(--md-comp-slider-xs-track);
-    --bolle-handle: var(--md-comp-slider-xs-handle);
-  }
-  :host([size="small"]) {
-    --bolle-track: var(--md-comp-slider-small-track);
-  }
-  :host([size="medium"]) {
-    --bolle-track: var(--md-comp-slider-medium-track);
-  }
-  :host([size="large"]) {
-    --bolle-track: var(--md-comp-slider-large-track);
-    --bolle-handle: var(--md-comp-slider-large-handle);
-  }
-  :host([size="xl"]) {
-    --bolle-track: var(--md-comp-slider-xl-track);
-    --bolle-handle: var(--md-comp-slider-xl-handle);
-  }
-  .range-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--md-comp-action-gap);
-    font: var(--md-sys-typescale-body-medium-font);
-    letter-spacing: var(--md-sys-typescale-body-medium-tracking);
-  }
-  .range-head label {
-    font: var(--md-sys-typescale-body-medium-font);
-  }
-  .range-value {
-    font: var(--md-sys-typescale-label-medium-font);
-    letter-spacing: var(--md-sys-typescale-label-medium-tracking);
-    color: var(--md-sys-color-on-surface-variant);
-    font-variant-numeric: tabular-nums;
-  }
-  .range-area {
-    position: relative;
-    display: flex;
-    align-items: center;
-    block-size: var(--bolle-handle);
-    min-inline-size: var(--md-comp-slider-min-width);
-  }
-  .range-area[data-inset] {
-    --bolle-inset: calc(24px + var(--md-comp-field-gap));
-  }
-  .range-area[data-inset] .range-track,
-  .range-area[data-inset] .stop-marks {
-    inset-inline: var(--bolle-inset);
-  }
-  .range-area[data-inset] .slider {
-    inset-inline: var(--bolle-inset);
-    inline-size: calc(100% - 2 * var(--bolle-inset));
-  }
-  .range-inset {
-    position: absolute;
-    z-index: 1;
-    display: grid;
-    place-items: center;
-    inline-size: 24px;
-    block-size: 24px;
-    color: var(--md-sys-color-on-secondary-container);
-  }
-  .range-inset--start {
-    inset-inline-start: 0;
-  }
-  .range-inset--end {
-    inset-inline-end: 0;
-  }
-  .range-inset .icon,
-  .range-inset svg {
-    inline-size: 24px;
-    block-size: 24px;
-  }
-  .range-bolle {
-    position: absolute;
-    z-index: 4;
-    inset-block-end: calc(100% + 12px);
-    inset-inline-start: var(--pos);
-    translate: -50% 0;
-    min-inline-size: 48px;
-    padding: 6px 8px;
-    border-radius: var(--md-sys-shape-corner-extra-small);
-    background: var(--md-sys-color-inverse-surface);
-    color: var(--md-sys-color-inverse-on-surface);
-    font: var(--md-sys-typescale-label-large-font);
-    letter-spacing: var(--md-sys-typescale-body-large-tracking);
-    text-align: center;
-    font-variant-numeric: tabular-nums;
-    pointer-events: none;
-    white-space: nowrap;
-    opacity: 0;
-    transition: opacity var(--md-sys-motion-duration-short4)
-      var(--md-sys-motion-easing-standard);
-  }
-  .range:hover .range-bolle,
-  .range:focus-within .range-bolle,
-  .range:active .range-bolle {
-    opacity: 1;
-  }
-  :host([orientation="vertical"]) .range-bolle {
-    display: none;
-  }
-  .range-track {
-    position: absolute;
-    z-index: 0;
-    inset-inline: 0;
-    block-size: var(--bolle-track);
-    border-radius: var(--md-sys-shape-corner-full);
-    background: var(--md-sys-color-secondary-container);
-    overflow: hidden;
-  }
-  .range-fill {
-    position: absolute;
-    z-index: 2;
-    inset-block: 0;
-    inset-inline-start: var(--bolle-slider-start, 0%);
-    inline-size: calc(
-      var(--bolle-slider-end, 0%) - var(--bolle-slider-start, 0%)
-    );
-    background: var(--md-sys-color-primary);
-    border-start-end-radius: 2px;
-    border-end-end-radius: 2px;
-  }
-  .slider {
-    position: absolute;
-    z-index: 3;
-    inset-inline: 0;
-    inline-size: 100%;
-    block-size: var(--bolle-handle);
-    margin: 0;
-    padding: 0;
-    appearance: none;
-    background: transparent;
-    pointer-events: none;
-  }
-  .slider::-webkit-slider-runnable-track {
-    background: transparent;
-    block-size: var(--bolle-track);
-  }
-  .slider::-webkit-slider-thumb {
-    appearance: none;
-    inline-size: var(--md-comp-slider-handle-width);
-    block-size: var(--bolle-handle);
-    border: 0;
-    border-radius: var(--md-sys-shape-corner-full);
-    background: var(--md-sys-color-primary);
-    box-shadow: var(--md-sys-elevation-level1);
-    pointer-events: auto;
-    cursor: grab;
-  }
-  .slider::-moz-range-track {
-    background: transparent;
-    block-size: var(--bolle-track);
-  }
-  .slider::-moz-range-thumb {
-    inline-size: var(--md-comp-slider-handle-width);
-    block-size: var(--bolle-handle);
-    border: 0;
-    border-radius: var(--md-sys-shape-corner-full);
-    background: var(--md-sys-color-primary);
-    pointer-events: auto;
-  }
-  .slider:focus-visible::-webkit-slider-thumb {
-    outline: 3px solid var(--md-sys-color-secondary);
-    outline-offset: 2px;
-  }
-  .slider-upper {
-    z-index: 1;
-  }
-  .stop-marks {
-    position: absolute;
-    z-index: 1;
-    inset-inline: 4px;
-    inset-block-start: 50%;
-    translate: 0 -50%;
-    display: flex;
-    justify-content: space-between;
-    pointer-events: none;
-  }
-  .stop-marks span {
-    inline-size: 4px;
-    block-size: 4px;
-    border-radius: 50%;
-    background: var(--md-sys-color-on-secondary-container);
-  }
-  .stop-marks span:last-child {
-    background: var(--md-sys-color-on-primary);
-  }
-  :host([orientation="vertical"]) .range {
-    inline-size: fit-content;
-    justify-items: center;
-  }
-  :host([orientation="vertical"]) .range {
-    inline-size: fit-content;
-    max-inline-size: none;
-  }
-  :host([orientation="vertical"]) .range-area {
-    inline-size: var(--md-comp-slider-vertical-length);
-    block-size: var(--bolle-handle);
-    min-inline-size: 0;
-    margin-block: calc(
-      (var(--md-comp-slider-vertical-length) - var(--bolle-handle)) / 2
-    );
-    transform: rotate(-90deg);
   }
   fieldset label {
     color: var(--md-sys-color-on-surface);

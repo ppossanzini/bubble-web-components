@@ -12,9 +12,9 @@ import {
   BolleTextField,
   BolleAutocomplete,
   BolleSearch,
-  BolleSlider,
   BolleSegmentedButtons,
 } from "./forms.js";
+import { BolleSlider, BolleSteps } from "./slider.js";
 import { BolleSelect } from "./select.js";
 import { BolleDatePicker, BolleTimePicker } from "./pickers.js";
 import {
@@ -63,6 +63,7 @@ export {
   BolleDatePicker,
   BolleTimePicker,
   BolleSlider,
+  BolleSteps,
   BolleSegmentedButtons,
   BolleDialog,
   BolleBottomSheet,
@@ -122,6 +123,7 @@ export const catalogue = {
   "bolle-slider": BolleSlider,
   "bolle-snackbar": BolleSnackbar,
   "bolle-split-button": BolleSplitButton,
+  "bolle-steps": BolleSteps,
   "bolle-switch": BolleSwitch,
   "bolle-tabs": BolleTabs,
   "bolle-text-field": BolleTextField,
@@ -167,6 +169,7 @@ declare global {
     "bolle-slider": BolleSlider;
     "bolle-snackbar": BolleSnackbar;
     "bolle-split-button": BolleSplitButton;
+    "bolle-steps": BolleSteps;
     "bolle-switch": BolleSwitch;
     "bolle-tabs": BolleTabs;
     "bolle-text-field": BolleTextField;

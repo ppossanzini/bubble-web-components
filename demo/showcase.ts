@@ -1094,59 +1094,43 @@ render(
       component(
         "sliders",
         "Sliders",
-        "Continuo, centrato, intervallo, discreto, dimensioni, verticale e valore visibile.",
+        "Bolla-valore, livello liquido, bolle in fila, membrana e intervallo a gocce.",
         specimen(
-          "Continuous · centered · range",
-          html`<bolle-slider label="Volume" value="40"></bolle-slider>
+          "A · Bolla-valore · B · Livello liquido",
+          html`<bolle-slider label="Luminosità" value="40"></bolle-slider>
             <bolle-slider
-              label="Bilanciamento"
-              variant="centered"
-              value="60"
-              show-value
+              label="Volume"
+              variant="liquid"
+              value="65"
+              suffix="%"
+              .icon=${ti("volume")}
+            ></bolle-slider>`,
+        ),
+        specimen(
+          "C · Bolle in fila",
+          html`<bolle-steps
+            label="Intensità"
+            options="Leggera,Morbida,Media,Forte,Intensa"
+            value="2"
+          ></bolle-steps>`,
+        ),
+        specimen(
+          "D · Membrana · E · Gocce che si fondono",
+          html`<bolle-slider
+              label="Tensione"
+              variant="membrane"
+              value="55"
             ></bolle-slider>
             <bolle-slider
               label="Prezzo"
               variant="range"
               value="20"
-              upper-value="80"
-              upper-label="Massimo"
+              upper-value="70"
+              upper-label="Prezzo massimo"
+              suffix=" €"
             ></bolle-slider>`,
         ),
-        specimen(
-          "Icone inserite nel binario",
-          html`<bolle-slider
-            label="Luminosità"
-            value="40"
-            show-value
-            .iconStart=${ti("sun")}
-            .iconEnd=${ti("sun-high")}
-          ></bolle-slider>`,
-        ),
-        specimen(
-          "Discreto · dimensioni · verticale",
-          html`<bolle-slider
-              label="Passo 10 con indicatori"
-              step="10"
-              value="40"
-              show-value
-              stops
-            ></bolle-slider>
-            <bolle-slider
-              label="Small"
-              size="small"
-              value="30"
-            ></bolle-slider>
-            <bolle-slider
-              label="Large"
-              size="large"
-              value="70"
-            ></bolle-slider>
-            <bolle-slider
-              label="Verticale"
-              orientation="vertical"
-              value="50"
-            ></bolle-slider>`,
-        ),
+      ),
       ),
       component(
         "lists",

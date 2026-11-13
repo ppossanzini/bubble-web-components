@@ -42,7 +42,8 @@
   --md-sys-shape-corner-extra-large: 28px;
   --md-sys-shape-corner-extra-large-increased: 32px;
   --md-sys-shape-corner-extra-extra-large: 48px;
-  --md-sys-shape-corner-full: 9999px;
+  /* Just above half the tallest pill (xl button, 136px), so radius changes animate visibly. */
+  --md-sys-shape-corner-full: 72px;
   --md-sys-shape-corner-extra-small-top: 4px 4px 0 0;
   --md-sys-shape-corner-large-top: 16px 16px 0 0;
   --md-sys-shape-corner-large-start: 16px 0 0 16px;
@@ -367,6 +368,20 @@
   --bb-tension-duration: 520ms;
   --bb-inflate-duration: 360ms;
   --bb-pop-duration: 180ms;
+  /* Shape springs; layout properties decelerate so content does not jitter. */
+  --bb-shape-motion:
+    border-radius var(--bb-tension-duration) var(--bb-tension),
+    translate var(--bb-tension-duration) var(--bb-tension),
+    rotate var(--bb-tension-duration) var(--bb-tension),
+    inset var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    width var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    height var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    inline-size var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    block-size var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    min-inline-size var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    min-block-size var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    padding var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate),
+    margin var(--md-sys-motion-duration-medium4) var(--md-sys-motion-easing-emphasized-decelerate);
   --bb-bob-distance: 2px;
   --bb-bob-duration: 6s;
 }

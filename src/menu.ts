@@ -1,5 +1,6 @@
 import { LitElement, html, nothing } from "lit";
 import { menuStyles } from "./menu.styles.js";
+import { checkIcon } from "./icons.js";
 import { bolleStyles } from "./shared.styles.js";
 import { placeTail } from "./shared.js";
 import {
@@ -374,7 +375,7 @@ export class BolleMenu extends LitElement {
         ? html`<span
             class=${selected ? "indicator" : "indicator icon"}
             aria-hidden="true"
-            >${selected ? "✓" : (item.icon ?? "")}</span
+            >${selected ? checkIcon() : (item.icon ?? "")}</span
           >`
         : nothing}
       <span class="content"

@@ -1,4 +1,5 @@
 import { css } from "lit";
+import { checkMaskStyles } from "./icons.js";
 export const surfaceStyles = css`
   :host {
     --bb-glint-color: rgb(from color-mix(in srgb, var(--md-sys-color-primary) 12%, white) r g b / 0.35);
@@ -300,7 +301,8 @@ export const surfaceStyles = css`
     cursor: pointer;
     border-radius: var(--bb-list-item-shape, var(--md-sys-shape-corner-full));
     transition: background-color var(--md-sys-motion-duration-short2)
-      var(--md-sys-motion-easing-standard);
+      var(--md-sys-motion-easing-standard),
+      var(--bb-shape-motion);
   }
   button.list-item:focus-visible,
   a.list-item:focus-visible,
@@ -391,9 +393,8 @@ export const surfaceStyles = css`
     pointer-events: none;
   }
   .chip label:has(input:checked)::before {
-    content: "✓";
+    ${checkMaskStyles}
     font-size: var(--md-comp-icon-size);
-    line-height: 1;
   }
   .chip .remove {
     min-block-size: var(--md-comp-action-target);

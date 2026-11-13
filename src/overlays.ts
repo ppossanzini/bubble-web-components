@@ -1,6 +1,7 @@
 import { html, nothing, type PropertyValues } from "lit";
 import { BolleElement, moveFocus, placeTail, type BolleItem } from "./shared.js";
 import { commonStyles } from "./shared.styles.js";
+import { chevronDownIcon, closeIcon } from "./icons.js";
 import { overlayStyles } from "./overlays.styles.js";
 import type { BolleMenu } from "./menu.js";
 import type { MenuEntry } from "./menu.types.js";
@@ -151,8 +152,8 @@ export class BolleSideSheet extends BolleDialog {
               size="small"
               label=${this.closeLabel}
               @click=${() => this.close()}
-              ><span aria-hidden="true" style="font-size:24px;line-height:1"
-                >✕</span
+              ><span aria-hidden="true" style="font-size:24px;line-height:1;display:inline-flex"
+                >${closeIcon()}</span
               ></bolle-icon-button
             >`
           : nothing}
@@ -451,7 +452,7 @@ export class BolleTooltip extends BolleElement {
                     aria-label="Dismiss"
                     @click=${() => this.hide()}
                   >
-                    ✕
+                    ${closeIcon()}
                   </button>
                 </footer>`
             : nothing
@@ -631,7 +632,7 @@ export class BolleSplitButton extends BolleElement {
             host.shadowRoot?.querySelector<HTMLElement>("button") ?? host,
           );
         }}
-        >▾</bolle-icon-button
+        >${chevronDownIcon()}</bolle-icon-button
       ><bolle-menu
         .items=${this.items}
         menu-label=${this.menuLabel}
